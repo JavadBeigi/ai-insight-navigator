@@ -99,7 +99,7 @@ function Nav() {
               <div className="absolute inset-0 m-auto size-2 rounded-full bg-cyan" />
             </div>
             <span className="text-lg font-black tracking-tight">
-              نوروس<span className="text-cyan">.</span>
+              nexation<span className="text-cyan">.</span>
             </span>
           </a>
           <div className="hidden gap-7 text-sm font-medium text-muted-foreground md:flex">
