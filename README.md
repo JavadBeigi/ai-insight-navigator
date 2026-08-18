@@ -1,5 +1,11 @@
 # AI Insight Navigator
 
+## Supabase and Vercel
+
+Copy `.env.example` to `.env.local` and fill in the Supabase Project URL and publishable key. The shared client is exported from `src/lib/supabase.ts`.
+
+Deployment configuration and the required branch/review workflow are documented in [`docs/deployment.md`](docs/deployment.md).
+
 تو یه طراح سایت و دیزاینر حرفه ای هستی
 ما در حوزه هوش مصنوعی و BI کار میکنیم
 در واقع ما به سازمان ها کمک میکنیم دیتای سازمان رو پیدا کنن و از اون در تصمیم گیری استفاده کنن همچنین ایجنت های هوش مصنوعی براشون طراحی میکنیم
