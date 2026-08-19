@@ -96,10 +96,12 @@ function Nav() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <div className="flex items-center gap-10">
           <a href="#" className="flex items-center gap-2">
-            <div className="relative size-8 rounded-lg bg-gradient-to-br from-primary to-cyan">
-              <div className="absolute inset-1.5 rounded-md bg-background" />
-              <div className="absolute inset-0 m-auto size-2 rounded-full bg-cyan" />
-            </div>
+            <img
+              src="/favicon.png"
+              alt=""
+              aria-hidden="true"
+              className="size-9 shrink-0 object-contain"
+            />
             <span className="text-lg font-black tracking-tight">
               nexation<span className="text-cyan">.</span>
             </span>
@@ -579,9 +581,12 @@ function Footer() {
     <footer className="border-t border-border py-12">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
         <div className="flex items-center gap-2">
-          <div className="relative size-7 rounded-md bg-gradient-to-br from-primary to-cyan">
-            <div className="absolute inset-1 rounded bg-background" />
-          </div>
+          <img
+            src="/favicon.png"
+            alt=""
+            aria-hidden="true"
+            className="size-8 shrink-0 object-contain"
+          />
           <span className="text-sm font-black">
             nexation<span className="text-cyan">.</span>
           </span>
