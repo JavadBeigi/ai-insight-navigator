@@ -203,7 +203,7 @@ function LogosStrip() {
     {
       name: "فرانگر",
       logo: "/clients/faranegar.svg",
-      className: "h-10 w-24 brightness-0 invert",
+      className: "h-10 w-24",
     },
   ];
 
