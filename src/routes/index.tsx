@@ -493,11 +493,13 @@ function Metrics() {
 function CTA() {
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"idle" | "saving" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function submitDemoRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const normalizedPhone = normalizeIranianPhone(phone);
     if (!/^09[0-9]{9}$/.test(normalizedPhone)) {
+      setErrorMessage("شماره موبایل معتبر وارد کنید و دوباره تلاش کنید.");
       setStatus("error");
       return;
     }
@@ -505,11 +507,14 @@ function CTA() {
     setStatus("saving");
     const { error } = await supabase.from("demo_requests").insert({ phone: normalizedPhone });
     if (error) {
+      console.error("Demo request submission failed", error);
+      setErrorMessage("ثبت درخواست انجام نشد. لطفاً چند لحظه دیگر دوباره تلاش کنید.");
       setStatus("error");
       return;
     }
 
     setPhone("");
+    setErrorMessage("");
     setStatus("success");
   }
 
@@ -541,7 +546,10 @@ function CTA() {
             value={phone}
             onChange={(event) => {
               setPhone(event.target.value);
-              if (status !== "idle") setStatus("idle");
+              if (status !== "idle") {
+                setStatus("idle");
+                setErrorMessage("");
+              }
             }}
             className="min-w-0 flex-1 bg-transparent px-4 py-3 text-left font-mono text-sm outline-none placeholder:text-muted-foreground"
           />
@@ -559,9 +567,7 @@ function CTA() {
           </p>
         )}
         {status === "error" && (
-          <p className="mt-4 text-sm text-red-300">
-            شماره موبایل معتبر وارد کنید و دوباره تلاش کنید.
-          </p>
+          <p className="mt-4 text-sm text-red-300">{errorMessage}</p>
         )}
       </div>
     </section>
