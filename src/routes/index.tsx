@@ -172,18 +172,12 @@ function Hero() {
           با ایجنت‌های اختصاصی، چت‌بات‌های داده‌محور و گزارش‌سازی خودکار.
         </p>
 
-        <div className="animate-stream flex flex-col items-center justify-center gap-3 sm:flex-row [animation-delay:300ms]">
+        <div className="animate-stream flex justify-center [animation-delay:300ms]">
           <a
             href="#contact"
-            className="btn-glow w-full rounded-xl bg-foreground px-8 py-4 text-sm font-bold text-background transition-transform hover:scale-[1.02] sm:w-auto"
+            className="btn-glow inline-flex items-center justify-center rounded-xl bg-foreground px-8 py-4 text-sm font-bold text-background transition-transform hover:scale-[1.02]"
           >
             مشاوره رایگان
-          </a>
-          <a
-            href="#platform"
-            className="w-full rounded-xl border border-border bg-white/[0.03] px-8 py-4 text-sm font-bold transition-colors hover:bg-white/[0.06] sm:w-auto"
-          >
-            مشاهده دموی زنده ↓
           </a>
         </div>
       </div>
@@ -193,17 +187,21 @@ function Hero() {
 
 function LogosStrip() {
   const clients = [
-    { name: "مپنا", logo: "/clients/mapna.png", className: "h-10 w-24" },
+    { name: "مپنا", logo: "/clients/mapna.png", className: "h-12 w-28 sm:h-16 sm:w-36" },
     {
       name: "سپاهان باتری",
       logo: "/clients/sepahan-battery.png",
-      className: "h-10 w-20",
+      className: "h-12 w-24 sm:h-16 sm:w-32",
     },
-    { name: "سابیر تجهیزات", logo: "/clients/sabir.png", className: "h-14 w-24 rounded bg-white p-1" },
+    {
+      name: "سابیر تجهیزات",
+      logo: "/clients/sabir.png",
+      className: "h-16 w-28 sm:h-24 sm:w-40",
+    },
     {
       name: "فرانگر",
       logo: "/clients/faranegar.svg",
-      className: "h-10 w-24",
+      className: "h-12 w-28 sm:h-16 sm:w-36",
     },
   ];
 
@@ -213,7 +211,7 @@ function LogosStrip() {
         <div
           key={client.name}
           dir="rtl"
-          className="flex min-w-48 flex-col items-center justify-center gap-3 px-6 py-2 text-slate-600 transition-colors hover:text-slate-950"
+          className="flex min-w-40 flex-col items-center justify-center gap-3 px-3 py-2 text-center text-slate-600 transition-colors hover:text-slate-950 sm:min-w-56 sm:px-6"
         >
           <img
             src={client.logo}
