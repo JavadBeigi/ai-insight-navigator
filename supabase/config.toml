@@ -10,5 +10,6 @@ major_version = 17
 
 [auth]
 enabled = true
-site_url = "http://localhost:3000"
-additional_redirect_urls = ["http://localhost:3000/**"]
+enable_signup = false
+site_url = "https://nexation.ir"
+additional_redirect_urls = ["http://localhost:3000/**", "https://nexation.ir/**", "https://*.vercel.app/**"]

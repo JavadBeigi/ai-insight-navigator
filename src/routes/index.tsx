@@ -1,21 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
+import { supabase } from "@/lib/supabase";
+import { normalizeIranianPhone } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "نوروس | پلتفرم هوش مصنوعی و BI سازمانی" },
+      { title: "nexation | پلتفرم هوش مصنوعی و BI سازمانی" },
       {
         name: "description",
         content:
-          "نوروس به سازمان‌ها کمک می‌کند AI-Native شوند: کشف داده، ایجنت‌های هوشمند، چت‌بات دیتا و گزارش‌سازی خودکار در یک پلتفرم.",
+          "nexation به سازمان‌ها کمک می‌کند AI-Native شوند: کشف داده، ایجنت‌های هوشمند، چت‌بات دیتا و گزارش‌سازی خودکار در یک پلتفرم.",
       },
-      { property: "og:title", content: "نوروس | پلتفرم هوش مصنوعی و BI سازمانی" },
+      { property: "og:title", content: "nexation | پلتفرم هوش مصنوعی و BI سازمانی" },
       {
         property: "og:description",
         content:
-          "با داده‌های سازمانتان چت کنید، ایجنت بسازید و در لحظه گزارش بگیرید. نوروس، لبه‌ی هوش مصنوعی سازمانی.",
+          "با داده‌های سازمانتان چت کنید، ایجنت بسازید و در لحظه گزارش بگیرید. nexation، لبه‌ی هوش مصنوعی سازمانی.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -26,49 +28,49 @@ export const Route = createFileRoute("/")({
 
 const services = [
   {
-    n: "۰۱",
+    n: "01",
     title: "کشف و یکپارچه‌سازی دیتا",
     desc: "شناسایی داده‌های پراکنده در سازمان و اتصال به SQL، NoSQL، فایل‌ها و APIهای ابری در یک لایه معنایی.",
   },
   {
-    n: "۰۲",
+    n: "02",
     title: "ایجنت‌های هوشمند سازمانی",
     desc: "طراحی ایجنت‌های خودکار برای پایش فرآیندها، اجرای وظایف چندمرحله‌ای و تصمیم‌گیری داده‌محور.",
   },
   {
-    n: "۰۳",
+    n: "03",
     title: "چت‌بات با دیتای شما",
     desc: "پرسش به زبان طبیعی از دیتابیس و مستندات؛ پاسخ همراه با نمودار، جدول و منابع قابل استناد.",
   },
   {
-    n: "۰۴",
+    n: "04",
     title: "گزارش‌سازی خودکار",
     desc: "داشبوردهای زنده و گزارش‌های تحلیلی BI که در لحظه به‌روزرسانی می‌شوند و به تصمیم می‌رسانند.",
   },
   {
-    n: "۰۵",
+    n: "05",
     title: "استقرار امن و اختصاصی",
     desc: "پیاده‌سازی روی زیرساخت داخلی سازمان با کنترل کامل بر مدل، داده و دسترسی‌ها.",
   },
   {
-    n: "۰۶",
+    n: "06",
     title: "تبدیل به سازمان AI-Native",
     desc: "بازطراحی فرآیندها، آموزش تیم‌ها و ساخت نقشه راه برای ادغام هوش مصنوعی در عمق سازمان.",
   },
 ];
 
 const steps = [
-  { n: "۰۱", t: "اتصال", d: "منابع داده را در چند دقیقه به پلتفرم متصل می‌کنیم." },
-  { n: "۰۲", t: "یادگیری", d: "لایه معنایی، ساختار داده و اصطلاحات سازمان شما را می‌فهمد." },
-  { n: "۰۳", t: "گفتگو", d: "تیم شما با دیتا چت می‌کند و در لحظه پاسخ می‌گیرد." },
-  { n: "۰۴", t: "خودکارسازی", d: "ایجنت‌ها گزارش‌ها و اقدامات تکراری را برعهده می‌گیرند." },
+  { n: "01", t: "اتصال", d: "منابع داده را در چند دقیقه به پلتفرم متصل می‌کنیم." },
+  { n: "02", t: "یادگیری", d: "لایه معنایی، ساختار داده و اصطلاحات سازمان شما را می‌فهمد." },
+  { n: "03", t: "گفتگو", d: "تیم شما با دیتا چت می‌کند و در لحظه پاسخ می‌گیرد." },
+  { n: "04", t: "خودکارسازی", d: "ایجنت‌ها گزارش‌ها و اقدامات تکراری را برعهده می‌گیرند." },
 ];
 
 const metrics = [
-  { v: "۴۰٪+", l: "بهبود بهره‌وری" },
-  { v: "۱۲ms", l: "میانگین تاخیر پاسخ" },
-  { v: "۱۵۰+", l: "پروژه موفق" },
-  { v: "۳.۵×", l: "بازگشت سرمایه" },
+  { v: "40%+", l: "بهبود بهره‌وری" },
+  { v: "12ms", l: "میانگین تاخیر پاسخ" },
+  { v: "150+", l: "پروژه موفق" },
+  { v: "3.5×", l: "بازگشت سرمایه" },
 ];
 
 function Landing() {
@@ -103,14 +105,30 @@ function Nav() {
             </span>
           </a>
           <div className="hidden gap-7 text-sm font-medium text-muted-foreground md:flex">
-            <a href="#services" className="transition-colors hover:text-foreground">سرویس‌ها</a>
-            <a href="#platform" className="transition-colors hover:text-foreground">پلتفرم</a>
-            <a href="#steps" className="transition-colors hover:text-foreground">مسیر همکاری</a>
-            <a href="#contact" className="transition-colors hover:text-foreground">تماس</a>
+            <a href="#services" className="transition-colors hover:text-foreground">
+              سرویس‌ها
+            </a>
+            <a href="#platform" className="transition-colors hover:text-foreground">
+              پلتفرم
+            </a>
+            <a href="#steps" className="transition-colors hover:text-foreground">
+              مسیر همکاری
+            </a>
+            <a href="#contact" className="transition-colors hover:text-foreground">
+              تماس
+            </a>
+            <a href="/blog" className="transition-colors hover:text-foreground">
+              بلاگ
+            </a>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <a href="#contact" className="hidden text-sm font-medium text-muted-foreground hover:text-foreground md:inline">ورود</a>
+          <a
+            href="/admin"
+            className="hidden text-sm font-medium text-muted-foreground hover:text-foreground md:inline"
+          >
+            ورود مدیر
+          </a>
           <a
             href="#contact"
             className="btn-glow rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.03]"
@@ -127,7 +145,10 @@ function Hero() {
   return (
     <section className="relative overflow-hidden pt-24 pb-24">
       <div className="mesh-bg absolute inset-0 opacity-40" aria-hidden />
-      <div className="glow-orb absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full" aria-hidden />
+      <div
+        className="glow-orb absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full"
+        aria-hidden
+      />
 
       <div className="relative mx-auto max-w-7xl px-6 text-center">
         <div className="animate-stream mb-8 inline-flex items-center gap-2 rounded-full border border-cyan/25 bg-cyan/10 px-3 py-1 text-xs font-bold text-cyan">
@@ -145,7 +166,7 @@ function Hero() {
         </h1>
 
         <p className="animate-stream mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg [animation-delay:200ms]">
-          نوروس به سازمان‌ها کمک می‌کند از لایه‌های پنهان دیتای خود تصمیم‌های استراتژیک بسازند —
+          nexation به سازمان‌ها کمک می‌کند از لایه‌های پنهان دیتای خود تصمیم‌های استراتژیک بسازند —
           با ایجنت‌های اختصاصی، چت‌بات‌های داده‌محور و گزارش‌سازی خودکار.
         </p>
 
@@ -178,7 +199,9 @@ function LogosStrip() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-lg font-bold text-muted-foreground/60">
           {logos.map((l) => (
-            <span key={l} className="transition-colors hover:text-foreground">{l}</span>
+            <span key={l} className="transition-colors hover:text-foreground">
+              {l}
+            </span>
           ))}
         </div>
       </div>
@@ -227,7 +250,7 @@ function Services() {
 }
 
 const streamText =
-  "تحلیل انجام شد. فروش ماه گذشته با رشد ۱۲.۴٪ نسبت به هدف فصل، رکورد جدیدی ثبت کرده است. تمرکز رشد روی دسته «خدمات ابری» بوده.";
+  "تحلیل انجام شد. فروش ماه گذشته با رشد 12.4% نسبت به هدف فصل، رکورد جدیدی ثبت کرده است. تمرکز رشد روی دسته «خدمات ابری» بوده.";
 
 function ChatDemo() {
   const [typed, setTyped] = useState("");
@@ -270,8 +293,8 @@ function ChatDemo() {
               با دیتاتان گفتگو کنید. پاسخ را ببینید.
             </h2>
             <p className="mt-5 leading-relaxed text-muted-foreground">
-              به جای ساخت گزارش‌های ایستا، سوال بپرسید. لایه معنایی نوروس زبان کسب‌وکار
-              شما را می‌فهمد و پاسخ را همراه با نمودار، منبع و توضیح ارائه می‌دهد.
+              به جای ساخت گزارش‌های ایستا، سوال بپرسید. لایه معنایی nexation زبان کسب‌وکار شما را
+              می‌فهمد و پاسخ را همراه با نمودار، منبع و توضیح ارائه می‌دهد.
             </p>
             <ul className="mt-8 space-y-4">
               {[
@@ -291,7 +314,10 @@ function ChatDemo() {
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-6 rounded-[32px] bg-gradient-to-br from-primary/20 via-transparent to-cyan/20 blur-2xl" aria-hidden />
+            <div
+              className="absolute -inset-6 rounded-[32px] bg-gradient-to-br from-primary/20 via-transparent to-cyan/20 blur-2xl"
+              aria-hidden
+            />
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
               <div className="flex items-center justify-between border-b border-border bg-white/[0.03] px-4 py-3">
                 <div className="flex gap-1.5">
@@ -350,7 +376,7 @@ function ChatDemo() {
 
                     <div className="flex items-center gap-2 font-mono text-[10px] text-cyan">
                       <span className="size-1.5 animate-pulse rounded-full bg-cyan" />
-                      اتصال به انبار داده • ۳۴,۸۲۰ رکورد
+                      اتصال به انبار داده • 34,820 رکورد
                     </div>
                   </div>
                 </div>
@@ -379,7 +405,9 @@ function Steps() {
               <div className="mb-4 flex items-center justify-between">
                 <span className="font-mono text-2xl font-black text-cyan">{s.n}</span>
                 {i < steps.length - 1 && (
-                  <span className="text-xl text-muted-foreground/40" aria-hidden>←</span>
+                  <span className="text-xl text-muted-foreground/40" aria-hidden>
+                    ←
+                  </span>
                 )}
               </div>
               <h3 className="mb-2 text-lg font-bold">{s.t}</h3>
@@ -398,13 +426,15 @@ function DashboardShowcase() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid items-center gap-16 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-cyan">داشبورد BI</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-cyan">
+              داشبورد BI
+            </span>
             <h2 className="mt-3 text-4xl font-black leading-tight md:text-5xl">
               کل سازمان، در یک نگاه
             </h2>
             <p className="mt-5 text-muted-foreground">
-              داشبورد زنده‌ای که هر ویجت آن نقطه‌ی شروع یک مکالمه است. کلیک کنید،
-              سوال بپرسید، عمیق‌تر شوید.
+              داشبورد زنده‌ای که هر ویجت آن نقطه‌ی شروع یک مکالمه است. کلیک کنید، سوال بپرسید،
+              عمیق‌تر شوید.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               {["Realtime", "Predictive", "RTL Native", "On-Prem"].map((tag) => (
@@ -418,11 +448,14 @@ function DashboardShowcase() {
             </div>
           </div>
           <div className="relative lg:col-span-3">
-            <div className="absolute -inset-6 rounded-[32px] bg-gradient-to-tl from-cyan/20 to-primary/20 blur-3xl" aria-hidden />
+            <div
+              className="absolute -inset-6 rounded-[32px] bg-gradient-to-tl from-cyan/20 to-primary/20 blur-3xl"
+              aria-hidden
+            />
             <div className="relative overflow-hidden rounded-2xl border border-border shadow-2xl">
               <img
                 src={dashboardPreview}
-                alt="داشبورد هوشمند BI نوروس"
+                alt="داشبورد هوشمند BI nexation"
                 width={1600}
                 height={1200}
                 loading="lazy"
@@ -430,7 +463,7 @@ function DashboardShowcase() {
               />
             </div>
             <div className="absolute -bottom-6 right-6 hidden rounded-2xl border border-cyan/30 bg-card px-5 py-4 shadow-xl md:block">
-              <div className="font-black text-3xl text-cyan">+۴۰٪</div>
+              <div className="font-black text-3xl text-cyan">+40%</div>
               <div className="text-xs text-muted-foreground">بهره‌وری عملیاتی</div>
             </div>
           </div>
@@ -458,34 +491,78 @@ function Metrics() {
 }
 
 function CTA() {
+  const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState<"idle" | "saving" | "success" | "error">("idle");
+
+  async function submitDemoRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const normalizedPhone = normalizeIranianPhone(phone);
+    if (!/^09[0-9]{9}$/.test(normalizedPhone)) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("saving");
+    const { error } = await supabase.from("demo_requests").insert({ phone: normalizedPhone });
+    if (error) {
+      setStatus("error");
+      return;
+    }
+
+    setPhone("");
+    setStatus("success");
+  }
+
   return (
     <section id="contact" className="relative overflow-hidden py-28">
-      <div className="glow-orb absolute left-1/2 top-1/2 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2" aria-hidden />
+      <div
+        className="glow-orb absolute left-1/2 top-1/2 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2"
+        aria-hidden
+      />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <h2 className="text-balance text-4xl font-black leading-tight md:text-5xl">
           آماده‌اید سازمانتان را <span className="text-gradient">هوشمند</span> کنید؟
         </h2>
         <p className="mt-5 text-muted-foreground">
-          ایمیل کاری‌تان را وارد کنید تا یک جلسه‌ی مشاوره‌ی رایگان ۳۰ دقیقه‌ای برایتان بگذاریم.
+          شماره موبایل‌تان را وارد کنید تا برای هماهنگی یک جلسه‌ی مشاوره‌ی رایگان 30 دقیقه‌ای با شما
+          تماس بگیریم.
         </p>
         <form
-          onSubmit={(e) => e.preventDefault()}
-          className="mx-auto mt-10 flex max-w-lg gap-2 rounded-2xl border border-border bg-card p-2"
+          onSubmit={submitDemoRequest}
+          className="mx-auto mt-10 flex max-w-lg flex-col gap-2 rounded-2xl border border-border bg-card p-2 sm:flex-row"
         >
           <input
-            type="email"
+            type="tel"
             required
-            placeholder="you@company.com"
+            inputMode="numeric"
+            autoComplete="tel"
+            placeholder="09123456789"
             dir="ltr"
-            className="flex-1 bg-transparent px-4 text-sm outline-none placeholder:text-muted-foreground"
+            value={phone}
+            onChange={(event) => {
+              setPhone(event.target.value);
+              if (status !== "idle") setStatus("idle");
+            }}
+            className="min-w-0 flex-1 bg-transparent px-4 py-3 text-left font-mono text-sm outline-none placeholder:text-muted-foreground"
           />
           <button
             type="submit"
+            disabled={status === "saving"}
             className="btn-glow rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.02]"
           >
-            درخواست دمو
+            {status === "saving" ? "در حال ثبت..." : "درخواست دمو"}
           </button>
         </form>
+        {status === "success" && (
+          <p className="mt-4 text-sm text-emerald-300">
+            درخواست شما ثبت شد؛ به‌زودی با شما تماس می‌گیریم.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="mt-4 text-sm text-red-300">
+            شماره موبایل معتبر وارد کنید و دوباره تلاش کنید.
+          </p>
+        )}
       </div>
     </section>
   );
@@ -500,15 +577,26 @@ function Footer() {
             <div className="absolute inset-1 rounded bg-background" />
           </div>
           <span className="text-sm font-black">
-            نوروس<span className="text-cyan">.</span>
+            nexation<span className="text-cyan">.</span>
           </span>
-          <span className="mr-2 text-xs text-muted-foreground">© ۱۴۰۴ همه‌ی حقوق محفوظ است.</span>
+          <span className="mr-2 text-xs text-muted-foreground">© 1404 همه‌ی حقوق محفوظ است.</span>
         </div>
         <div className="flex gap-6 text-xs text-muted-foreground">
-          <a href="#" className="hover:text-foreground">حریم خصوصی</a>
-          <a href="#" className="hover:text-foreground">قوانین</a>
-          <a href="#" className="hover:text-foreground">لینکدین</a>
-          <a href="#" className="hover:text-foreground">تماس</a>
+          <a href="#" className="hover:text-foreground">
+            حریم خصوصی
+          </a>
+          <a href="#" className="hover:text-foreground">
+            قوانین
+          </a>
+          <a href="#" className="hover:text-foreground">
+            لینکدین
+          </a>
+          <a href="#" className="hover:text-foreground">
+            تماس
+          </a>
+          <a href="/blog" className="hover:text-foreground">
+            بلاگ
+          </a>
         </div>
       </div>
     </footer>
