@@ -192,20 +192,50 @@ function Hero() {
 }
 
 function LogosStrip() {
-  const logos = ["ایرانسل", "دیجی‌کالا", "بانک پاسارگاد", "اسنپ", "همراه اول", "کاله"];
+  const clients = [
+    { name: "مپنا", logo: "/clients/mapna.png", className: "h-10 w-24" },
+    {
+      name: "سپاهان باتری",
+      logo: "/clients/sepahan-battery.png",
+      className: "h-10 w-20",
+    },
+    { name: "سابیر تجهیزات", logo: "/clients/sabir.png", className: "h-14 w-24 rounded bg-white p-1" },
+    {
+      name: "فرانگر",
+      logo: "/clients/faranegar.svg",
+      className: "h-10 w-24 brightness-0 invert",
+    },
+  ];
+
+  const clientGroup = (ariaHidden = false) => (
+    <div className="clients-marquee-group flex shrink-0 items-center" aria-hidden={ariaHidden}>
+      {clients.map((client) => (
+        <div
+          key={client.name}
+          dir="rtl"
+          className="flex min-w-48 items-center justify-center gap-4 rounded-2xl border border-white/5 bg-white/[0.025] px-6 py-4 text-muted-foreground transition-colors hover:border-primary/25 hover:text-foreground"
+        >
+          <img
+            src={client.logo}
+            alt={ariaHidden ? "" : `لوگوی ${client.name}`}
+            className={`${client.className} shrink-0 object-contain opacity-80`}
+          />
+          <span className="whitespace-nowrap text-base font-bold">{client.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <section className="border-y border-border bg-white/[0.02] py-8">
+    <section className="overflow-hidden border-y border-border bg-white/[0.02] py-8">
       <div className="mx-auto max-w-7xl px-6">
         <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
           اعتماد سازمان‌های پیشرو
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-lg font-bold text-muted-foreground/60">
-          {logos.map((l) => (
-            <span key={l} className="transition-colors hover:text-foreground">
-              {l}
-            </span>
-          ))}
-        </div>
+      </div>
+      <div dir="ltr" className="clients-marquee flex w-max">
+        {clientGroup()}
+        {clientGroup(true)}
       </div>
     </section>
   );
