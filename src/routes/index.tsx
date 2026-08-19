@@ -213,7 +213,7 @@ function LogosStrip() {
         <div
           key={client.name}
           dir="rtl"
-          className="flex min-w-48 items-center justify-center gap-4 rounded-2xl border border-white/5 bg-white/[0.025] px-6 py-4 text-muted-foreground transition-colors hover:border-primary/25 hover:text-foreground"
+          className="flex min-w-48 items-center justify-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-4 text-slate-600 transition-colors hover:border-primary/40 hover:text-slate-950"
         >
           <img
             src={client.logo}
@@ -227,9 +227,9 @@ function LogosStrip() {
   );
 
   return (
-    <section className="overflow-hidden border-y border-border bg-white/[0.02] py-8">
+    <section className="overflow-hidden border-y border-slate-200 bg-white py-8">
       <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
+        <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-slate-600">
           اعتماد سازمان‌های پیشرو
         </p>
       </div>
