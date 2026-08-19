@@ -148,6 +148,39 @@
   to { transform: scaleY(1); }
 }
 
+@keyframes clients-marquee-right {
+  from { transform: translateX(calc(-50% - var(--clients-gap) / 2)); }
+  to { transform: translateX(0); }
+}
+
+.clients-marquee {
+  --clients-gap: 3.5rem;
+  gap: var(--clients-gap);
+  animation: clients-marquee-right 24s linear infinite;
+  will-change: transform;
+}
+
+.clients-marquee-group {
+  gap: var(--clients-gap);
+}
+
+.clients-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (min-width: 48rem) {
+  .clients-marquee {
+    --clients-gap: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-marquee {
+    animation: none;
+    transform: translateX(0);
+  }
+}
+
 .animate-stream { animation: stream-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-float { animation: float-slow 7s ease-in-out infinite; }
 .animate-cursor { animation: cursor-blink 1s steps(1) infinite; }

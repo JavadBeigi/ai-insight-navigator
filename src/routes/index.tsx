@@ -192,20 +192,50 @@ function Hero() {
 }
 
 function LogosStrip() {
-  const logos = ["ایرانسل", "دیجی‌کالا", "بانک پاسارگاد", "اسنپ", "همراه اول", "کاله"];
+  const clients = [
+    { name: "مپنا", logo: "/clients/mapna.png", className: "h-10 w-24" },
+    {
+      name: "سپاهان باتری",
+      logo: "/clients/sepahan-battery.png",
+      className: "h-10 w-20",
+    },
+    { name: "سابیر تجهیزات", logo: "/clients/sabir.png", className: "h-14 w-24 rounded bg-white p-1" },
+    {
+      name: "فرانگر",
+      logo: "/clients/faranegar.svg",
+      className: "h-10 w-24",
+    },
+  ];
+
+  const clientGroup = (ariaHidden = false) => (
+    <div className="clients-marquee-group flex shrink-0 items-center" aria-hidden={ariaHidden}>
+      {clients.map((client) => (
+        <div
+          key={client.name}
+          dir="rtl"
+          className="flex min-w-48 items-center justify-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-4 text-slate-600 transition-colors hover:border-primary/40 hover:text-slate-950"
+        >
+          <img
+            src={client.logo}
+            alt={ariaHidden ? "" : `لوگوی ${client.name}`}
+            className={`${client.className} shrink-0 object-contain opacity-80`}
+          />
+          <span className="whitespace-nowrap text-base font-bold">{client.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <section className="border-y border-border bg-white/[0.02] py-8">
+    <section className="overflow-hidden border-y border-slate-200 bg-white py-8">
       <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
+        <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-slate-600">
           اعتماد سازمان‌های پیشرو
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-lg font-bold text-muted-foreground/60">
-          {logos.map((l) => (
-            <span key={l} className="transition-colors hover:text-foreground">
-              {l}
-            </span>
-          ))}
-        </div>
+      </div>
+      <div dir="ltr" className="clients-marquee flex w-max">
+        {clientGroup()}
+        {clientGroup(true)}
       </div>
     </section>
   );
