@@ -7,7 +7,23 @@ import type { Database } from "@/lib/database.types";
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 
 export const Route = createFileRoute("/blog/")({
-  head: () => ({ meta: [{ title: "بلاگ nexation" }] }),
+  head: () => ({
+    meta: [
+      { title: "بلاگ nexation | هوش مصنوعی و داده سازمانی" },
+      {
+        name: "description",
+        content: "مقاله‌ها و بینش‌های کاربردی nexation درباره هوش مصنوعی، داده و تحول سازمانی.",
+      },
+      { property: "og:title", content: "بلاگ nexation | هوش مصنوعی و داده سازمانی" },
+      {
+        property: "og:description",
+        content: "مقاله‌ها و بینش‌های کاربردی درباره هوش مصنوعی، داده و تحول سازمانی.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://nexation.ir/blog" },
+    ],
+    links: [{ rel: "canonical", href: "https://nexation.ir/blog" }],
+  }),
   component: BlogPage,
 });
 

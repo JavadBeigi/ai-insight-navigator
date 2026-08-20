@@ -6,7 +6,17 @@ import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 
-export const Route = createFileRoute("/blog/$slug")({ component: ArticlePage });
+export const Route = createFileRoute("/blog/$slug")({
+  head: ({ params }) => ({
+    meta: [
+      { title: "مقاله | بلاگ nexation" },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: `https://nexation.ir/blog/${params.slug}` },
+    ],
+    links: [{ rel: "canonical", href: `https://nexation.ir/blog/${params.slug}` }],
+  }),
+  component: ArticlePage,
+});
 
 function ArticlePage() {
   const { slug } = Route.useParams();
