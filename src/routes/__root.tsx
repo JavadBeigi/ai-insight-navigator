@@ -12,6 +12,16 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "nexation",
+  url: "https://nexation.ir/",
+  logo: "https://nexation.ir/favicon.png",
+  description:
+    "پلتفرم هوش مصنوعی و هوش تجاری سازمانی برای کشف داده، ساخت ایجنت‌های هوشمند و گزارش‌سازی خودکار.",
+};
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -102,6 +112,10 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {children}
         <Scripts />
       </body>
