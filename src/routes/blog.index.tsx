@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
+import { articleSeoBySlug } from "@/lib/article-seo";
 import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
@@ -77,6 +78,16 @@ function BlogPage() {
                 params={{ slug: article.slug }}
                 className="group rounded-3xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-cyan/40"
               >
+                {articleSeoBySlug[article.slug]?.image && (
+                  <img
+                    src={articleSeoBySlug[article.slug].image}
+                    alt={articleSeoBySlug[article.slug].imageAlt}
+                    width={600}
+                    height={315}
+                    loading="lazy"
+                    className="mb-6 aspect-[1200/630] w-full rounded-2xl object-cover"
+                  />
+                )}
                 <time className="text-xs text-muted-foreground" dir="ltr">
                   {formatDate(article.published_at)}
                 </time>
