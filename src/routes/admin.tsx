@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
 import { ADMIN_EMAIL, formatDate } from "@/lib/site";
 import type { Database } from "@/lib/database.types";
 
 type DemoRequest = Database["public"]["Tables"]["demo_requests"]["Row"];
 type Article = Database["public"]["Tables"]["articles"]["Row"];
-type Tab = "requests" | "articles";
+type BlogComment = Database["public"]["Tables"]["blog_comments"]["Row"];
+type Tab = "requests" | "articles" | "comments";
 
 const emptyArticle = {
   id: null as number | null,
@@ -32,9 +33,15 @@ function AdminPage() {
   const [tab, setTab] = useState<Tab>("requests");
   const [requests, setRequests] = useState<DemoRequest[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
+  const [comments, setComments] = useState<BlogComment[]>([]);
   const [articleForm, setArticleForm] = useState({ ...emptyArticle });
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
+  const pendingCommentsCount = comments.filter((comment) => comment.status === "pending").length;
+  const articlesById = useMemo(
+    () => new Map(articles.map((article) => [article.id, article])),
+    [articles],
+  );
 
   const verifyAdmin = useCallback(async () => {
     const { data: sessionData } = await supabase.auth.getSession();
@@ -51,12 +58,14 @@ function AdminPage() {
   }, []);
 
   const loadData = useCallback(async () => {
-    const [requestResult, articleResult] = await Promise.all([
+    const [requestResult, articleResult, commentResult] = await Promise.all([
       supabase.from("demo_requests").select("*").order("created_at", { ascending: false }),
       supabase.from("articles").select("*").order("created_at", { ascending: false }),
+      supabase.from("blog_comments").select("*").order("created_at", { ascending: false }),
     ]);
     setRequests(requestResult.data ?? []);
     setArticles(articleResult.data ?? []);
+    setComments(commentResult.data ?? []);
   }, []);
 
   useEffect(() => {
@@ -137,6 +146,30 @@ function AdminPage() {
     }
   }
 
+  async function updateCommentStatus(id: number, status: "approved" | "rejected") {
+    const { error } = await supabase
+      .from("blog_comments")
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq("id", id);
+    if (error) setMessage("تغییر وضعیت دیدگاه ذخیره نشد.");
+    else {
+      setComments((current) =>
+        current.map((comment) => (comment.id === id ? { ...comment, status } : comment)),
+      );
+      setMessage(status === "approved" ? "دیدگاه منتشر شد." : "دیدگاه رد شد.");
+    }
+  }
+
+  async function deleteComment(id: number) {
+    if (!window.confirm("این دیدگاه برای همیشه حذف شود؟")) return;
+    const { error } = await supabase.from("blog_comments").delete().eq("id", id);
+    if (error) setMessage("حذف دیدگاه انجام نشد.");
+    else {
+      setComments((current) => current.filter((comment) => comment.id !== id));
+      setMessage("دیدگاه حذف شد.");
+    }
+  }
+
   if (checking)
     return (
       <main className="flex min-h-screen items-center justify-center bg-background text-muted-foreground">
@@ -212,6 +245,17 @@ function AdminPage() {
           >
             مقالات
           </button>
+          <button
+            onClick={() => setTab("comments")}
+            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "comments" ? "bg-primary" : "bg-card text-muted-foreground"}`}
+          >
+            دیدگاه‌ها
+            {pendingCommentsCount > 0 && (
+              <span className="mr-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-300">
+                {pendingCommentsCount.toLocaleString("fa-IR")}
+              </span>
+            )}
+          </button>
         </div>
 
         {message && (
@@ -268,7 +312,7 @@ function AdminPage() {
               ))
             )}
           </div>
-        ) : (
+        ) : tab === "articles" ? (
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
             <form onSubmit={saveArticle} className="rounded-2xl border border-border bg-card p-6">
               <div className="flex items-center justify-between">
@@ -394,6 +438,99 @@ function AdminPage() {
                 ))
               )}
             </div>
+          </div>
+        ) : (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
+            <div className="border-b border-border px-6 py-5">
+              <h1 className="text-xl font-black">مدیریت دیدگاه‌ها</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {pendingCommentsCount.toLocaleString("fa-IR")} دیدگاه در انتظار بررسی
+              </p>
+            </div>
+            {comments.length === 0 ? (
+              <p className="p-10 text-center text-muted-foreground">هنوز دیدگاهی ثبت نشده است.</p>
+            ) : (
+              comments.map((comment) => {
+                const article = articlesById.get(comment.article_id);
+                return (
+                  <article key={comment.id} className="border-b border-border p-6 last:border-0">
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <h2 className="font-black">{comment.author_name}</h2>
+                          <span
+                            className={`rounded-full px-2.5 py-1 text-xs ${
+                              comment.status === "approved"
+                                ? "bg-emerald-500/15 text-emerald-300"
+                                : comment.status === "rejected"
+                                  ? "bg-red-500/15 text-red-300"
+                                  : "bg-amber-500/15 text-amber-300"
+                            }`}
+                          >
+                            {comment.status === "approved"
+                              ? "منتشرشده"
+                              : comment.status === "rejected"
+                                ? "ردشده"
+                                : "در انتظار"}
+                          </span>
+                        </div>
+                        {comment.email && (
+                          <a
+                            href={`mailto:${comment.email}`}
+                            dir="ltr"
+                            className="mt-2 block text-sm text-cyan hover:underline"
+                          >
+                            {comment.email}
+                          </a>
+                        )}
+                        <p className="mt-2 text-xs text-muted-foreground">
+                          برای: {article?.title ?? `مقاله شماره ${comment.article_id}`}
+                        </p>
+                      </div>
+                      <time className="text-xs text-muted-foreground" dir="ltr">
+                        {formatDate(comment.created_at)}
+                      </time>
+                    </div>
+                    <p className="mt-5 whitespace-pre-wrap rounded-xl bg-background p-4 leading-8">
+                      {comment.body}
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      {comment.status !== "approved" && (
+                        <button
+                          onClick={() => updateCommentStatus(comment.id, "approved")}
+                          className="rounded-lg border border-emerald-500/30 px-4 py-2 text-sm text-emerald-300"
+                        >
+                          تأیید و انتشار
+                        </button>
+                      )}
+                      {comment.status !== "rejected" && (
+                        <button
+                          onClick={() => updateCommentStatus(comment.id, "rejected")}
+                          className="rounded-lg border border-amber-500/30 px-4 py-2 text-sm text-amber-300"
+                        >
+                          رد کردن
+                        </button>
+                      )}
+                      {article?.status === "published" && (
+                        <Link
+                          to="/blog/$slug"
+                          params={{ slug: article.slug }}
+                          className="rounded-lg border border-border px-4 py-2 text-sm text-cyan"
+                        >
+                          مشاهده مقاله
+                        </Link>
+                      )}
+                      <button
+                        onClick={() => deleteComment(comment.id)}
+                        className="rounded-lg border border-red-500/20 px-4 py-2 text-sm text-red-300"
+                      >
+                        حذف
+                      </button>
+                    </div>
+                  </article>
+                );
+              })
+            )}
           </div>
         )}
       </section>
