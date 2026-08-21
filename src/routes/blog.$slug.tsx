@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
 import { articleSeoBySlug } from "@/lib/article-seo";
+import { BlogComments } from "@/components/blog-comments";
 import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
@@ -220,6 +221,7 @@ function ArticlePage() {
             درخواست مشاوره رایگان
           </a>
         </aside>
+        <BlogComments articleId={article.id} />
       </article>
     </main>
   );
