@@ -137,6 +137,17 @@ function ArticlePage() {
     keywords: seo?.keywords.join(", "),
     inLanguage: "fa-IR",
   };
+  const faqJsonLd = seo?.faqs
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: seo.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -146,6 +157,14 @@ function ArticlePage() {
           __html: JSON.stringify(blogPostingJsonLd).replace(/</g, "\\u003c"),
         }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       <header className="border-b border-border">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
           <Link to="/" className="text-lg font-black">
@@ -207,6 +226,27 @@ function ArticlePage() {
               ))}
             </ul>
           </section>
+        ) : null}
+
+        {seo?.relatedLinks?.length ? (
+          <nav
+            className="mt-10 rounded-2xl border border-border bg-card p-6"
+            aria-label="مطالب مرتبط"
+          >
+            <h2 className="text-xl font-black">مطالعه مرتبط</h2>
+            <ul className="mt-4 space-y-3">
+              {seo.relatedLinks.map((relatedLink) => (
+                <li key={relatedLink.href}>
+                  <a
+                    href={relatedLink.href}
+                    className="text-cyan underline-offset-4 hover:underline"
+                  >
+                    {relatedLink.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         ) : null}
 
         <aside className="mt-14 rounded-3xl border border-cyan/30 bg-cyan/5 p-8">
