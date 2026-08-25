@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
+import { getArticleCover } from "@/lib/article-covers";
 import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
@@ -54,25 +55,41 @@ function BlogPage() {
           </div>
         ) : (
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
-              <Link
-                key={article.id}
-                to="/blog/$slug"
-                params={{ slug: article.slug }}
-                className="group rounded-3xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-cyan/40"
-              >
-                <time className="text-xs text-muted-foreground" dir="ltr">
-                  {formatDate(article.published_at)}
-                </time>
-                <h2 className="mt-4 text-xl font-black group-hover:text-cyan">{article.title}</h2>
-                <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
-                  {article.excerpt}
-                </p>
-                <span className="mt-6 inline-block text-sm font-bold text-cyan">
-                  مطالعه مقاله ←
-                </span>
-              </Link>
-            ))}
+            {articles.map((article) => {
+              const cover = getArticleCover(article.slug);
+
+              return (
+                <Link
+                  key={article.id}
+                  to="/blog/$slug"
+                  params={{ slug: article.slug }}
+                  className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-cyan/40"
+                >
+                  {cover && (
+                    <img
+                      src={cover.src}
+                      alt={cover.alt}
+                      className="aspect-[3/2] w-full object-cover"
+                      loading="lazy"
+                    />
+                  )}
+                  <div className="p-7">
+                    <time className="text-xs text-muted-foreground" dir="ltr">
+                      {formatDate(article.published_at)}
+                    </time>
+                    <h2 className="mt-4 text-xl font-black group-hover:text-cyan">
+                      {article.title}
+                    </h2>
+                    <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
+                      {article.excerpt}
+                    </p>
+                    <span className="mt-6 inline-block text-sm font-bold text-cyan">
+                      مطالعه مقاله ←
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         )}
       </section>
