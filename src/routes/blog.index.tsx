@@ -2,13 +2,30 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
+import { articleSeoBySlug } from "@/lib/article-seo";
 import { getArticleCover } from "@/lib/article-covers";
 import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 
 export const Route = createFileRoute("/blog/")({
-  head: () => ({ meta: [{ title: "بلاگ nexation" }] }),
+  head: () => ({
+    meta: [
+      { title: "بلاگ nexation | هوش مصنوعی و داده سازمانی" },
+      {
+        name: "description",
+        content: "مقاله‌ها و بینش‌های کاربردی nexation درباره هوش مصنوعی، داده و تحول سازمانی.",
+      },
+      { property: "og:title", content: "بلاگ nexation | هوش مصنوعی و داده سازمانی" },
+      {
+        property: "og:description",
+        content: "مقاله‌ها و بینش‌های کاربردی درباره هوش مصنوعی، داده و تحول سازمانی.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://nexation.ir/blog" },
+    ],
+    links: [{ rel: "canonical", href: "https://nexation.ir/blog" }],
+  }),
   component: BlogPage,
 });
 
@@ -57,37 +74,38 @@ function BlogPage() {
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => {
               const cover = getArticleCover(article.slug);
+              const seoImage = articleSeoBySlug[article.slug];
 
               return (
-                <Link
-                  key={article.id}
-                  to="/blog/$slug"
-                  params={{ slug: article.slug }}
-                  className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-cyan/40"
-                >
-                  {cover && (
-                    <img
-                      src={cover.src}
-                      alt={cover.alt}
-                      className="aspect-[3/2] w-full object-cover"
-                      loading="lazy"
-                    />
-                  )}
-                  <div className="p-7">
-                    <time className="text-xs text-muted-foreground" dir="ltr">
-                      {formatDate(article.published_at)}
-                    </time>
-                    <h2 className="mt-4 text-xl font-black group-hover:text-cyan">
-                      {article.title}
-                    </h2>
-                    <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
-                      {article.excerpt}
-                    </p>
-                    <span className="mt-6 inline-block text-sm font-bold text-cyan">
-                      مطالعه مقاله ←
-                    </span>
-                  </div>
-                </Link>
+              <Link
+                key={article.id}
+                to="/blog/$slug"
+                params={{ slug: article.slug }}
+                className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-cyan/40"
+              >
+                {(cover || seoImage?.image) && (
+                  <img
+                    src={cover?.src ?? seoImage?.image}
+                    alt={cover?.alt ?? seoImage?.imageAlt}
+                    width={600}
+                    height={315}
+                    loading="lazy"
+                    className="aspect-[1200/630] w-full object-cover"
+                  />
+                )}
+                <div className="p-7">
+                  <time className="text-xs text-muted-foreground" dir="ltr">
+                    {formatDate(article.published_at)}
+                  </time>
+                  <h2 className="mt-4 text-xl font-black group-hover:text-cyan">{article.title}</h2>
+                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
+                    {article.excerpt}
+                  </p>
+                  <span className="mt-6 inline-block text-sm font-bold text-cyan">
+                    مطالعه مقاله ←
+                  </span>
+                </div>
+              </Link>
               );
             })}
           </div>

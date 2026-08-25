@@ -67,6 +67,50 @@ export type Database = {
         };
         Relationships: [];
       };
+      blog_comments: {
+        Row: {
+          id: number;
+          article_id: number;
+          author_name: string;
+          email: string | null;
+          body: string;
+          status: string;
+          website: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: never;
+          article_id: number;
+          author_name: string;
+          email?: string | null;
+          body: string;
+          status?: string;
+          website?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: never;
+          article_id?: number;
+          author_name?: string;
+          email?: string | null;
+          body?: string;
+          status?: string;
+          website?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_article_id_fkey";
+            columns: ["article_id"];
+            isOneToOne: false;
+            referencedRelation: "articles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

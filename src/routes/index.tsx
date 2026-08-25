@@ -20,8 +20,12 @@ export const Route = createFileRoute("/")({
           "با داده‌های سازمانتان چت کنید، ایجنت بسازید و در لحظه گزارش بگیرید. nexation، لبه‌ی هوش مصنوعی سازمانی.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://nexation.ir/" },
+      { property: "og:locale", content: "fa_IR" },
+      { property: "og:image", content: "https://nexation.ir/favicon.png" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://nexation.ir/" }],
   }),
   component: Landing,
 });
@@ -596,9 +600,7 @@ function CTA() {
             درخواست شما ثبت شد؛ به‌زودی با شما تماس می‌گیریم.
           </p>
         )}
-        {status === "error" && (
-          <p className="mt-4 text-sm text-red-300">{errorMessage}</p>
-        )}
+        {status === "error" && <p className="mt-4 text-sm text-red-300">{errorMessage}</p>}
       </div>
     </section>
   );
