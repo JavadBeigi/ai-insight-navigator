@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
 import { articleSeoBySlug } from "@/lib/article-seo";
+import { getArticleCover } from "@/lib/article-covers";
 import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
@@ -71,35 +72,42 @@ function BlogPage() {
           </div>
         ) : (
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
+            {articles.map((article) => {
+              const cover = getArticleCover(article.slug);
+              const seoImage = articleSeoBySlug[article.slug];
+
+              return (
               <Link
                 key={article.id}
                 to="/blog/$slug"
                 params={{ slug: article.slug }}
-                className="group rounded-3xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-cyan/40"
+                className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-cyan/40"
               >
-                {articleSeoBySlug[article.slug]?.image && (
+                {(cover || seoImage?.image) && (
                   <img
-                    src={articleSeoBySlug[article.slug].image}
-                    alt={articleSeoBySlug[article.slug].imageAlt}
+                    src={cover?.src ?? seoImage?.image}
+                    alt={cover?.alt ?? seoImage?.imageAlt}
                     width={600}
                     height={315}
                     loading="lazy"
-                    className="mb-6 aspect-[1200/630] w-full rounded-2xl object-cover"
+                    className="aspect-[1200/630] w-full object-cover"
                   />
                 )}
-                <time className="text-xs text-muted-foreground" dir="ltr">
-                  {formatDate(article.published_at)}
-                </time>
-                <h2 className="mt-4 text-xl font-black group-hover:text-cyan">{article.title}</h2>
-                <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
-                  {article.excerpt}
-                </p>
-                <span className="mt-6 inline-block text-sm font-bold text-cyan">
-                  مطالعه مقاله ←
-                </span>
+                <div className="p-7">
+                  <time className="text-xs text-muted-foreground" dir="ltr">
+                    {formatDate(article.published_at)}
+                  </time>
+                  <h2 className="mt-4 text-xl font-black group-hover:text-cyan">{article.title}</h2>
+                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
+                    {article.excerpt}
+                  </p>
+                  <span className="mt-6 inline-block text-sm font-bold text-cyan">
+                    مطالعه مقاله ←
+                  </span>
+                </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>

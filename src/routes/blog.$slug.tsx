@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
 import { articleSeoBySlug } from "@/lib/article-seo";
+import { getArticleCover } from "@/lib/article-covers";
 import { BlogComments } from "@/components/blog-comments";
 import type { Database } from "@/lib/database.types";
 
@@ -53,8 +54,8 @@ function ArticleBody({ content }: { content: string }) {
           );
         }
 
-        const lines = block.split("\n");
-        if (lines.every((line) => line.startsWith("- "))) {
+        const lines = block.split("\n").map((line) => line.trim());
+        if (lines.every((line) => line.startsWith("- ") || line.startsWith("• "))) {
           return (
             <ul key={index} className="my-6 list-disc space-y-2 pr-6 marker:text-cyan">
               {lines.map((line) => (
@@ -73,6 +74,21 @@ function ArticleBody({ content }: { content: string }) {
           );
         }
 
+        if (/^https?:\/\/\S+$/.test(block)) {
+          return (
+            <a
+              key={index}
+              href={block}
+              target="_blank"
+              rel="noreferrer"
+              className="my-5 block break-all text-cyan underline-offset-4 hover:underline"
+              dir="ltr"
+            >
+              {block}
+            </a>
+          );
+        }
+
         return (
           <p key={index} className="my-5">
             {block}
@@ -86,6 +102,7 @@ function ArticleBody({ content }: { content: string }) {
 function ArticlePage() {
   const { slug } = Route.useParams();
   const seo = articleSeoBySlug[slug];
+  const cover = getArticleCover(slug);
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -195,10 +212,10 @@ function ArticlePage() {
         {article.excerpt && (
           <p className="mt-7 text-lg leading-8 text-muted-foreground">{article.excerpt}</p>
         )}
-        {seo?.image && (
+        {(cover || seo?.image) && (
           <img
-            src={seo.image}
-            alt={seo.imageAlt}
+            src={cover?.src ?? seo?.image}
+            alt={cover?.alt ?? seo?.imageAlt}
             width={1200}
             height={630}
             className="mt-10 aspect-[1200/630] w-full rounded-3xl border border-border object-cover"

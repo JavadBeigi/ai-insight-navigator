@@ -12,6 +12,46 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "ai-agent-prompt-injection-security": {
+    metaTitle: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی | nexation",
+    metaDescription:
+      "Prompt Injection چگونه ایجنت هوش مصنوعی را فریب می‌دهد؟ تفاوت حمله مستقیم و غیرمستقیم و راهکارهای محافظت از اطلاعات سازمان را بخوانید.",
+    image: "https://nexation.ir/blog/ai-agent-prompt-injection-security.png",
+    imageAlt: "کارشناسان امنیت سایبری در حال بررسی یک رخداد مربوط به ایجنت هوش مصنوعی",
+    author: "تیم nexation",
+    readingTime: "۱۲ دقیقه مطالعه",
+    keywords: [
+      "Prompt Injection",
+      "امنیت ایجنت هوش مصنوعی",
+      "امنیت AI Agent",
+      "تزریق دستور",
+      "هوش مصنوعی سازمانی",
+    ],
+    sources: [
+      {
+        name: "NIST — Artificial Intelligence Risk Management Framework: Generative AI Profile",
+        url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      },
+      {
+        name: "NIST — Strengthening AI Agent Hijacking Evaluations",
+        url: "https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations",
+      },
+      {
+        name: "Anthropic — Mitigating the Risk of Prompt Injections in Browser Use",
+        url: "https://www.anthropic.com/research/prompt-injection-defenses",
+      },
+      {
+        name: "OpenAI — A Practical Guide to Building AI Agents",
+        url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/",
+      },
+    ],
+    relatedLinks: [
+      {
+        title: "ایجنت هوش مصنوعی چیست؟ راهنمای کاربرد AI Agent در سازمان‌ها",
+        href: "/blog/ai-agent-enterprise-guide",
+      },
+    ],
+  },
   "ai-agent-enterprise-guide": {
     metaTitle: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی | nexation",
     metaDescription:
