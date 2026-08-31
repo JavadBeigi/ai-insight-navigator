@@ -12,6 +12,33 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "ai-agent-evaluation-enterprise-kpis": {
+    metaTitle: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPI سازمانی | nexation",
+    metaDescription:
+      "چگونه آمادگی Production ایجنت هوش مصنوعی را بسنجیم؟ طراحی Evals، تحلیل مسیر اجرا، KPIهای سازمانی و معیارهای Go/No-Go را بیاموزید.",
+    image: "https://nexation.ir/blog/ai-agent-evaluation-enterprise-kpis.png",
+    imageAlt: "تیم سازمانی در حال طراحی آزمون‌ها و شاخص‌های ارزیابی ایجنت هوش مصنوعی",
+    author: "تیم nexation",
+    readingTime: "۱۵ دقیقه مطالعه",
+    keywords: ["ارزیابی ایجنت هوش مصنوعی", "AI Agent Evals", "KPI ایجنت هوش مصنوعی", "تست ایجنت سازمانی", "پایش ایجنت در Production"],
+    sources: [
+      { name: "NIST — AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { name: "Anthropic — Demystifying evals for AI agents", url: "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" },
+      { name: "OpenAI — How evals drive the next chapter in AI for businesses", url: "https://openai.com/index/evals-drive-next-chapter-of-ai/" },
+      { name: "Google Cloud — A methodical approach to agent evaluation", url: "https://cloud.google.com/blog/topics/developers-practitioners/a-methodical-approach-to-agent-evaluation" },
+      { name: "Google Cloud — KPIs that matter for production AI agents", url: "https://cloud.google.com/transform/the-kpis-that-actually-matter-for-production-ai-agents" },
+    ],
+    relatedLinks: [
+      { title: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی", href: "/blog/ai-agent-enterprise-guide" },
+      { title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
+    ],
+    faqs: [
+      { question: "چند سناریو برای شروع Eval کافی است؟", answer: "با مجموعه‌ای کوچک اما نماینده از کارهای واقعی، موارد مرزی و خطاهای پراثر شروع کنید و آن را با رخدادهای Production گسترش دهید." },
+      { question: "آیا LLM می‌تواند خودش را ارزیابی کند؟", answer: "برای برخی معیارهای کیفی بله، اما داور مدل باید rubric روشن داشته باشد و با قضاوت متخصص انسانی کالیبره شود." },
+      { question: "تفاوت KPI و Eval چیست؟", answer: "Eval رفتار ایجنت را در سناریوهای کنترل‌شده می‌سنجد؛ KPI عملکرد واقعی و اثر کسب‌وکاری آن را در طول زمان دنبال می‌کند." },
+      { question: "چه زمانی باید ایجنت را متوقف کرد؟", answer: "عبور خطای بحرانی از آستانه، نبود trace کافی، هزینه یا latency غیرعادی و رفتار کنترل‌نشده، از معیارهای توقف هستند." },
+    ],
+  },
   "ai-agent-prompt-injection-security": {
     metaTitle: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی | nexation",
     metaDescription:
