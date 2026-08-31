@@ -9,6 +9,21 @@ import type { Database } from "@/lib/database.types";
 
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 
+function renderInlineLinks(text: string) {
+  const parts = text.split(/(\[[^\]]+\]\(\/blog\/[a-z0-9-]+\))/g);
+
+  return parts.map((part, index) => {
+    const match = part.match(/^\[([^\]]+)\]\((\/blog\/[a-z0-9-]+)\)$/);
+    if (!match) return part;
+
+    return (
+      <Link key={`${match[2]}-${index}`} to={match[2]} className="font-bold text-cyan underline-offset-4 hover:underline">
+        {match[1]}
+      </Link>
+    );
+  });
+}
+
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ params }) => {
     const seo = articleSeoBySlug[params.slug];
@@ -59,7 +74,7 @@ function ArticleBody({ content }: { content: string }) {
           return (
             <ul key={index} className="my-6 list-disc space-y-2 pr-6 marker:text-cyan">
               {lines.map((line) => (
-                <li key={line}>{line.slice(2)}</li>
+                <li key={line}>{renderInlineLinks(line.slice(2))}</li>
               ))}
             </ul>
           );
@@ -68,7 +83,7 @@ function ArticleBody({ content }: { content: string }) {
           return (
             <ol key={index} className="my-6 list-decimal space-y-2 pr-6 marker:text-cyan">
               {lines.map((line) => (
-                <li key={line}>{line.replace(/^\d+\.\s/, "")}</li>
+                <li key={line}>{renderInlineLinks(line.replace(/^\d+\.\s/, ""))}</li>
               ))}
             </ol>
           );
@@ -91,7 +106,7 @@ function ArticleBody({ content }: { content: string }) {
 
         return (
           <p key={index} className="my-5">
-            {block}
+            {renderInlineLinks(block)}
           </p>
         );
       })}

@@ -31,6 +31,7 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
     relatedLinks: [
       { title: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی", href: "/blog/ai-agent-enterprise-guide" },
       { title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
+      { title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها", href: "/blog/diamond-shaped-agentic-organization" },
     ],
     faqs: [
       { question: "چند سناریو برای شروع Eval کافی است؟", answer: "با مجموعه‌ای کوچک اما نماینده از کارهای واقعی، موارد مرزی و خطاهای پراثر شروع کنید و آن را با رخدادهای Production گسترش دهید." },
@@ -77,6 +78,14 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
         title: "ایجنت هوش مصنوعی چیست؟ راهنمای کاربرد AI Agent در سازمان‌ها",
         href: "/blog/ai-agent-enterprise-guide",
       },
+      {
+        title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی",
+        href: "/blog/ai-agent-evaluation-enterprise-kpis",
+      },
+      {
+        title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها",
+        href: "/blog/diamond-shaped-agentic-organization",
+      },
     ],
   },
   "ai-agent-enterprise-guide": {
@@ -112,6 +121,11 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
         name: "Google Search Central — Creating helpful, reliable, people-first content",
         url: "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
       },
+    ],
+    relatedLinks: [
+      { title: "امنیت Prompt Injection در ایجنت‌های هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
+      { title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
+      { title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها", href: "/blog/diamond-shaped-agentic-organization" },
     ],
   },
   "diamond-shaped-agentic-organization": {
@@ -156,6 +170,14 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
       {
         title: "ایجنت هوش مصنوعی چیست؟ راهنمای کاربرد AI Agent در سازمان‌ها",
         href: "/blog/ai-agent-enterprise-guide",
+      },
+      {
+        title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی",
+        href: "/blog/ai-agent-evaluation-enterprise-kpis",
+      },
+      {
+        title: "امنیت Prompt Injection در ایجنت‌های هوش مصنوعی",
+        href: "/blog/ai-agent-prompt-injection-security",
       },
     ],
     faqs: [
