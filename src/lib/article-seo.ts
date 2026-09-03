@@ -12,6 +12,89 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "model-context-protocol-mcp-enterprise-guide": {
+    metaTitle: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی | nexation",
+    metaDescription:
+      "پروتکل MCP چگونه ایجنت هوش مصنوعی را به داده و ابزارهای سازمانی متصل می‌کند؟ معماری، کاربرد، امنیت و نقشه راه استقرار MCP را بخوانید.",
+    image: "https://nexation.ir/blog/model-context-protocol-mcp-enterprise-guide.png",
+    imageAlt: "ایجنت هوش مصنوعی متصل از طریق MCP به داده‌ها و ابزارهای سازمانی",
+    author: "تیم nexation",
+    readingTime: "۱۶ دقیقه مطالعه",
+    keywords: [
+      "پروتکل MCP",
+      "MCP چیست",
+      "Model Context Protocol",
+      "اتصال ایجنت هوش مصنوعی",
+      "سرور MCP",
+      "MCP سازمانی",
+    ],
+    sources: [
+      {
+        name: "Model Context Protocol — Architecture",
+        url: "https://modelcontextprotocol.io/specification/2025-06-18/architecture",
+      },
+      {
+        name: "Model Context Protocol — 2026-07-28 Specification",
+        url: "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+      },
+      {
+        name: "Anthropic — Introducing the Model Context Protocol",
+        url: "https://www.anthropic.com/news/model-context-protocol",
+      },
+      {
+        name: "OpenAI Agents SDK — Model context protocol",
+        url: "https://openai.github.io/openai-agents-python/mcp/",
+      },
+      {
+        name: "OWASP — MCP Security Cheat Sheet",
+        url: "https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html",
+      },
+      {
+        name: "Microsoft Learn — Secure your Azure MCP Server deployment",
+        url: "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/security",
+      },
+    ],
+    relatedLinks: [
+      {
+        title: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی",
+        href: "/blog/ai-agent-enterprise-guide",
+      },
+      {
+        title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی",
+        href: "/blog/ai-agent-prompt-injection-security",
+      },
+      {
+        title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی",
+        href: "/blog/ai-agent-evaluation-enterprise-kpis",
+      },
+      {
+        title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها",
+        href: "/blog/diamond-shaped-agentic-organization",
+      },
+    ],
+    faqs: [
+      {
+        question: "آیا MCP جایگزین API می‌شود؟",
+        answer:
+          "خیر. سرور MCP معمولاً از APIهای موجود استفاده می‌کند و آن‌ها را با قراردادی استاندارد برای برنامه‌ها و ایجنت‌های هوش مصنوعی ارائه می‌دهد.",
+      },
+      {
+        question: "آیا MCP جایگزین RAG است؟",
+        answer:
+          "خیر. RAG روش بازیابی اطلاعات است؛ MCP می‌تواند دسترسی به منبع جست‌وجو یا ابزار RAG را استاندارد کند.",
+      },
+      {
+        question: "آیا می‌توان به هر سرور عمومی MCP اعتماد کرد؟",
+        answer:
+          "خیر. منشأ، کد، وابستگی‌ها، رفتار شبکه و سطح دسترسی سرور باید بررسی و مجوز آن به حداقل لازم محدود شود.",
+      },
+      {
+        question: "برای شروع پروژه MCP چند Tool کافی است؟",
+        answer:
+          "برای یک پایلوت سازمانی، دو یا سه ابزار محدود و پرکاربرد بهتر از یک کاتالوگ بزرگ است؛ سپس دامنه بر اساس نتایج واقعی گسترش می‌یابد.",
+      },
+    ],
+  },
   "ai-agent-evaluation-enterprise-kpis": {
     metaTitle: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPI سازمانی | nexation",
     metaDescription:
@@ -20,24 +103,74 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
     imageAlt: "تیم سازمانی در حال طراحی آزمون‌ها و شاخص‌های ارزیابی ایجنت هوش مصنوعی",
     author: "تیم nexation",
     readingTime: "۱۵ دقیقه مطالعه",
-    keywords: ["ارزیابی ایجنت هوش مصنوعی", "AI Agent Evals", "KPI ایجنت هوش مصنوعی", "تست ایجنت سازمانی", "پایش ایجنت در Production"],
+    keywords: [
+      "ارزیابی ایجنت هوش مصنوعی",
+      "AI Agent Evals",
+      "KPI ایجنت هوش مصنوعی",
+      "تست ایجنت سازمانی",
+      "پایش ایجنت در Production",
+    ],
     sources: [
-      { name: "NIST — AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
-      { name: "Anthropic — Demystifying evals for AI agents", url: "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" },
-      { name: "OpenAI — How evals drive the next chapter in AI for businesses", url: "https://openai.com/index/evals-drive-next-chapter-of-ai/" },
-      { name: "Google Cloud — A methodical approach to agent evaluation", url: "https://cloud.google.com/blog/topics/developers-practitioners/a-methodical-approach-to-agent-evaluation" },
-      { name: "Google Cloud — KPIs that matter for production AI agents", url: "https://cloud.google.com/transform/the-kpis-that-actually-matter-for-production-ai-agents" },
+      {
+        name: "NIST — AI Risk Management Framework Core",
+        url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      },
+      {
+        name: "Anthropic — Demystifying evals for AI agents",
+        url: "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      },
+      {
+        name: "OpenAI — How evals drive the next chapter in AI for businesses",
+        url: "https://openai.com/index/evals-drive-next-chapter-of-ai/",
+      },
+      {
+        name: "Google Cloud — A methodical approach to agent evaluation",
+        url: "https://cloud.google.com/blog/topics/developers-practitioners/a-methodical-approach-to-agent-evaluation",
+      },
+      {
+        name: "Google Cloud — KPIs that matter for production AI agents",
+        url: "https://cloud.google.com/transform/the-kpis-that-actually-matter-for-production-ai-agents",
+      },
     ],
     relatedLinks: [
-      { title: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی", href: "/blog/ai-agent-enterprise-guide" },
-      { title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
-      { title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها", href: "/blog/diamond-shaped-agentic-organization" },
+      {
+        title: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی",
+        href: "/blog/ai-agent-enterprise-guide",
+      },
+      {
+        title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی",
+        href: "/blog/ai-agent-prompt-injection-security",
+      },
+      {
+        title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها",
+        href: "/blog/diamond-shaped-agentic-organization",
+      },
+      {
+        title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی",
+        href: "/blog/model-context-protocol-mcp-enterprise-guide",
+      },
     ],
     faqs: [
-      { question: "چند سناریو برای شروع Eval کافی است؟", answer: "با مجموعه‌ای کوچک اما نماینده از کارهای واقعی، موارد مرزی و خطاهای پراثر شروع کنید و آن را با رخدادهای Production گسترش دهید." },
-      { question: "آیا LLM می‌تواند خودش را ارزیابی کند؟", answer: "برای برخی معیارهای کیفی بله، اما داور مدل باید rubric روشن داشته باشد و با قضاوت متخصص انسانی کالیبره شود." },
-      { question: "تفاوت KPI و Eval چیست؟", answer: "Eval رفتار ایجنت را در سناریوهای کنترل‌شده می‌سنجد؛ KPI عملکرد واقعی و اثر کسب‌وکاری آن را در طول زمان دنبال می‌کند." },
-      { question: "چه زمانی باید ایجنت را متوقف کرد؟", answer: "عبور خطای بحرانی از آستانه، نبود trace کافی، هزینه یا latency غیرعادی و رفتار کنترل‌نشده، از معیارهای توقف هستند." },
+      {
+        question: "چند سناریو برای شروع Eval کافی است؟",
+        answer:
+          "با مجموعه‌ای کوچک اما نماینده از کارهای واقعی، موارد مرزی و خطاهای پراثر شروع کنید و آن را با رخدادهای Production گسترش دهید.",
+      },
+      {
+        question: "آیا LLM می‌تواند خودش را ارزیابی کند؟",
+        answer:
+          "برای برخی معیارهای کیفی بله، اما داور مدل باید rubric روشن داشته باشد و با قضاوت متخصص انسانی کالیبره شود.",
+      },
+      {
+        question: "تفاوت KPI و Eval چیست؟",
+        answer:
+          "Eval رفتار ایجنت را در سناریوهای کنترل‌شده می‌سنجد؛ KPI عملکرد واقعی و اثر کسب‌وکاری آن را در طول زمان دنبال می‌کند.",
+      },
+      {
+        question: "چه زمانی باید ایجنت را متوقف کرد؟",
+        answer:
+          "عبور خطای بحرانی از آستانه، نبود trace کافی، هزینه یا latency غیرعادی و رفتار کنترل‌نشده، از معیارهای توقف هستند.",
+      },
     ],
   },
   "ai-agent-prompt-injection-security": {
@@ -86,6 +219,10 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
         title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها",
         href: "/blog/diamond-shaped-agentic-organization",
       },
+      {
+        title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی",
+        href: "/blog/model-context-protocol-mcp-enterprise-guide",
+      },
     ],
   },
   "ai-agent-enterprise-guide": {
@@ -123,9 +260,22 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
       },
     ],
     relatedLinks: [
-      { title: "امنیت Prompt Injection در ایجنت‌های هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
-      { title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
-      { title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها", href: "/blog/diamond-shaped-agentic-organization" },
+      {
+        title: "امنیت Prompt Injection در ایجنت‌های هوش مصنوعی",
+        href: "/blog/ai-agent-prompt-injection-security",
+      },
+      {
+        title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی",
+        href: "/blog/ai-agent-evaluation-enterprise-kpis",
+      },
+      {
+        title: "ساختار سازمانی لوزی‌شکل و نقش ایجنت‌ها",
+        href: "/blog/diamond-shaped-agentic-organization",
+      },
+      {
+        title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی",
+        href: "/blog/model-context-protocol-mcp-enterprise-guide",
+      },
     ],
   },
   "diamond-shaped-agentic-organization": {
@@ -178,6 +328,10 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
       {
         title: "امنیت Prompt Injection در ایجنت‌های هوش مصنوعی",
         href: "/blog/ai-agent-prompt-injection-security",
+      },
+      {
+        title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی",
+        href: "/blog/model-context-protocol-mcp-enterprise-guide",
       },
     ],
     faqs: [
