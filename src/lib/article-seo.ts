@@ -12,6 +12,85 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "zero-trust-ai-agent-identity": {
+    metaTitle: "هویت ایجنت هوش مصنوعی و معماری Zero Trust | nexation",
+    metaDescription:
+      "چگونه برای ایجنت هوش مصنوعی هویت مستقل، مجوز کمینه و توکن کوتاه‌عمر بسازیم؟ معماری Zero Trust و چک‌لیست Production را بخوانید.",
+    image: "https://nexation.ir/blog/zero-trust-ai-agent-identity.png",
+    imageAlt: "کارشناس امنیت سازمانی در حال پایش هویت و دسترسی ایجنت‌های هوش مصنوعی",
+    author: "تیم nexation",
+    readingTime: "۱۶ دقیقه مطالعه",
+    keywords: [
+      "هویت ایجنت هوش مصنوعی",
+      "Zero Trust برای AI Agent",
+      "کمترین دسترسی",
+      "امنیت ایجنت سازمانی",
+      "مجوز ایجنت",
+      "Agent Identity",
+    ],
+    sources: [
+      {
+        name: "NIST — SP 800-207 Zero Trust Architecture",
+        url: "https://csrc.nist.gov/pubs/sp/800/207/final",
+      },
+      {
+        name: "NIST — SP 800-207A: Access Control in Cloud-Native Applications",
+        url: "https://csrc.nist.gov/pubs/sp/800/207/a/final",
+      },
+      {
+        name: "Microsoft — Least privilege for AI agents",
+        url: "https://learn.microsoft.com/en-us/security/zero-trust/sfi/least-privilege-for-ai-agents",
+      },
+      {
+        name: "Microsoft — Secure agents: Identity, access, and data protection",
+        url: "https://learn.microsoft.com/en-us/agents/center-of-excellence/secure-agents",
+      },
+      {
+        name: "OpenAI — Workspace agents for business",
+        url: "https://openai.com/business/workspace-agents/",
+      },
+    ],
+    relatedLinks: [
+      {
+        title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی",
+        href: "/blog/ai-agent-prompt-injection-security",
+      },
+      {
+        title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی",
+        href: "/blog/model-context-protocol-mcp-enterprise-guide",
+      },
+      {
+        title: "ارزیابی ایجنت هوش مصنوعی؛ Evals و KPIهای سازمانی",
+        href: "/blog/ai-agent-evaluation-enterprise-kpis",
+      },
+      {
+        title: "ایجنت هوش مصنوعی چیست؟ راهنمای AI Agent سازمانی",
+        href: "/blog/ai-agent-enterprise-guide",
+      },
+    ],
+    faqs: [
+      {
+        question: "آیا هر ایجنت سازمانی به هویت مستقل نیاز دارد؟",
+        answer:
+          "بله. هویت یکتا امکان انتساب عمل، محدودکردن مجوز، بازبینی و قطع دسترسی همان ایجنت را بدون اختلال در سایر عامل‌ها فراهم می‌کند.",
+      },
+      {
+        question: "آیا نوشتن محدودیت در Prompt برای کنترل دسترسی کافی است؟",
+        answer:
+          "خیر. Prompt راهنمای رفتار مدل است؛ مجوز باید در Gateway، Policy Engine یا سامانه مقصد به‌صورت قطعی اجرا شود.",
+      },
+      {
+        question: "تفاوت هویت مستقل و On-Behalf-Of چیست؟",
+        answer:
+          "در هویت مستقل، عامل با اختیار سرویس خود عمل می‌کند؛ در On-Behalf-Of، اختیار از کاربر می‌آید و محدودیت‌های همان کاربر باید حفظ شود.",
+      },
+      {
+        question: "کدام عملیات ایجنت به تأیید انسانی نیاز دارد؟",
+        answer:
+          "ارسال بیرونی، پرداخت، حذف، تغییر مجوز، انتشار عمومی و انتقال داده حساس باید متناسب با ریسک در نقطه اثر تأیید شوند.",
+      },
+    ],
+  },
   "model-context-protocol-mcp-enterprise-guide": {
     metaTitle: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی | nexation",
     metaDescription:

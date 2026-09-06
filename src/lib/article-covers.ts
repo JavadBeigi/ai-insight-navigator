@@ -1,4 +1,8 @@
 const articleCovers: Record<string, { src: string; alt: string }> = {
+  "zero-trust-ai-agent-identity": {
+    src: "/blog/zero-trust-ai-agent-identity.png",
+    alt: "کارشناس امنیت سازمانی در حال پایش هویت و دسترسی ایجنت‌های هوش مصنوعی",
+  },
   "model-context-protocol-mcp-enterprise-guide": {
     src: "/blog/model-context-protocol-mcp-enterprise-guide.png",
     alt: "ایجنت هوش مصنوعی متصل از طریق MCP به داده‌ها و ابزارهای سازمانی",
