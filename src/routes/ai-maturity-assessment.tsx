@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, type FormEvent } from "react";
-import { AlertTriangle, ArrowLeft, CalendarRange, CheckCircle2, ShieldCheck, Target } from "lucide-react";
+import { AlertTriangle, ArrowLeft, CalendarRange, CheckCircle2, Download, Flame, Lightbulb, ShieldCheck, Target } from "lucide-react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import {
   calculateMaturity,
@@ -49,7 +49,8 @@ function AiMaturityAssessment() {
 
   return (
     <main className="min-h-screen bg-background text-foreground" dir="rtl">
-      <header className="border-b border-border bg-background/90 backdrop-blur">
+      <style>{`@media print { @page { size: A4; margin: 12mm; } body { background: #fff !important; } .report-shell { color: #0f172a !important; background: #fff !important; } .report-shell * { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .report-card { break-inside: avoid; border-color: #cbd5e1 !important; background: #fff !important; } .report-muted { color: #475569 !important; } .report-cover { min-height: 245mm; display: flex !important; break-after: page; } .no-print { display: none !important; } }`}</style>
+      <header className="no-print border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <Link to="/" className="text-xl font-black">nexation<span className="text-cyan">.</span></Link>
           <span className="text-xs text-muted-foreground">AI Maturity Index</span>
@@ -138,7 +139,16 @@ function AiMaturityAssessment() {
       )}
 
       {stage === "result" && (
-        <section className="mx-auto max-w-6xl px-6 py-14">
+        <section className="report-shell mx-auto max-w-6xl px-6 py-14">
+          <div className="report-cover mb-14 flex min-h-[520px] flex-col items-center justify-center rounded-[2rem] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-card to-primary/10 p-8 text-center">
+            <img src="/favicon.png" alt="لوگوی nexation" className="size-20 object-contain" />
+            <p className="mt-8 text-sm font-bold tracking-wide text-cyan">NEXATION AI MATURITY INDEX</p>
+            <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">گزارش بلوغ هوش مصنوعی</h1>
+            <p className="mt-6 text-2xl font-black">{profile.organization}</p>
+            <div className="report-muted mt-10 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
+              <span>صنعت: {profile.industry}</span><span>سمت: {profile.role}</span><span>نسخه آزمایشی خصوصی</span>
+            </div>
+          </div>
           <div className="text-center">
             <CheckCircle2 className="mx-auto size-10 text-cyan" />
             <p className="mt-4 text-sm font-bold text-cyan">گزارش آزمایشی {profile.organization}</p>
@@ -165,8 +175,8 @@ function AiMaturityAssessment() {
               </div>
             </div>
           </div>
-          <FullReport result={result} />
-          <div className="mt-10 text-center"><button onClick={() => { setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
+          <FullReport result={result} answers={answers} industry={profile.industry} organization={profile.organization} />
+          <div className="no-print mt-10 text-center"><button onClick={() => { setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
         </section>
       )}
     </main>
@@ -183,8 +193,32 @@ const dimensionGuidance = {
   scale: { diagnosis: "عبور از پایلوت مستلزم اجزای قابل‌استفاده مجدد، سنجش پذیرش و یادگیری عملیاتی است.", actions: ["تعریف معیار عبور پایلوت به تولید", "ساخت اجزای مشترک و الگوهای تکرارپذیر", "سنجش استفاده واقعی، رضایت و اعتماد کاربران"] },
 } satisfies Record<(typeof maturityDimensions)[number]["id"], { diagnosis: string; actions: string[] }>;
 
-function FullReport({ result }: { result: ReturnType<typeof calculateMaturity> }) {
+const dimensionUseCases = {
+  strategy: ["دستیار تصمیم‌یار مدیران برای تحلیل سناریو", "رصد هوشمند KPIهای تحول AI"],
+  value: ["موتور اولویت‌بندی فرصت‌های AI", "پایش خودکار منافع و ROI پروژه‌ها"],
+  data: ["جست‌وجوی سازمانی مبتنی بر RAG", "دستیار کیفیت و طبقه‌بندی داده"],
+  technology: ["پلتفرم ارزیابی و پایش مدل‌ها", "دستیار توسعه نرم‌افزار با کنترل سازمانی"],
+  governance: ["رجیستری و داشبورد ریسک سامانه‌های AI", "کنترل دسترسی و ثبت رخداد ایجنت‌ها"],
+  people: ["دستیار یادگیری نقش‌محور کارکنان", "همیار مدیریت دانش و فرایندها"],
+  scale: ["مرکز خدمات مشترک ایجنت‌های سازمانی", "اتوماسیون فرایندهای پرتکرار با Human-in-the-loop"],
+} satisfies Record<(typeof maturityDimensions)[number]["id"], string[]>;
+
+function getIndustryUseCases(industry: string) {
+  if (/تولید|صنعت|کارخانه/i.test(industry)) return ["نگهداری پیش‌بینانه تجهیزات", "کنترل کیفیت بصری خط تولید", "بهینه‌سازی موجودی و برنامه‌ریزی تولید"];
+  if (/بانک|مالی|بیمه|سرمایه/i.test(industry)) return ["کشف تقلب و ناهنجاری تراکنش‌ها", "دستیار تحلیل ریسک و اعتبار", "اتوماسیون بررسی اسناد و خسارت"];
+  if (/انرژی|نفت|گاز|برق/i.test(industry)) return ["پیش‌بینی تقاضا و مصرف انرژی", "پایش هوشمند دارایی‌های حیاتی", "دستیار ایمنی و تحلیل رخداد"];
+  if (/فروش|خرده|بازرگانی/i.test(industry)) return ["پیش‌بینی تقاضا و بهینه‌سازی موجودی", "دستیار فروش و خدمات مشتری", "شخصی‌سازی پیشنهاد محصول"];
+  return ["دستیار دانش سازمانی", "اتوماسیون هوشمند اسناد و مکاتبات", "تحلیل پیش‌بینانه شاخص‌های عملیاتی"];
+}
+
+function FullReport({ result, answers, industry, organization }: { result: ReturnType<typeof calculateMaturity>; answers: Record<string, number>; industry: string; organization: string }) {
   const priorities = [...result.dimensionScores].sort((a, b) => a.score - b.score).slice(0, 3);
+  const targetScore = 80;
+  const criticalRisks = maturityQuestions
+    .filter((question) => (answers[question.id] ?? 1) <= 2)
+    .sort((a, b) => (answers[a.id] ?? 1) - (answers[b.id] ?? 1))
+    .slice(0, 6);
+  const suggestedUseCases = [...new Set([...getIndustryUseCases(industry), ...priorities.flatMap((priority) => dimensionUseCases[priority.id])])].slice(0, 6);
   const roadmap = [
     { period: "روز ۱ تا ۳۰", title: "هم‌راستاسازی و کنترل", detail: priorities[0] ? dimensionGuidance[priorities[0].id].actions[0] : "تعریف خط مبنا" },
     { period: "روز ۳۱ تا ۶۰", title: "اجرای اقدام‌های اولویت‌دار", detail: priorities[1] ? dimensionGuidance[priorities[1].id].actions[0] : "اجرای برنامه بهبود" },
@@ -198,18 +232,47 @@ function FullReport({ result }: { result: ReturnType<typeof calculateMaturity> }
         <h2 id="full-report-heading" className="mt-2 text-3xl font-black">گزارش کامل بلوغ هوش مصنوعی</h2>
       </div>
 
+      <section className="report-card rounded-3xl border border-border bg-card p-6 md:p-8">
+        <div className="flex items-center gap-3"><Flame className="size-6 text-orange-300" /><h3 className="text-xl font-black">Heatmap زیرشاخص‌ها</h3></div>
+        <p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">هر خانه نماینده یکی از ۳۵ سؤال است؛ قرمز یعنی شکاف جدی و سبز یعنی قابلیت تثبیت‌شده.</p>
+        <div className="mt-6 space-y-5">
+          {maturityDimensions.map((dimension) => {
+            const questions = maturityQuestions.filter((item) => item.dimension === dimension.id);
+            return <div key={dimension.id}><div className="mb-2 flex items-center justify-between text-xs"><span className="font-bold">{dimension.label}</span><span className="report-muted text-muted-foreground">۵ زیرشاخص</span></div><div className="grid grid-cols-5 gap-2" dir="ltr">{questions.map((item, index) => { const value = answers[item.id] ?? 1; const hue = ((value - 1) / 4) * 120; return <div key={item.id} title={item.prompt} className="flex h-12 items-center justify-center rounded-lg border border-white/10 font-mono text-xs font-black text-white" style={{ backgroundColor: `hsl(${hue} 68% 38%)` }}>{index + 1}</div>; })}</div></div>;
+          })}
+        </div>
+        <div className="report-muted mt-5 flex justify-between text-xs text-muted-foreground"><span>شکاف بحرانی</span><span>قابلیت مقیاس‌یافته</span></div>
+      </section>
+
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {result.dimensionScores.map((item) => (
-          <article key={item.id} className="rounded-2xl border border-border bg-card p-5">
+          <article key={item.id} className="report-card rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between gap-4"><h3 className="font-black">{item.label}</h3><span className="font-mono text-lg font-black text-cyan" dir="ltr">{item.score}/100</span></div>
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-cyan" style={{ width: `${item.score}%` }} /></div>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">{dimensionGuidance[item.id].diagnosis}</p>
+            <p className="report-muted mt-4 text-sm leading-7 text-muted-foreground">{dimensionGuidance[item.id].diagnosis}</p>
           </article>
         ))}
       </div>
 
+      <section className="report-card rounded-3xl border border-border bg-card p-6 md:p-8">
+        <h3 className="text-xl font-black">شکاف وضع موجود تا هدف پیشنهادی</h3>
+        <p className="report-muted mt-2 text-sm text-muted-foreground">هدف عملیاتی اولیه برای {organization}: امتیاز ۸۰ از ۱۰۰ در هر محور.</p>
+        <div className="mt-6 space-y-5">{result.dimensionScores.map((item) => { const gap = Math.max(0, targetScore - item.score); return <div key={item.id}><div className="mb-2 flex items-center justify-between gap-4 text-sm"><span className="font-bold">{item.label}</span><span className="font-mono" dir="ltr">{item.score} → {targetScore} <b className="text-amber-300">(+{gap})</b></span></div><div className="relative h-3 overflow-hidden rounded-full bg-white/10"><div className="absolute inset-y-0 left-0 rounded-full bg-cyan" style={{ width: `${item.score}%` }} /><div className="absolute inset-y-0 border-l-2 border-dashed border-white" style={{ left: `${targetScore}%` }} /></div></div>; })}</div>
+      </section>
+
+      <section className="report-card rounded-3xl border border-red-400/20 bg-card p-6 md:p-8">
+        <div className="flex items-center gap-3"><AlertTriangle className="size-6 text-red-300" /><h3 className="text-xl font-black">ریسک‌های بحرانی</h3></div>
+        {criticalRisks.length > 0 ? <div className="mt-6 grid gap-3 md:grid-cols-2">{criticalRisks.map((risk) => { const dimension = maturityDimensions.find((item) => item.id === risk.dimension); return <article key={risk.id} className="rounded-2xl border border-red-400/15 bg-red-400/5 p-4"><p className="text-xs font-bold text-red-300">{dimension?.label} · امتیاز پاسخ {answers[risk.id] ?? 1} از ۵</p><p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">{risk.prompt}</p></article>; })}</div> : <p className="report-muted mt-4 text-sm leading-7 text-muted-foreground">براساس پاسخ‌ها، زیرشاخصی با امتیاز بحرانی ۱ یا ۲ ثبت نشده است؛ پایش مستمر همچنان ضروری است.</p>}
+      </section>
+
+      <section className="report-card rounded-3xl border border-violet-400/20 bg-card p-6 md:p-8">
+        <div className="flex items-center gap-3"><Lightbulb className="size-6 text-violet-300" /><h3 className="text-xl font-black">Use Caseهای پیشنهادی</h3></div>
+        <p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">پیشنهاد اولیه با توجه به صنعت «{industry}» و سه محور دارای بیشترین شکاف؛ انتخاب نهایی نیازمند بررسی داده، ارزش و ریسک است.</p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{suggestedUseCases.map((useCase, index) => <article key={useCase} className="rounded-2xl border border-border bg-background/40 p-5"><span className="text-xs font-black text-violet-300">USE CASE {index + 1}</span><h4 className="mt-2 font-black leading-7">{useCase}</h4></article>)}</div>
+      </section>
+
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-3xl border border-amber-400/20 bg-card p-6 md:p-8">
+        <section className="report-card rounded-3xl border border-amber-400/20 bg-card p-6 md:p-8">
           <div className="flex items-center gap-3"><Target className="size-6 text-amber-300" /><h3 className="text-xl font-black">سه اولویت پیشنهادی</h3></div>
           <div className="mt-6 space-y-5">
             {priorities.map((priority, index) => (
@@ -222,7 +285,7 @@ function FullReport({ result }: { result: ReturnType<typeof calculateMaturity> }
           </div>
         </section>
 
-        <section className="rounded-3xl border border-cyan/20 bg-card p-6 md:p-8">
+        <section className="report-card rounded-3xl border border-cyan/20 bg-card p-6 md:p-8">
           <div className="flex items-center gap-3"><CalendarRange className="size-6 text-cyan" /><h3 className="text-xl font-black">نقشه راه پیشنهادی ۹۰روزه</h3></div>
           <div className="mt-6 space-y-4">{roadmap.map((phase) => <div key={phase.period} className="rounded-2xl border border-border p-5"><p className="text-xs font-bold text-cyan">{phase.period}</p><h4 className="mt-2 font-black">{phase.title}</h4><p className="mt-2 text-sm leading-7 text-muted-foreground">{phase.detail}</p></div>)}</div>
         </section>
@@ -230,7 +293,14 @@ function FullReport({ result }: { result: ReturnType<typeof calculateMaturity> }
 
       {result.governanceCapApplied ? <div className="flex gap-4 rounded-2xl border border-amber-400/30 bg-amber-400/5 p-5"><AlertTriangle className="mt-1 size-5 shrink-0 text-amber-300" /><div><h3 className="font-black">هشدار حاکمیتی</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">پیش از گسترش کاربردهای پراثر، موجودی AI، ارزیابی ریسک، نظارت انسانی و برنامه پاسخ به رخداد را تکمیل کنید.</p></div></div> : null}
 
-      <p className="text-xs leading-6 text-muted-foreground">این گزارش یک غربالگری مدیریتی مبتنی بر پاسخ‌های خوداظهاری است و جایگزین ارزیابی میدانی، ممیزی یا مشاوره تخصصی نیست.</p>
+      <section className="report-card rounded-3xl border border-cyan/25 bg-gradient-to-l from-cyan/10 to-primary/10 p-7 text-center md:p-10">
+        <h3 className="text-2xl font-black">گام بعدی را با nexation طراحی کنید</h3>
+        <p className="report-muted mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">در یک جلسه مشاوره، نتایج خوداظهاری را اعتبارسنجی می‌کنیم و Use Caseها، ریسک‌ها و نقشه راه اجرایی سازمان شما را دقیق‌تر می‌سازیم.</p>
+        <div className="no-print mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> دانلود یا ذخیره PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
+        <p className="hidden text-sm font-bold print:block">برای رزرو جلسه: nexation.ir</p>
+      </section>
+
+      <p className="report-muted text-xs leading-6 text-muted-foreground">این گزارش یک غربالگری مدیریتی مبتنی بر پاسخ‌های خوداظهاری است و جایگزین ارزیابی میدانی، ممیزی یا مشاوره تخصصی نیست.</p>
     </section>
   );
 }
