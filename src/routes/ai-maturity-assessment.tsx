@@ -235,12 +235,14 @@ function AiMaturityAssessment() {
               <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-300">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
               <div className="rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
                 <p className="text-sm font-bold text-cyan">گزارش کامل و نقشه راه اختصاصی</p>
-                <h3 className="mt-2 text-xl font-black">برای مشاهده گزارش کامل، درخواست پرداخت ثبت کنید</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">درگاه آنلاین فعال نیست؛ تیم nexation برای هماهنگی مبلغ و پرداخت با شماره ثبت‌شده تماس می‌گیرد.</p>
-                {purchaseStatus === "idle" || purchaseStatus === "error" ? <button type="button" disabled={!assessmentSaved} onClick={requestFullReport} className="mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-black disabled:opacity-50">{assessmentSaved ? "درخواست گزارش کامل" : "در حال ثبت نتیجه..."}</button> : null}
-                {purchaseStatus === "requesting" ? <p className="mt-4 text-sm text-cyan">در حال ثبت درخواست...</p> : null}
-                {purchaseStatus === "requested" || purchaseStatus === "checking" ? <div className="mt-5"><p className="text-sm font-bold text-emerald-300">درخواست شما ثبت شد؛ پس از هماهنگی و تأیید پرداخت، گزارش باز می‌شود.</p><button type="button" onClick={checkPaymentStatus} disabled={purchaseStatus === "checking"} className="mt-4 rounded-xl border border-cyan/30 px-5 py-2.5 text-sm font-bold text-cyan">{purchaseStatus === "checking" ? "در حال بررسی..." : "بررسی وضعیت پرداخت"}</button></div> : null}
-                {purchaseStatus === "error" ? <p className="mt-3 text-sm text-red-300">ثبت درخواست انجام نشد؛ لطفاً دوباره تلاش کنید.</p> : null}
+                {reportUnlocked ? <><h3 className="mt-2 text-xl font-black text-emerald-300">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></> : <>
+                  <h3 className="mt-2 text-xl font-black">برای مشاهده گزارش کامل، درخواست پرداخت ثبت کنید</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">درگاه آنلاین فعال نیست؛ تیم nexation برای هماهنگی مبلغ و پرداخت با شماره ثبت‌شده تماس می‌گیرد.</p>
+                  {purchaseStatus === "idle" || purchaseStatus === "error" ? <button type="button" disabled={!assessmentSaved} onClick={requestFullReport} className="mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-black disabled:opacity-50">{assessmentSaved ? "درخواست گزارش کامل" : "در حال ثبت نتیجه..."}</button> : null}
+                  {purchaseStatus === "requesting" ? <p className="mt-4 text-sm text-cyan">در حال ثبت درخواست...</p> : null}
+                  {purchaseStatus === "requested" || purchaseStatus === "checking" ? <div className="mt-5"><p className="text-sm font-bold text-emerald-300">درخواست شما ثبت شد؛ پس از هماهنگی و تأیید پرداخت، گزارش باز می‌شود.</p><button type="button" onClick={checkPaymentStatus} disabled={purchaseStatus === "checking"} className="mt-4 rounded-xl border border-cyan/30 px-5 py-2.5 text-sm font-bold text-cyan">{purchaseStatus === "checking" ? "در حال بررسی..." : "بررسی وضعیت پرداخت"}</button></div> : null}
+                  {purchaseStatus === "error" ? <p className="mt-3 text-sm text-red-300">ثبت درخواست انجام نشد؛ لطفاً دوباره تلاش کنید.</p> : null}
+                </>}
               </div>
             </div>
           </div>
