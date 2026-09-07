@@ -114,7 +114,7 @@ function AiMaturityAssessment() {
 
   return (
     <main className="min-h-screen bg-background text-foreground" dir="rtl">
-      <style>{`@media print { @page { size: A4; margin: 12mm; } body { background: #fff !important; } .report-shell { color: #0f172a !important; background: #fff !important; } .report-shell * { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .report-card { break-inside: avoid; border-color: #cbd5e1 !important; background: #fff !important; } .report-muted { color: #475569 !important; } .report-cover { min-height: 245mm; display: flex !important; break-after: page; } .no-print { display: none !important; } }`}</style>
+      <style>{`@media print { @page { size: A4; margin: 12mm; } body { background: #fff !important; } .report-shell { color: #0f172a !important; background: #fff !important; } .report-shell * { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .report-card { break-inside: avoid; border-color: #cbd5e1 !important; background: #fff !important; } .report-muted { color: #475569 !important; } .no-print, .full-report-content { display: none !important; } }`}</style>
       <header className="no-print border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <Link to="/" className="text-xl font-black">nexation<span className="text-cyan">.</span></Link>
@@ -205,7 +205,7 @@ function AiMaturityAssessment() {
 
       {stage === "result" && (
         <section className="report-shell mx-auto max-w-6xl px-6 py-14">
-          {reportUnlocked ? <div className="report-cover mb-14 flex min-h-[520px] flex-col items-center justify-center rounded-[2rem] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-card to-primary/10 p-8 text-center">
+          {reportUnlocked ? <div className="no-print mb-14 flex min-h-[520px] flex-col items-center justify-center rounded-[2rem] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-card to-primary/10 p-8 text-center">
             <img src="/favicon.png" alt="لوگوی nexation" className="size-20 object-contain" />
             <p className="mt-8 text-sm font-bold tracking-wide text-cyan">NEXATION AI MATURITY INDEX</p>
             <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">گزارش بلوغ هوش مصنوعی</h1>
@@ -233,7 +233,7 @@ function AiMaturityAssessment() {
             <div className="space-y-5">
               <div className="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-300">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
               <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-300">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
-              <div className="rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
+              <div className="no-print rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
                 <p className="text-sm font-bold text-cyan">گزارش کامل و نقشه راه اختصاصی</p>
                 {reportUnlocked ? <><h3 className="mt-2 text-xl font-black text-emerald-300">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></> : <>
                   <h3 className="mt-2 text-xl font-black">برای مشاهده گزارش کامل، درخواست پرداخت ثبت کنید</h3>
@@ -246,7 +246,13 @@ function AiMaturityAssessment() {
               </div>
             </div>
           </div>
+          <p className="mt-8 hidden text-center text-sm font-bold print:block">خلاصه نتیجه خودارزیابی بلوغ هوش مصنوعی · nexation.ir</p>
           {reportUnlocked ? <FullReport result={result} answers={answers} industry={profile.industry} organization={profile.organization} /> : null}
+          <section className="no-print mt-10 rounded-3xl border border-cyan/25 bg-gradient-to-l from-cyan/10 to-primary/10 p-7 text-center md:p-10">
+            <h3 className="text-2xl font-black">گام بعدی را با nexation طراحی کنید</h3>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">در یک جلسه مشاوره، نتایج خوداظهاری را اعتبارسنجی می‌کنیم و Use Caseها، ریسک‌ها و نقشه راه اجرایی سازمان شما را دقیق‌تر می‌سازیم.</p>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> ذخیره خلاصه گزارش PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
+          </section>
           <div className="no-print mt-10 text-center"><button onClick={() => { window.localStorage.removeItem("nexation_assessment_token"); window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
         </section>
       )}
@@ -297,7 +303,7 @@ function FullReport({ result, answers, industry, organization }: { result: Retur
   ];
 
   return (
-    <section className="mt-10 space-y-8" aria-labelledby="full-report-heading">
+    <section className="full-report-content mt-10 space-y-8" aria-labelledby="full-report-heading">
       <div>
         <p className="text-sm font-bold text-cyan">تحلیل تفصیلی</p>
         <h2 id="full-report-heading" className="mt-2 text-3xl font-black">گزارش کامل بلوغ هوش مصنوعی</h2>
@@ -363,13 +369,6 @@ function FullReport({ result, answers, industry, organization }: { result: Retur
       </div>
 
       {result.governanceCapApplied ? <div className="flex gap-4 rounded-2xl border border-amber-400/30 bg-amber-400/5 p-5"><AlertTriangle className="mt-1 size-5 shrink-0 text-amber-300" /><div><h3 className="font-black">هشدار حاکمیتی</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">پیش از گسترش کاربردهای پراثر، موجودی AI، ارزیابی ریسک، نظارت انسانی و برنامه پاسخ به رخداد را تکمیل کنید.</p></div></div> : null}
-
-      <section className="report-card rounded-3xl border border-cyan/25 bg-gradient-to-l from-cyan/10 to-primary/10 p-7 text-center md:p-10">
-        <h3 className="text-2xl font-black">گام بعدی را با nexation طراحی کنید</h3>
-        <p className="report-muted mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">در یک جلسه مشاوره، نتایج خوداظهاری را اعتبارسنجی می‌کنیم و Use Caseها، ریسک‌ها و نقشه راه اجرایی سازمان شما را دقیق‌تر می‌سازیم.</p>
-        <div className="no-print mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> دانلود یا ذخیره PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
-        <p className="hidden text-sm font-bold print:block">برای رزرو جلسه: nexation.ir</p>
-      </section>
 
       <p className="report-muted text-xs leading-6 text-muted-foreground">این گزارش یک غربالگری مدیریتی مبتنی بر پاسخ‌های خوداظهاری است و جایگزین ارزیابی میدانی، ممیزی یا مشاوره تخصصی نیست.</p>
     </section>
