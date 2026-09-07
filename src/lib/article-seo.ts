@@ -12,6 +12,35 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "ai-agent-memory-governance": {
+    metaTitle: "حافظه ایجنت هوش مصنوعی؛ امنیت و حریم خصوصی | nexation",
+    metaDescription:
+      "حافظه ایجنت هوش مصنوعی را چگونه امن طراحی کنیم؟ راهنمای Scope، TTL، حریم خصوصی، حذف داده و مقابله با Memory Poisoning را بخوانید.",
+    image: "https://nexation.ir/blog/ai-agent-memory-governance.png",
+    imageAlt: "متخصص حاکمیت داده در حال مدیریت حافظه ایجنت هوش مصنوعی در یک محیط سازمانی",
+    author: "تیم nexation",
+    readingTime: "۱۷ دقیقه مطالعه",
+    keywords: ["حافظه ایجنت هوش مصنوعی", "امنیت حافظه AI Agent", "Memory Governance", "Memory Poisoning", "حریم خصوصی ایجنت"],
+    sources: [
+      { name: "Microsoft — Manage AI memory safety in agentic systems", url: "https://learn.microsoft.com/en-us/security/zero-trust/sfi/manage-agentic-memory-safety" },
+      { name: "Microsoft — AI memory and context poisoning", url: "https://learn.microsoft.com/en-us/security/zero-trust/catalog-ai-attack-techniques/ai-memory-context-poisoning" },
+      { name: "Google Cloud — Set up Memory Bank", url: "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/memory-bank/set-up" },
+      { name: "OpenAI API — Data controls and retention", url: "https://platform.openai.com/docs/models/default-usage-policies-by-endpoint" },
+      { name: "NIST — Generative AI Profile", url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" },
+    ],
+    relatedLinks: [
+      { title: "هویت ایجنت و معماری Zero Trust", href: "/blog/zero-trust-ai-agent-identity" },
+      { title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
+      { title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی", href: "/blog/model-context-protocol-mcp-enterprise-guide" },
+      { title: "ارزیابی ایجنت؛ Evals و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
+    ],
+    faqs: [
+      { question: "آیا تاریخچه چت همان حافظه ایجنت است؟", answer: "تاریخچه چت یکی از منابع حافظه کوتاه‌مدت است؛ حافظه ایجنت می‌تواند خلاصه‌ها، ترجیحات، واقعیت‌ها و وضعیت گردش‌کار را برای استفاده‌های بعدی نگه دارد." },
+      { question: "Memory Poisoning چیست؟", answer: "آلودگی حافظه زمانی رخ می‌دهد که داده یا دستور مخرب در حافظه ماندگار شود و بعداً رفتار، بازیابی یا انتخاب ابزار ایجنت را منحرف کند." },
+      { question: "آیا Vector Store باید برای هر کاربر جدا باشد؟", answer: "لزومی ندارد زیرساخت فیزیکی کاملاً جدا باشد، اما Scope و کنترل دسترسی باید پیش از جست‌وجو، جداسازی قطعی کاربر و Tenant را تضمین کند." },
+      { question: "TTL مناسب برای حافظه ایجنت چقدر است؟", answer: "TTL ثابت وجود ندارد؛ باید بر اساس هدف، حساسیت، الزام قانونی و نیاز به تازگی تعیین شود و حافظه استنتاجی معمولاً عمر کوتاه‌تری داشته باشد." },
+    ],
+  },
   "zero-trust-ai-agent-identity": {
     metaTitle: "هویت ایجنت هوش مصنوعی و معماری Zero Trust | nexation",
     metaDescription:

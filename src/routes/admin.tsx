@@ -424,7 +424,7 @@ function AdminPage() {
                       >
                         حذف
                       </button>
-                      {article.status === "published" && (
+                      {article.status === "published" ? (
                         <Link
                           to="/blog/$slug"
                           params={{ slug: article.slug }}
@@ -432,6 +432,15 @@ function AdminPage() {
                         >
                           مشاهده
                         </Link>
+                      ) : (
+                        <a
+                          href={`/blog/${article.slug}?preview=1`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="rounded-lg border border-amber-400/30 px-4 py-2 text-sm text-amber-300"
+                        >
+                          پیش‌نمایش امن
+                        </a>
                       )}
                     </div>
                   </div>
