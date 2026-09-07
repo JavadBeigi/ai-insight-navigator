@@ -1,4 +1,8 @@
 const articleCovers: Record<string, { src: string; alt: string }> = {
+  "ai-agent-memory-governance": {
+    src: "/blog/ai-agent-memory-governance.png",
+    alt: "متخصص حاکمیت داده در حال مدیریت حافظه ایجنت هوش مصنوعی در یک محیط سازمانی",
+  },
   "zero-trust-ai-agent-identity": {
     src: "/blog/zero-trust-ai-agent-identity.png",
     alt: "کارشناس امنیت سازمانی در حال پایش هویت و دسترسی ایجنت‌های هوش مصنوعی",
