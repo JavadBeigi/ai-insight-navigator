@@ -9,6 +9,7 @@ import {
   maturityScale,
   maturitySources,
 } from "@/lib/ai-maturity";
+import { createAssessmentClient, supabase } from "@/lib/supabase";
 
 type Stage = "intro" | "profile" | "questions" | "result";
 
@@ -20,8 +21,12 @@ export const Route = createFileRoute("/ai-maturity-assessment")({
         name: "description",
         content: "ارزیابی بلوغ هوش مصنوعی سازمان در ۷ محور و دریافت امتیاز، نمودار و گزارش تحلیلی بر پایه چارچوب‌های معتبر جهانی.",
       },
-      { name: "robots", content: "noindex,nofollow,noarchive,nosnippet" },
+      { name: "robots", content: "index,follow,max-image-preview:large" },
+      { property: "og:title", content: "سنجش بلوغ هوش مصنوعی سازمان | nexation" },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://nexation.ir/ai-maturity-assessment" },
     ],
+    links: [{ rel: "canonical", href: "https://nexation.ir/ai-maturity-assessment" }],
   }),
   component: AiMaturityAssessment,
 });
@@ -31,20 +36,59 @@ function AiMaturityAssessment() {
   const [profile, setProfile] = useState({ organization: "", role: "", industry: "", phone: "" });
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [assessmentToken, setAssessmentToken] = useState("");
+  const [assessmentSaved, setAssessmentSaved] = useState(false);
+  const [purchaseStatus, setPurchaseStatus] = useState<"idle" | "requesting" | "requested" | "checking" | "error">("idle");
+  const [reportUnlocked, setReportUnlocked] = useState(false);
   const result = useMemo(() => calculateMaturity(answers), [answers]);
   const question = maturityQuestions[questionIndex];
   const dimension = maturityDimensions.find((item) => item.id === question?.dimension);
 
   function submitProfile(event: FormEvent) {
     event.preventDefault();
+    setAssessmentToken(crypto.randomUUID());
     setStage("questions");
   }
 
   function answerQuestion(value: number) {
     const nextAnswers = { ...answers, [question.id]: value };
     setAnswers(nextAnswers);
-    if (questionIndex === maturityQuestions.length - 1) setStage("result");
+    if (questionIndex === maturityQuestions.length - 1) {
+      setStage("result");
+      void saveAssessment(nextAnswers);
+    }
     else setQuestionIndex((current) => current + 1);
+  }
+
+  async function saveAssessment(nextAnswers: Record<string, number>) {
+    const calculated = calculateMaturity(nextAnswers);
+    const { error } = await supabase.from("ai_maturity_assessments").insert({
+      access_token: assessmentToken,
+      organization: profile.organization.trim(), industry: profile.industry.trim(),
+      respondent_role: profile.role.trim(), phone: profile.phone.trim(), answers: nextAnswers,
+      dimension_scores: calculated.dimensionScores.map(({ id, label, score }) => ({ id, label, score })),
+      overall_score: calculated.score, maturity_level: calculated.level,
+    });
+    setAssessmentSaved(!error);
+    if (error) setPurchaseStatus("error");
+  }
+
+  async function requestFullReport() {
+    if (!assessmentSaved || !assessmentToken) return;
+    setPurchaseStatus("requesting");
+    const client = createAssessmentClient(assessmentToken);
+    const { error } = await client.from("ai_maturity_assessments").update({ status: "payment_requested", updated_at: new Date().toISOString() }).eq("access_token", assessmentToken);
+    setPurchaseStatus(error ? "error" : "requested");
+  }
+
+  async function checkPaymentStatus() {
+    if (!assessmentToken) return;
+    setPurchaseStatus("checking");
+    const client = createAssessmentClient(assessmentToken);
+    const { data, error } = await client.from("ai_maturity_assessments").select("status, full_report_unlocked").eq("access_token", assessmentToken).maybeSingle();
+    if (error) setPurchaseStatus("error");
+    else if (data?.full_report_unlocked) { setReportUnlocked(true); setPurchaseStatus("requested"); }
+    else setPurchaseStatus("requested");
   }
 
   return (
@@ -71,7 +115,7 @@ function AiMaturityAssessment() {
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-muted-foreground">
                 <span className="rounded-full border border-border px-4 py-2">حدود ۱۰ دقیقه</span>
                 <span className="rounded-full border border-border px-4 py-2">امتیاز از ۱۰۰</span>
-                <span className="rounded-full border border-border px-4 py-2">نسخه آزمایشی خصوصی</span>
+                <span className="rounded-full border border-border px-4 py-2">نتیجه اولیه رایگان</span>
               </div>
               <button onClick={() => setStage("profile")} className="btn-glow mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-7 py-4 font-bold">
                 شروع ارزیابی <ArrowLeft className="size-5" />
@@ -140,7 +184,7 @@ function AiMaturityAssessment() {
 
       {stage === "result" && (
         <section className="report-shell mx-auto max-w-6xl px-6 py-14">
-          <div className="report-cover mb-14 flex min-h-[520px] flex-col items-center justify-center rounded-[2rem] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-card to-primary/10 p-8 text-center">
+          {reportUnlocked ? <div className="report-cover mb-14 flex min-h-[520px] flex-col items-center justify-center rounded-[2rem] border border-cyan/20 bg-gradient-to-br from-cyan/10 via-card to-primary/10 p-8 text-center">
             <img src="/favicon.png" alt="لوگوی nexation" className="size-20 object-contain" />
             <p className="mt-8 text-sm font-bold tracking-wide text-cyan">NEXATION AI MATURITY INDEX</p>
             <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">گزارش بلوغ هوش مصنوعی</h1>
@@ -148,10 +192,10 @@ function AiMaturityAssessment() {
             <div className="report-muted mt-10 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
               <span>صنعت: {profile.industry}</span><span>سمت: {profile.role}</span><span>نسخه آزمایشی خصوصی</span>
             </div>
-          </div>
+          </div> : null}
           <div className="text-center">
             <CheckCircle2 className="mx-auto size-10 text-cyan" />
-            <p className="mt-4 text-sm font-bold text-cyan">گزارش آزمایشی {profile.organization}</p>
+            <p className="mt-4 text-sm font-bold text-cyan">نتیجه اولیه {profile.organization}</p>
             <h1 className="mt-3 text-4xl font-black">سطح {result.level}: {result.levelName}</h1>
             <div className="mt-5 text-7xl font-black text-gradient" dir="ltr">{result.score}<span className="text-2xl">/100</span></div>
             {result.governanceCapApplied && <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-amber-300">به‌دلیل پایین‌بودن آمادگی حاکمیت و امنیت، سقف امتیاز کل اعمال شده است.</p>}
@@ -169,13 +213,17 @@ function AiMaturityAssessment() {
               <div className="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-300">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
               <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-300">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
               <div className="rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
-                <p className="text-sm font-bold text-cyan">نسخه آزمایشی بدون پرداخت</p>
-                <h3 className="mt-2 text-xl font-black">گزارش کامل برای تست فعال است</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">این صفحه در منوی سایت نمایش داده نمی‌شود و برای موتورهای جست‌وجو نیز مسدود شده است.</p>
+                <p className="text-sm font-bold text-cyan">گزارش کامل و نقشه راه اختصاصی</p>
+                <h3 className="mt-2 text-xl font-black">برای مشاهده گزارش کامل، درخواست پرداخت ثبت کنید</h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">درگاه آنلاین فعال نیست؛ تیم nexation برای هماهنگی مبلغ و پرداخت با شماره ثبت‌شده تماس می‌گیرد.</p>
+                {purchaseStatus === "idle" || purchaseStatus === "error" ? <button type="button" disabled={!assessmentSaved} onClick={requestFullReport} className="mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-black disabled:opacity-50">{assessmentSaved ? "درخواست گزارش کامل" : "در حال ثبت نتیجه..."}</button> : null}
+                {purchaseStatus === "requesting" ? <p className="mt-4 text-sm text-cyan">در حال ثبت درخواست...</p> : null}
+                {purchaseStatus === "requested" || purchaseStatus === "checking" ? <div className="mt-5"><p className="text-sm font-bold text-emerald-300">درخواست شما ثبت شد؛ پس از هماهنگی و تأیید پرداخت، گزارش باز می‌شود.</p><button type="button" onClick={checkPaymentStatus} disabled={purchaseStatus === "checking"} className="mt-4 rounded-xl border border-cyan/30 px-5 py-2.5 text-sm font-bold text-cyan">{purchaseStatus === "checking" ? "در حال بررسی..." : "بررسی وضعیت پرداخت"}</button></div> : null}
+                {purchaseStatus === "error" ? <p className="mt-3 text-sm text-red-300">ثبت درخواست انجام نشد؛ لطفاً دوباره تلاش کنید.</p> : null}
               </div>
             </div>
           </div>
-          <FullReport result={result} answers={answers} industry={profile.industry} organization={profile.organization} />
+          {reportUnlocked ? <FullReport result={result} answers={answers} industry={profile.industry} organization={profile.organization} /> : null}
           <div className="no-print mt-10 text-center"><button onClick={() => { setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
         </section>
       )}

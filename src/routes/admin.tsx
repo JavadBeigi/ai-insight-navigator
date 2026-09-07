@@ -7,7 +7,8 @@ import type { Database } from "@/lib/database.types";
 type DemoRequest = Database["public"]["Tables"]["demo_requests"]["Row"];
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 type BlogComment = Database["public"]["Tables"]["blog_comments"]["Row"];
-type Tab = "requests" | "articles" | "comments";
+type MaturityAssessment = Database["public"]["Tables"]["ai_maturity_assessments"]["Row"];
+type Tab = "requests" | "assessments" | "articles" | "comments";
 
 const emptyArticle = {
   id: null as number | null,
@@ -34,6 +35,7 @@ function AdminPage() {
   const [requests, setRequests] = useState<DemoRequest[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [comments, setComments] = useState<BlogComment[]>([]);
+  const [assessments, setAssessments] = useState<MaturityAssessment[]>([]);
   const [articleForm, setArticleForm] = useState({ ...emptyArticle });
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
@@ -58,15 +60,27 @@ function AdminPage() {
   }, []);
 
   const loadData = useCallback(async () => {
-    const [requestResult, articleResult, commentResult] = await Promise.all([
+    const [requestResult, articleResult, commentResult, assessmentResult] = await Promise.all([
       supabase.from("demo_requests").select("*").order("created_at", { ascending: false }),
       supabase.from("articles").select("*").order("created_at", { ascending: false }),
       supabase.from("blog_comments").select("*").order("created_at", { ascending: false }),
+      supabase.from("ai_maturity_assessments").select("*").order("created_at", { ascending: false }),
     ]);
     setRequests(requestResult.data ?? []);
     setArticles(articleResult.data ?? []);
     setComments(commentResult.data ?? []);
+    setAssessments(assessmentResult.data ?? []);
   }, []);
+
+  async function confirmAssessmentPayment(id: number) {
+    const now = new Date().toISOString();
+    const { error } = await supabase.from("ai_maturity_assessments").update({ status: "paid", full_report_unlocked: true, payment_confirmed_at: now, updated_at: now }).eq("id", id);
+    if (error) setMessage("تأیید پرداخت ذخیره نشد.");
+    else {
+      setAssessments((current) => current.map((item) => item.id === id ? { ...item, status: "paid", full_report_unlocked: true, payment_confirmed_at: now, updated_at: now } : item));
+      setMessage("پرداخت تأیید و گزارش کامل فعال شد.");
+    }
+  }
 
   useEffect(() => {
     void verifyAdmin();
@@ -240,6 +254,13 @@ function AdminPage() {
             درخواست‌های دمو
           </button>
           <button
+            onClick={() => setTab("assessments")}
+            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "assessments" ? "bg-primary" : "bg-card text-muted-foreground"}`}
+          >
+            ارزیابی‌های بلوغ
+            {assessments.filter((item) => item.status === "payment_requested").length > 0 && <span className="mr-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-300">{assessments.filter((item) => item.status === "payment_requested").length}</span>}
+          </button>
+          <button
             onClick={() => setTab("articles")}
             className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "articles" ? "bg-primary" : "bg-card text-muted-foreground"}`}
           >
@@ -311,6 +332,20 @@ function AdminPage() {
                 </div>
               ))
             )}
+          </div>
+        ) : tab === "assessments" ? (
+          <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
+            <div className="border-b border-border px-6 py-5"><h1 className="text-xl font-black">ارزیابی‌های بلوغ AI</h1><p className="mt-1 text-sm text-muted-foreground">درخواست‌های گزارش کامل و وضعیت پرداخت دستی</p></div>
+            {assessments.length === 0 ? <p className="p-10 text-center text-muted-foreground">هنوز ارزیابی ثبت نشده است.</p> : assessments.map((assessment) => (
+              <article key={assessment.id} className="border-b border-border p-6 last:border-0">
+                <div className="grid gap-5 md:grid-cols-[1.4fr_1fr_auto] md:items-center">
+                  <div><h2 className="font-black">{assessment.organization}</h2><p className="mt-1 text-sm text-muted-foreground">{assessment.industry} · {assessment.respondent_role}</p><a href={`tel:${assessment.phone}`} dir="ltr" className="mt-2 block font-mono text-cyan">{assessment.phone}</a></div>
+                  <div><p className="font-mono text-2xl font-black text-cyan" dir="ltr">{assessment.overall_score}/100</p><span className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${assessment.status === "paid" ? "bg-emerald-500/15 text-emerald-300" : assessment.status === "payment_requested" ? "bg-amber-500/15 text-amber-300" : "bg-white/5 text-muted-foreground"}`}>{assessment.status === "paid" ? "پرداخت تأیید شده" : assessment.status === "payment_requested" ? "در انتظار پرداخت" : "فقط نتیجه اولیه"}</span></div>
+                  {assessment.status === "payment_requested" ? <button onClick={() => confirmAssessmentPayment(assessment.id)} className="rounded-xl bg-primary px-5 py-3 text-sm font-black">تأیید پرداخت و فعال‌سازی</button> : null}
+                </div>
+                <time className="mt-4 block text-xs text-muted-foreground" dir="ltr">{formatDate(assessment.created_at)}</time>
+              </article>
+            ))}
           </div>
         ) : tab === "articles" ? (
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
