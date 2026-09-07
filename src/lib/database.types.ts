@@ -136,7 +136,19 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      request_ai_maturity_report: {
+        Args: { p_access_token: string };
+        Returns: boolean;
+      };
+      get_ai_maturity_assessment: {
+        Args: { p_access_token: string };
+        Returns: {
+          organization: string; industry: string; respondent_role: string; phone: string;
+          answers: Record<string, number>; status: string; full_report_unlocked: boolean;
+        } | null;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

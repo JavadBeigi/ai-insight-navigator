@@ -11,9 +11,3 @@ if (!supabaseUrl || !supabasePublishableKey) {
 }
 
 export const supabase = createClient<Database>(supabaseUrl, supabasePublishableKey);
-
-export function createAssessmentClient(accessToken: string) {
-  return createClient<Database>(supabaseUrl, supabasePublishableKey, {
-    global: { headers: { "x-assessment-token": accessToken } },
-  });
-}

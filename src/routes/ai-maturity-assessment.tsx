@@ -9,7 +9,7 @@ import {
   maturityScale,
   maturitySources,
 } from "@/lib/ai-maturity";
-import { createAssessmentClient, supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 type Stage = "intro" | "profile" | "questions" | "result";
 
@@ -51,12 +51,7 @@ function AiMaturityAssessment() {
     if (!token) return;
 
     const restoreAssessment = async () => {
-      const client = createAssessmentClient(token);
-      const { data, error } = await client
-        .from("ai_maturity_assessments")
-        .select("organization, industry, respondent_role, phone, answers, status, full_report_unlocked")
-        .eq("access_token", token)
-        .maybeSingle();
+      const { data, error } = await supabase.rpc("get_ai_maturity_assessment", { p_access_token: token });
       if (error || !data) return;
       setAssessmentToken(token);
       setProfile({ organization: data.organization, industry: data.industry, role: data.respondent_role, phone: data.phone });
@@ -104,16 +99,14 @@ function AiMaturityAssessment() {
   async function requestFullReport() {
     if (!assessmentSaved || !assessmentToken) return;
     setPurchaseStatus("requesting");
-    const client = createAssessmentClient(assessmentToken);
-    const { error } = await client.from("ai_maturity_assessments").update({ status: "payment_requested", updated_at: new Date().toISOString() }).eq("access_token", assessmentToken);
-    setPurchaseStatus(error ? "error" : "requested");
+    const { data, error } = await supabase.rpc("request_ai_maturity_report", { p_access_token: assessmentToken });
+    setPurchaseStatus(error || !data ? "error" : "requested");
   }
 
   async function checkPaymentStatus() {
     if (!assessmentToken) return;
     setPurchaseStatus("checking");
-    const client = createAssessmentClient(assessmentToken);
-    const { data, error } = await client.from("ai_maturity_assessments").select("status, full_report_unlocked").eq("access_token", assessmentToken).maybeSingle();
+    const { data, error } = await supabase.rpc("get_ai_maturity_assessment", { p_access_token: assessmentToken });
     if (error) setPurchaseStatus("error");
     else if (data?.full_report_unlocked) { setReportUnlocked(true); setPurchaseStatus("requested"); }
     else setPurchaseStatus("requested");
