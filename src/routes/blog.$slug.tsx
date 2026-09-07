@@ -10,17 +10,25 @@ import type { Database } from "@/lib/database.types";
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 
 function renderInlineLinks(text: string) {
-  const parts = text.split(/(\[[^\]]+\]\(\/blog\/[a-z0-9-]+\))/g);
+  const parts = text.split(/(\[[^\]]+\]\(\/blog\/[a-z0-9-]+\)|\*\*[^*]+\*\*|`[^`]+`)/g);
 
   return parts.map((part, index) => {
     const match = part.match(/^\[([^\]]+)\]\((\/blog\/[a-z0-9-]+)\)$/);
-    if (!match) return part;
+    if (match) {
+      return (
+        <Link key={`${match[2]}-${index}`} to={match[2]} className="font-bold text-cyan underline-offset-4 hover:underline">
+          {match[1]}
+        </Link>
+      );
+    }
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={index} className="font-black text-foreground">{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith("`") && part.endsWith("`")) {
+      return <code key={index} className="rounded bg-white/10 px-1.5 py-0.5 text-sm text-cyan">{part.slice(1, -1)}</code>;
+    }
 
-    return (
-      <Link key={`${match[2]}-${index}`} to={match[2]} className="font-bold text-cyan underline-offset-4 hover:underline">
-        {match[1]}
-      </Link>
-    );
+    return part;
   });
 }
 
@@ -70,6 +78,37 @@ function ArticleBody({ content }: { content: string }) {
         }
 
         const lines = block.split("\n").map((line) => line.trim());
+        if (
+          lines.length >= 2 &&
+          lines.every((line) => line.startsWith("|") && line.endsWith("|")) &&
+          /^\|(?:\s*:?-+:?\s*\|)+$/.test(lines[1])
+        ) {
+          const rows = lines
+            .filter((_, rowIndex) => rowIndex !== 1)
+            .map((line) => line.slice(1, -1).split("|").map((cell) => cell.trim()));
+          return (
+            <div key={index} className="my-8 overflow-x-auto rounded-2xl border border-border">
+              <table className="w-full min-w-[640px] border-collapse text-right text-sm">
+                <thead className="bg-white/5 text-foreground">
+                  <tr>
+                    {rows[0].map((cell) => (
+                      <th key={cell} className="border-b border-border px-4 py-3 font-black">{renderInlineLinks(cell)}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.slice(1).map((row, rowIndex) => (
+                    <tr key={rowIndex} className="border-b border-border/70 last:border-0">
+                      {row.map((cell, cellIndex) => (
+                        <td key={`${rowIndex}-${cellIndex}`} className="px-4 py-3 align-top">{renderInlineLinks(cell)}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
         if (lines.every((line) => line.startsWith("- ") || line.startsWith("• "))) {
           return (
             <ul key={index} className="my-6 list-disc space-y-2 pr-6 marker:text-cyan">
