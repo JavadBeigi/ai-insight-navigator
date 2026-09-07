@@ -126,6 +126,9 @@ function Nav() {
             <a href="/blog" className="transition-colors hover:text-foreground">
               بلاگ
             </a>
+            <a href="/ai-maturity-assessment" className="transition-colors hover:text-foreground">
+              سنجش بلوغ AI
+            </a>
           </div>
         </div>
         <div className="flex items-center gap-3">
