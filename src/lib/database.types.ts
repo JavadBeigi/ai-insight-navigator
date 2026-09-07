@@ -111,9 +111,44 @@ export type Database = {
           },
         ];
       };
+      ai_maturity_assessments: {
+        Row: {
+          id: number; access_token: string; organization: string; industry: string;
+          respondent_role: string; phone: string; answers: Record<string, number>;
+          dimension_scores: Array<{ id: string; label: string; score: number }>;
+          overall_score: number; maturity_level: number; status: string;
+          full_report_unlocked: boolean; payment_confirmed_at: string | null;
+          created_at: string; updated_at: string;
+        };
+        Insert: {
+          id?: never; access_token: string; organization: string; industry: string;
+          respondent_role: string; phone: string; answers: Record<string, number>;
+          dimension_scores: Array<{ id: string; label: string; score: number }>;
+          overall_score: number; maturity_level: number; status?: string;
+          full_report_unlocked?: boolean; payment_confirmed_at?: string | null;
+          created_at?: string; updated_at?: string;
+        };
+        Update: {
+          id?: never; status?: string; full_report_unlocked?: boolean;
+          payment_confirmed_at?: string | null; updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      request_ai_maturity_report: {
+        Args: { p_access_token: string };
+        Returns: boolean;
+      };
+      get_ai_maturity_assessment: {
+        Args: { p_access_token: string };
+        Returns: {
+          organization: string; industry: string; respondent_role: string; phone: string;
+          answers: Record<string, number>; status: string; full_report_unlocked: boolean;
+        } | null;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
