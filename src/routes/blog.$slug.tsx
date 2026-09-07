@@ -120,18 +120,35 @@ function ArticlePage() {
   const cover = getArticleCover(slug);
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isPreview, setIsPreview] = useState(false);
 
   useEffect(() => {
-    void supabase
-      .from("articles")
-      .select("*")
-      .eq("slug", slug)
-      .eq("status", "published")
-      .maybeSingle()
-      .then(({ data }) => {
-        setArticle(data);
-        setLoading(false);
-      });
+    const previewRequested = new URLSearchParams(window.location.search).get("preview") === "1";
+    setIsPreview(previewRequested);
+
+    async function loadArticle() {
+      let query = supabase.from("articles").select("*").eq("slug", slug);
+
+      if (previewRequested) {
+        const { data: membership } = await supabase
+          .from("admin_users")
+          .select("user_id")
+          .maybeSingle();
+        if (!membership) {
+          setArticle(null);
+          setLoading(false);
+          return;
+        }
+      } else {
+        query = query.eq("status", "published");
+      }
+
+      const { data } = await query.maybeSingle();
+      setArticle(data);
+      setLoading(false);
+    }
+
+    void loadArticle();
   }, [slug]);
 
   if (loading)
@@ -183,6 +200,11 @@ function ArticlePage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      {isPreview && article.status !== "published" && (
+        <div className="bg-amber-400 px-4 py-3 text-center text-sm font-bold text-slate-950">
+          پیش‌نمایش امن مقاله — این نسخه هنوز برای بازدیدکنندگان منتشر نشده است.
+        </div>
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
