@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { AlertTriangle, ArrowLeft, CalendarRange, CheckCircle2, Download, Flame, Lightbulb, ShieldCheck, Target } from "lucide-react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import {
@@ -44,9 +44,37 @@ function AiMaturityAssessment() {
   const question = maturityQuestions[questionIndex];
   const dimension = maturityDimensions.find((item) => item.id === question?.dimension);
 
+  useEffect(() => {
+    const hashToken = new URLSearchParams(window.location.hash.slice(1)).get("token");
+    const storedToken = window.localStorage.getItem("nexation_assessment_token");
+    const token = hashToken || storedToken;
+    if (!token) return;
+
+    const restoreAssessment = async () => {
+      const client = createAssessmentClient(token);
+      const { data, error } = await client
+        .from("ai_maturity_assessments")
+        .select("organization, industry, respondent_role, phone, answers, status, full_report_unlocked")
+        .eq("access_token", token)
+        .maybeSingle();
+      if (error || !data) return;
+      setAssessmentToken(token);
+      setProfile({ organization: data.organization, industry: data.industry, role: data.respondent_role, phone: data.phone });
+      setAnswers(data.answers as Record<string, number>);
+      setAssessmentSaved(true);
+      setPurchaseStatus(data.status === "payment_requested" || data.status === "paid" ? "requested" : "idle");
+      setReportUnlocked(data.full_report_unlocked);
+      setStage("result");
+      window.localStorage.setItem("nexation_assessment_token", token);
+    };
+    void restoreAssessment();
+  }, []);
+
   function submitProfile(event: FormEvent) {
     event.preventDefault();
-    setAssessmentToken(crypto.randomUUID());
+    const token = crypto.randomUUID();
+    setAssessmentToken(token);
+    window.localStorage.setItem("nexation_assessment_token", token);
     setStage("questions");
   }
 
@@ -224,7 +252,7 @@ function AiMaturityAssessment() {
             </div>
           </div>
           {reportUnlocked ? <FullReport result={result} answers={answers} industry={profile.industry} organization={profile.organization} /> : null}
-          <div className="no-print mt-10 text-center"><button onClick={() => { setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
+          <div className="no-print mt-10 text-center"><button onClick={() => { window.localStorage.removeItem("nexation_assessment_token"); window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
         </section>
       )}
     </main>

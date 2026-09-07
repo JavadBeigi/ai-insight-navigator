@@ -341,7 +341,10 @@ function AdminPage() {
                 <div className="grid gap-5 md:grid-cols-[1.4fr_1fr_auto] md:items-center">
                   <div><h2 className="font-black">{assessment.organization}</h2><p className="mt-1 text-sm text-muted-foreground">{assessment.industry} · {assessment.respondent_role}</p><a href={`tel:${assessment.phone}`} dir="ltr" className="mt-2 block font-mono text-cyan">{assessment.phone}</a></div>
                   <div><p className="font-mono text-2xl font-black text-cyan" dir="ltr">{assessment.overall_score}/100</p><span className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${assessment.status === "paid" ? "bg-emerald-500/15 text-emerald-300" : assessment.status === "payment_requested" ? "bg-amber-500/15 text-amber-300" : "bg-white/5 text-muted-foreground"}`}>{assessment.status === "paid" ? "پرداخت تأیید شده" : assessment.status === "payment_requested" ? "در انتظار پرداخت" : "فقط نتیجه اولیه"}</span></div>
-                  {assessment.status === "payment_requested" ? <button onClick={() => confirmAssessmentPayment(assessment.id)} className="rounded-xl bg-primary px-5 py-3 text-sm font-black">تأیید پرداخت و فعال‌سازی</button> : null}
+                  <div className="flex flex-col gap-2">
+                    {assessment.status === "payment_requested" ? <button onClick={() => confirmAssessmentPayment(assessment.id)} className="rounded-xl bg-primary px-5 py-3 text-sm font-black">تأیید پرداخت و فعال‌سازی</button> : null}
+                    <button type="button" onClick={() => void navigator.clipboard.writeText(`https://nexation.ir/ai-maturity-assessment#token=${assessment.access_token}`).then(() => setMessage("لینک اختصاصی گزارش کپی شد."))} className="rounded-xl border border-border px-5 py-3 text-sm font-bold text-cyan">کپی لینک گزارش</button>
+                  </div>
                 </div>
                 <time className="mt-4 block text-xs text-muted-foreground" dir="ltr">{formatDate(assessment.created_at)}</time>
               </article>
