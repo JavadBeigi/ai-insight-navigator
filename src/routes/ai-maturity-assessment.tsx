@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, type FormEvent } from "react";
-import { ArrowLeft, CheckCircle2, LockKeyhole, ShieldCheck } from "lucide-react";
+import { AlertTriangle, ArrowLeft, CalendarRange, CheckCircle2, ShieldCheck, Target } from "lucide-react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import {
   calculateMaturity,
@@ -20,11 +20,8 @@ export const Route = createFileRoute("/ai-maturity-assessment")({
         name: "description",
         content: "ارزیابی بلوغ هوش مصنوعی سازمان در ۷ محور و دریافت امتیاز، نمودار و گزارش تحلیلی بر پایه چارچوب‌های معتبر جهانی.",
       },
-      { property: "og:title", content: "شاخص بلوغ هوش مصنوعی nexation" },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://nexation.ir/ai-maturity-assessment" },
+      { name: "robots", content: "noindex,nofollow,noarchive,nosnippet" },
     ],
-    links: [{ rel: "canonical", href: "https://nexation.ir/ai-maturity-assessment" }],
   }),
   component: AiMaturityAssessment,
 });
@@ -73,7 +70,7 @@ function AiMaturityAssessment() {
               <div className="mt-8 flex flex-wrap gap-3 text-sm text-muted-foreground">
                 <span className="rounded-full border border-border px-4 py-2">حدود ۱۰ دقیقه</span>
                 <span className="rounded-full border border-border px-4 py-2">امتیاز از ۱۰۰</span>
-                <span className="rounded-full border border-border px-4 py-2">نتیجه اولیه رایگان</span>
+                <span className="rounded-full border border-border px-4 py-2">نسخه آزمایشی خصوصی</span>
               </div>
               <button onClick={() => setStage("profile")} className="btn-glow mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-7 py-4 font-bold">
                 شروع ارزیابی <ArrowLeft className="size-5" />
@@ -144,7 +141,7 @@ function AiMaturityAssessment() {
         <section className="mx-auto max-w-6xl px-6 py-14">
           <div className="text-center">
             <CheckCircle2 className="mx-auto size-10 text-cyan" />
-            <p className="mt-4 text-sm font-bold text-cyan">نتیجه اولیه {profile.organization}</p>
+            <p className="mt-4 text-sm font-bold text-cyan">گزارش آزمایشی {profile.organization}</p>
             <h1 className="mt-3 text-4xl font-black">سطح {result.level}: {result.levelName}</h1>
             <div className="mt-5 text-7xl font-black text-gradient" dir="ltr">{result.score}<span className="text-2xl">/100</span></div>
             {result.governanceCapApplied && <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-amber-300">به‌دلیل پایین‌بودن آمادگی حاکمیت و امنیت، سقف امتیاز کل اعمال شده است.</p>}
@@ -161,16 +158,80 @@ function AiMaturityAssessment() {
             <div className="space-y-5">
               <div className="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-300">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
               <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-300">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
-              <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-7">
-                <div className="select-none space-y-3 opacity-20 blur-[3px]"><div className="h-4 w-3/4 rounded bg-white" /><div className="h-4 w-full rounded bg-white" /><div className="h-4 w-5/6 rounded bg-white" /><div className="h-24 rounded-xl bg-white" /></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/45 text-center backdrop-blur-[1px]"><LockKeyhole className="size-8 text-cyan" /><h3 className="mt-3 text-lg font-black">تحلیل کامل و نقشه راه ۹۰روزه</h3><p className="mt-2 max-w-sm text-sm text-muted-foreground">امتیاز تمام زیرشاخص‌ها، ریسک‌ها، اقدامات اولویت‌دار و گزارش PDF پس از پرداخت فعال می‌شود.</p><button className="mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-black">دریافت گزارش کامل</button><span className="mt-2 text-[11px] text-muted-foreground">اتصال درگاه پرداخت در مرحله بعد</span></div>
+              <div className="rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
+                <p className="text-sm font-bold text-cyan">نسخه آزمایشی بدون پرداخت</p>
+                <h3 className="mt-2 text-xl font-black">گزارش کامل برای تست فعال است</h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">این صفحه در منوی سایت نمایش داده نمی‌شود و برای موتورهای جست‌وجو نیز مسدود شده است.</p>
               </div>
             </div>
           </div>
+          <FullReport result={result} />
           <div className="mt-10 text-center"><button onClick={() => { setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
         </section>
       )}
     </main>
+  );
+}
+
+const dimensionGuidance = {
+  strategy: { diagnosis: "مسیر AI باید به اولویت‌های کسب‌وکار، بودجه و مسئولیت مدیران متصل شود.", actions: ["تعریف سه هدف تجاری زمان‌دار برای AI", "تعیین حامی اجرایی و مالک نقشه راه", "بازبینی فصلی سبد سرمایه‌گذاری AI"] },
+  value: { diagnosis: "ارزش پروژه‌ها باید پیش از شروع و پس از استقرار با خط مبنا و KPI سنجیده شود.", actions: ["ساخت ماتریس ارزش، امکان‌پذیری و ریسک", "تعیین مالک کسب‌وکار برای هر کاربرد", "توقف پایلوت‌های فاقد شواهد ارزش"] },
+  data: { diagnosis: "دسترسی، کیفیت، مالکیت و محدودیت داده باید برای کاربردهای اولویت‌دار روشن باشد.", actions: ["تعریف مالک و قرارداد کیفیت داده", "ثبت منشأ و محدودیت مجموعه‌داده‌ها", "اجرای کنترل دسترسی متناسب با حساسیت"] },
+  technology: { diagnosis: "چرخه ساخت و بهره‌برداری AI به استانداردهای مشترک، پایش و قابلیت توقف نیاز دارد.", actions: ["تعریف الگوی معماری مرجع AI", "نسخه‌بندی مدل، Prompt و ارزیابی‌ها", "پایش کیفیت، هزینه، تأخیر و Drift"] },
+  governance: { diagnosis: "حاکمیت باید موجودی AI، سطح ریسک، نظارت انسانی و پاسخ به رخداد را پوشش دهد.", actions: ["ایجاد رجیستری سامانه‌ها و مدل‌های AI", "طبقه‌بندی ریسک پیش از استقرار", "آزمون سناریوی رخداد و توقف اضطراری"] },
+  people: { diagnosis: "مقیاس‌پذیری AI به نقش‌های روشن، تیم چندتخصصی و برنامه تغییر سازمانی وابسته است.", actions: ["تعریف ماتریس مهارت و مسئولیت", "آموزش نقش‌محور مدیران و کاربران", "تشکیل تیم محصول مشترک کسب‌وکار و فناوری"] },
+  scale: { diagnosis: "عبور از پایلوت مستلزم اجزای قابل‌استفاده مجدد، سنجش پذیرش و یادگیری عملیاتی است.", actions: ["تعریف معیار عبور پایلوت به تولید", "ساخت اجزای مشترک و الگوهای تکرارپذیر", "سنجش استفاده واقعی، رضایت و اعتماد کاربران"] },
+} satisfies Record<(typeof maturityDimensions)[number]["id"], { diagnosis: string; actions: string[] }>;
+
+function FullReport({ result }: { result: ReturnType<typeof calculateMaturity> }) {
+  const priorities = [...result.dimensionScores].sort((a, b) => a.score - b.score).slice(0, 3);
+  const roadmap = [
+    { period: "روز ۱ تا ۳۰", title: "هم‌راستاسازی و کنترل", detail: priorities[0] ? dimensionGuidance[priorities[0].id].actions[0] : "تعریف خط مبنا" },
+    { period: "روز ۳۱ تا ۶۰", title: "اجرای اقدام‌های اولویت‌دار", detail: priorities[1] ? dimensionGuidance[priorities[1].id].actions[0] : "اجرای برنامه بهبود" },
+    { period: "روز ۶۱ تا ۹۰", title: "اندازه‌گیری و تثبیت", detail: priorities[2] ? dimensionGuidance[priorities[2].id].actions[0] : "اندازه‌گیری نتایج" },
+  ];
+
+  return (
+    <section className="mt-10 space-y-8" aria-labelledby="full-report-heading">
+      <div>
+        <p className="text-sm font-bold text-cyan">تحلیل تفصیلی</p>
+        <h2 id="full-report-heading" className="mt-2 text-3xl font-black">گزارش کامل بلوغ هوش مصنوعی</h2>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {result.dimensionScores.map((item) => (
+          <article key={item.id} className="rounded-2xl border border-border bg-card p-5">
+            <div className="flex items-center justify-between gap-4"><h3 className="font-black">{item.label}</h3><span className="font-mono text-lg font-black text-cyan" dir="ltr">{item.score}/100</span></div>
+            <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-cyan" style={{ width: `${item.score}%` }} /></div>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground">{dimensionGuidance[item.id].diagnosis}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <section className="rounded-3xl border border-amber-400/20 bg-card p-6 md:p-8">
+          <div className="flex items-center gap-3"><Target className="size-6 text-amber-300" /><h3 className="text-xl font-black">سه اولویت پیشنهادی</h3></div>
+          <div className="mt-6 space-y-5">
+            {priorities.map((priority, index) => (
+              <div key={priority.id} className="rounded-2xl border border-border bg-background/50 p-5">
+                <p className="text-xs font-bold text-amber-300">اولویت {index + 1} · امتیاز {priority.score}</p>
+                <h4 className="mt-2 font-black">{priority.label}</h4>
+                <ul className="mt-3 space-y-2 text-sm leading-7 text-muted-foreground">{dimensionGuidance[priority.id].actions.map((action) => <li key={action}>• {action}</li>)}</ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-cyan/20 bg-card p-6 md:p-8">
+          <div className="flex items-center gap-3"><CalendarRange className="size-6 text-cyan" /><h3 className="text-xl font-black">نقشه راه پیشنهادی ۹۰روزه</h3></div>
+          <div className="mt-6 space-y-4">{roadmap.map((phase) => <div key={phase.period} className="rounded-2xl border border-border p-5"><p className="text-xs font-bold text-cyan">{phase.period}</p><h4 className="mt-2 font-black">{phase.title}</h4><p className="mt-2 text-sm leading-7 text-muted-foreground">{phase.detail}</p></div>)}</div>
+        </section>
+      </div>
+
+      {result.governanceCapApplied ? <div className="flex gap-4 rounded-2xl border border-amber-400/30 bg-amber-400/5 p-5"><AlertTriangle className="mt-1 size-5 shrink-0 text-amber-300" /><div><h3 className="font-black">هشدار حاکمیتی</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">پیش از گسترش کاربردهای پراثر، موجودی AI، ارزیابی ریسک، نظارت انسانی و برنامه پاسخ به رخداد را تکمیل کنید.</p></div></div> : null}
+
+      <p className="text-xs leading-6 text-muted-foreground">این گزارش یک غربالگری مدیریتی مبتنی بر پاسخ‌های خوداظهاری است و جایگزین ارزیابی میدانی، ممیزی یا مشاوره تخصصی نیست.</p>
+    </section>
   );
 }
 
