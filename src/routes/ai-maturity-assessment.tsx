@@ -49,8 +49,6 @@ function AiMaturityAssessment() {
     const hashParams = new URLSearchParams(window.location.hash.slice(1));
     const adminAssessmentId = Number(hashParams.get("admin"));
     const hashToken = hashParams.get("token");
-    const storedToken = window.localStorage.getItem("nexation_assessment_token");
-    const token = hashToken || storedToken;
 
     if (Number.isInteger(adminAssessmentId) && adminAssessmentId > 0) {
       const restoreAdminAssessment = async () => {
@@ -72,19 +70,18 @@ function AiMaturityAssessment() {
       return;
     }
 
-    if (!token) return;
+    if (!hashToken) return;
 
     const restoreAssessment = async () => {
-      const { data, error } = await supabase.rpc("get_ai_maturity_assessment", { p_access_token: token });
+      const { data, error } = await supabase.rpc("get_ai_maturity_assessment", { p_access_token: hashToken });
       if (error || !data) return;
-      setAssessmentToken(token);
+      setAssessmentToken(hashToken);
       setProfile({ organization: data.organization, industry: data.industry, role: data.respondent_role, phone: data.phone });
       setAnswers(data.answers as Record<string, number>);
       setAssessmentSaved(true);
       setPurchaseStatus(data.status === "payment_requested" || data.status === "paid" ? "requested" : "idle");
       setReportUnlocked(data.full_report_unlocked);
       setStage("result");
-      window.localStorage.setItem("nexation_assessment_token", token);
     };
     void restoreAssessment();
   }, []);
@@ -93,7 +90,6 @@ function AiMaturityAssessment() {
     event.preventDefault();
     const token = crypto.randomUUID();
     setAssessmentToken(token);
-    window.localStorage.setItem("nexation_assessment_token", token);
     setStage("questions");
   }
 
@@ -118,6 +114,7 @@ function AiMaturityAssessment() {
     });
     setAssessmentSaved(!error);
     if (error) setPurchaseStatus("error");
+    else window.history.replaceState(null, "", `${window.location.pathname}#token=${assessmentToken}`);
   }
 
   async function requestFullReport() {
@@ -277,7 +274,7 @@ function AiMaturityAssessment() {
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">در یک جلسه مشاوره، نتایج خوداظهاری را اعتبارسنجی می‌کنیم و Use Caseها، ریسک‌ها و نقشه راه اجرایی سازمان شما را دقیق‌تر می‌سازیم.</p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> ذخیره خلاصه گزارش PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
           </section>
-          {!adminPreview ? <div className="no-print mt-10 text-center"><button onClick={() => { window.localStorage.removeItem("nexation_assessment_token"); window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div> : null}
+          {!adminPreview ? <div className="no-print mt-10 text-center"><button onClick={() => { window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div> : null}
         </section>
       )}
     </main>
