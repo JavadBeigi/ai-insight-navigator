@@ -40,14 +40,38 @@ function AiMaturityAssessment() {
   const [assessmentSaved, setAssessmentSaved] = useState(false);
   const [purchaseStatus, setPurchaseStatus] = useState<"idle" | "requesting" | "requested" | "checking" | "error">("idle");
   const [reportUnlocked, setReportUnlocked] = useState(false);
+  const [adminPreview, setAdminPreview] = useState(false);
   const result = useMemo(() => calculateMaturity(answers), [answers]);
   const question = maturityQuestions[questionIndex];
   const dimension = maturityDimensions.find((item) => item.id === question?.dimension);
 
   useEffect(() => {
-    const hashToken = new URLSearchParams(window.location.hash.slice(1)).get("token");
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const adminAssessmentId = Number(hashParams.get("admin"));
+    const hashToken = hashParams.get("token");
     const storedToken = window.localStorage.getItem("nexation_assessment_token");
     const token = hashToken || storedToken;
+
+    if (Number.isInteger(adminAssessmentId) && adminAssessmentId > 0) {
+      const restoreAdminAssessment = async () => {
+        const { data, error } = await supabase
+          .from("ai_maturity_assessments")
+          .select("organization, industry, respondent_role, phone, answers, status")
+          .eq("id", adminAssessmentId)
+          .maybeSingle();
+        if (error || !data) return;
+        setProfile({ organization: data.organization, industry: data.industry, role: data.respondent_role, phone: data.phone });
+        setAnswers(data.answers as Record<string, number>);
+        setAssessmentSaved(true);
+        setPurchaseStatus(data.status === "payment_requested" || data.status === "paid" ? "requested" : "idle");
+        setAdminPreview(true);
+        setReportUnlocked(true);
+        setStage("result");
+      };
+      void restoreAdminAssessment();
+      return;
+    }
+
     if (!token) return;
 
     const restoreAssessment = async () => {
@@ -235,7 +259,7 @@ function AiMaturityAssessment() {
               <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-300">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
               <div className="no-print rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
                 <p className="text-sm font-bold text-cyan">گزارش کامل و نقشه راه اختصاصی</p>
-                {reportUnlocked ? <><h3 className="mt-2 text-xl font-black text-emerald-300">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></> : <>
+                {reportUnlocked ? <>{adminPreview ? <><h3 className="mt-2 text-xl font-black text-cyan">نمایش مدیریتی گزارش کامل</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">این نسخه فقط برای ادمین واردشده نمایش داده می‌شود و برای آماده‌سازی جلسه مشاوره است.</p></> : <><h3 className="mt-2 text-xl font-black text-emerald-300">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></>}</> : <>
                   <h3 className="mt-2 text-xl font-black">برای مشاهده گزارش کامل، درخواست پرداخت ثبت کنید</h3>
                   <p className="mt-3 text-sm leading-7 text-muted-foreground">درگاه آنلاین فعال نیست؛ تیم nexation برای هماهنگی مبلغ و پرداخت با شماره ثبت‌شده تماس می‌گیرد.</p>
                   {purchaseStatus === "idle" || purchaseStatus === "error" ? <button type="button" disabled={!assessmentSaved} onClick={requestFullReport} className="mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-black disabled:opacity-50">{assessmentSaved ? "درخواست گزارش کامل" : "در حال ثبت نتیجه..."}</button> : null}
@@ -253,7 +277,7 @@ function AiMaturityAssessment() {
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">در یک جلسه مشاوره، نتایج خوداظهاری را اعتبارسنجی می‌کنیم و Use Caseها، ریسک‌ها و نقشه راه اجرایی سازمان شما را دقیق‌تر می‌سازیم.</p>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> ذخیره خلاصه گزارش PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
           </section>
-          <div className="no-print mt-10 text-center"><button onClick={() => { window.localStorage.removeItem("nexation_assessment_token"); window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div>
+          {!adminPreview ? <div className="no-print mt-10 text-center"><button onClick={() => { window.localStorage.removeItem("nexation_assessment_token"); window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div> : null}
         </section>
       )}
     </main>
