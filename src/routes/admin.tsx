@@ -343,7 +343,7 @@ function AdminPage() {
                   <div><p className="font-mono text-2xl font-black text-cyan" dir="ltr">{assessment.overall_score}/100</p><span className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${assessment.status === "paid" ? "bg-emerald-500/15 text-emerald-300" : assessment.status === "payment_requested" ? "bg-amber-500/15 text-amber-300" : "bg-white/5 text-muted-foreground"}`}>{assessment.status === "paid" ? "پرداخت تأیید شده" : assessment.status === "payment_requested" ? "در انتظار پرداخت" : "فقط نتیجه اولیه"}</span></div>
                   <div className="flex flex-col gap-2">
                     {assessment.status === "payment_requested" ? <button onClick={() => confirmAssessmentPayment(assessment.id)} className="rounded-xl bg-primary px-5 py-3 text-sm font-black">تأیید پرداخت و فعال‌سازی</button> : null}
-                    <a href={`https://nexation.ir/ai-maturity-assessment#token=${assessment.access_token}`} target="_blank" rel="noreferrer" className="rounded-xl border border-cyan/30 px-5 py-3 text-center text-sm font-bold text-cyan">مشاهده گزارش</a>
+                    <a href={`/ai-maturity-assessment#admin=${assessment.id}`} target="_blank" rel="noreferrer" className="rounded-xl border border-cyan/30 px-5 py-3 text-center text-sm font-bold text-cyan">مشاهده گزارش کامل مدیریتی</a>
                     <button type="button" onClick={() => void navigator.clipboard.writeText(`https://nexation.ir/ai-maturity-assessment#token=${assessment.access_token}`).then(() => setMessage("لینک اختصاصی گزارش کپی شد."))} className="rounded-xl border border-border px-5 py-3 text-sm font-bold text-cyan">کپی لینک گزارش</button>
                   </div>
                 </div>
