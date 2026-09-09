@@ -627,7 +627,12 @@ function Footer() {
           <a href="#" className="hover:text-foreground">
             قوانین
           </a>
-          <a href="#" className="hover:text-foreground">
+          <a
+            href="https://www.linkedin.com/company/nexationai/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-foreground"
+          >
             لینکدین
           </a>
           <a href="#" className="hover:text-foreground">
