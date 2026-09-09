@@ -205,11 +205,6 @@ function LogosStrip() {
       logo: "/clients/sabir.png",
       className: "h-16 w-28 sm:h-24 sm:w-40",
     },
-    {
-      name: "فرانگر",
-      logo: "/clients/faranegar.svg",
-      className: "h-12 w-28 sm:h-16 sm:w-36",
-    },
   ];
 
   const clientGroup = (ariaHidden = false) => (
