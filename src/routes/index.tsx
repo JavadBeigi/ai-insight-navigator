@@ -144,13 +144,13 @@ function Nav() {
           </a>
           <a
             href="#contact"
-            className="hidden rounded-full border border-border px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan sm:inline-flex"
+            className="hidden h-10 w-40 items-center justify-center rounded-full border border-border px-4 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan sm:inline-flex"
           >
             درخواست دمو
           </a>
           <a
             href="/ai-maturity-assessment"
-            className="btn-glow inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.03]"
+            className="btn-glow inline-flex h-10 w-36 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.03] sm:w-40"
           >
             سنجش بلوغ AI
             <span className="hidden rounded-full bg-white/15 px-2 py-0.5 text-[10px] xl:inline">3 دقیقه</span>
@@ -190,17 +190,17 @@ function Hero() {
           با ایجنت‌های اختصاصی، چت‌بات‌های داده‌محور و گزارش‌سازی خودکار.
         </p>
 
-        <div className="animate-stream flex flex-col items-center justify-center gap-3 sm:flex-row [animation-delay:300ms]">
+        <div className="animate-stream mx-auto flex w-full max-w-64 flex-col items-center justify-center gap-3 sm:max-w-none sm:flex-row [animation-delay:300ms]">
           <a
             href="/ai-maturity-assessment"
-            className="btn-glow inline-flex min-w-56 items-center justify-center gap-3 rounded-xl bg-primary px-8 py-4 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.02]"
+            className="btn-glow inline-flex h-14 w-full items-center justify-center gap-3 rounded-xl bg-primary px-6 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.02] sm:w-64"
           >
             سنجش بلوغ AI
             <span className="rounded-full bg-white/15 px-2 py-1 text-[10px]">نتیجه فوری · 3 دقیقه</span>
           </a>
           <a
             href="#contact"
-            className="inline-flex min-w-44 items-center justify-center rounded-xl border border-border bg-background/40 px-7 py-4 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan"
+            className="inline-flex h-14 w-full items-center justify-center rounded-xl border border-border bg-background/40 px-6 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan sm:w-64"
           >
             درخواست دمو
           </a>
