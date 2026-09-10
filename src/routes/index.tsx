@@ -606,41 +606,75 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border py-12">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 md:flex-row">
-        <div className="flex items-center gap-2">
-          <img
-            src="/favicon.png"
-            alt=""
-            aria-hidden="true"
-            className="size-8 shrink-0 object-contain"
-          />
-          <span className="text-sm font-black">
-            nexation<span className="text-cyan">.</span>
-          </span>
-          <span className="mr-2 text-xs text-muted-foreground">© 1404 همه‌ی حقوق محفوظ است.</span>
+    <footer className="relative overflow-hidden border-t border-border bg-[#020b1a]">
+      <div className="pointer-events-none absolute -bottom-48 -right-32 size-96 rounded-full bg-primary/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-32 top-0 size-72 rounded-full bg-cyan/5 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-6 pb-8 pt-16 md:pt-20">
+        <div className="grid gap-12 border-b border-white/10 pb-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.25fr]">
+          <div>
+            <a href="#" className="inline-flex items-center gap-3" aria-label="صفحه اصلی nexation">
+              <img src="/favicon.png" alt="" aria-hidden="true" className="size-12 object-contain" />
+              <span className="text-2xl font-black tracking-tight">
+                nexation<span className="text-cyan">.</span>
+              </span>
+            </a>
+            <p className="mt-5 max-w-sm text-sm leading-8 text-muted-foreground">
+              راهکارهای اختصاصی هوش مصنوعی برای سازمان‌هایی که می‌خواهند فرایندهای هوشمندتر،
+              تصمیم‌های سریع‌تر و آینده‌ای AI-Native بسازند.
+            </p>
+            <a
+              href="https://www.linkedin.com/company/nexationai/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-cyan/25 bg-cyan/5 px-4 py-2 text-sm font-bold text-cyan transition-colors hover:bg-cyan/10"
+            >
+              دنبال‌کردن در لینکدین
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div>
+            <h2 className="text-sm font-black text-foreground">راهکارها</h2>
+            <nav className="mt-5 flex flex-col gap-4 text-sm text-muted-foreground" aria-label="راهکارهای nexation">
+              <a href="#services" className="transition-colors hover:text-cyan">ایجنت‌های هوشمند</a>
+              <a href="#platform" className="transition-colors hover:text-cyan">چت‌بات سازمانی</a>
+              <a href="#services" className="transition-colors hover:text-cyan">گزارش‌سازی خودکار</a>
+              <a href="/ai-maturity-assessment" className="transition-colors hover:text-cyan">سنجش بلوغ AI</a>
+            </nav>
+          </div>
+
+          <div>
+            <h2 className="text-sm font-black text-foreground">دسترسی سریع</h2>
+            <nav className="mt-5 flex flex-col gap-4 text-sm text-muted-foreground" aria-label="دسترسی سریع">
+              <a href="#steps" className="transition-colors hover:text-cyan">مسیر همکاری</a>
+              <a href="/blog" className="transition-colors hover:text-cyan">بلاگ</a>
+              <a href="#contact" className="transition-colors hover:text-cyan">تماس با ما</a>
+              <a href="/admin" className="transition-colors hover:text-cyan">ورود مدیر</a>
+            </nav>
+          </div>
+
+          <div className="rounded-3xl border border-cyan/15 bg-white/[0.035] p-6">
+            <p className="text-xs font-bold text-cyan">شروع یک همکاری هوشمند</p>
+            <h2 className="mt-3 text-xl font-black leading-8">برای تحول AI سازمانتان آماده‌اید؟</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              نیاز سازمانتان را بررسی می‌کنیم و مسیر اجرایی مناسب را با هم می‌سازیم.
+            </p>
+            <a
+              href="#contact"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.02]"
+            >
+              درخواست مشاوره رایگان
+            </a>
+          </div>
         </div>
-        <div className="flex gap-6 text-xs text-muted-foreground">
-          <a href="#" className="hover:text-foreground">
-            حریم خصوصی
-          </a>
-          <a href="#" className="hover:text-foreground">
-            قوانین
-          </a>
-          <a
-            href="https://www.linkedin.com/company/nexationai/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground"
-          >
-            لینکدین
-          </a>
-          <a href="#" className="hover:text-foreground">
-            تماس
-          </a>
-          <a href="/blog" className="hover:text-foreground">
-            بلاگ
-          </a>
+
+        <div className="flex flex-col gap-3 pt-7 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 nexation. همه حقوق محفوظ است.</p>
+          <div className="flex items-center gap-2">
+            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
+            <span>ساخت راهکارهای AI-Native برای سازمان‌ها</span>
+          </div>
         </div>
       </div>
     </footer>
