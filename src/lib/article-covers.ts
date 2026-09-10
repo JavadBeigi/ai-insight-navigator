@@ -1,4 +1,8 @@
 const articleCovers: Record<string, { src: string; alt: string }> = {
+  "shadow-ai-governance-enterprise": {
+    src: "/blog/shadow-ai-governance-enterprise.png",
+    alt: "تیم امنیت و فناوری سازمان در حال کشف و مدیریت ابزارهای هوش مصنوعی پنهان",
+  },
   "ai-agent-memory-governance": {
     src: "/blog/ai-agent-memory-governance.png",
     alt: "متخصص حاکمیت داده در حال مدیریت حافظه ایجنت هوش مصنوعی در یک محیط سازمانی",
