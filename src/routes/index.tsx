@@ -79,7 +79,7 @@ const metrics = [
 
 function Landing() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main className="relative min-h-screen overflow-x-hidden bg-background pb-16 text-foreground md:pb-0">
       <Nav />
       <Hero />
       <LogosStrip />
@@ -90,6 +90,13 @@ function Landing() {
       <Metrics />
       <CTA />
       <Footer />
+      <a
+        href="/ai-maturity-assessment"
+        className="fixed inset-x-4 bottom-3 z-50 flex items-center justify-center gap-2 rounded-2xl border border-cyan/30 bg-primary px-5 py-3.5 text-sm font-black text-primary-foreground shadow-[0_12px_40px_rgba(0,153,255,0.35)] md:hidden"
+      >
+        سنجش بلوغ AI
+        <span className="rounded-full bg-white/15 px-2 py-0.5 text-[10px]">3 دقیقه</span>
+      </a>
     </main>
   );
 }
@@ -126,9 +133,6 @@ function Nav() {
             <a href="/blog" className="transition-colors hover:text-foreground">
               بلاگ
             </a>
-            <a href="/ai-maturity-assessment" className="transition-colors hover:text-foreground">
-              سنجش بلوغ AI
-            </a>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -140,9 +144,16 @@ function Nav() {
           </a>
           <a
             href="#contact"
-            className="btn-glow rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.03]"
+            className="hidden rounded-full border border-border px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan sm:inline-flex"
           >
-            دموی رایگان
+            درخواست دمو
+          </a>
+          <a
+            href="/ai-maturity-assessment"
+            className="btn-glow inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.03]"
+          >
+            سنجش بلوغ AI
+            <span className="hidden rounded-full bg-white/15 px-2 py-0.5 text-[10px] xl:inline">3 دقیقه</span>
           </a>
         </div>
       </div>
@@ -179,12 +190,19 @@ function Hero() {
           با ایجنت‌های اختصاصی، چت‌بات‌های داده‌محور و گزارش‌سازی خودکار.
         </p>
 
-        <div className="animate-stream flex justify-center [animation-delay:300ms]">
+        <div className="animate-stream flex flex-col items-center justify-center gap-3 sm:flex-row [animation-delay:300ms]">
+          <a
+            href="/ai-maturity-assessment"
+            className="btn-glow inline-flex min-w-56 items-center justify-center gap-3 rounded-xl bg-primary px-8 py-4 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.02]"
+          >
+            سنجش بلوغ AI
+            <span className="rounded-full bg-white/15 px-2 py-1 text-[10px]">نتیجه فوری · 3 دقیقه</span>
+          </a>
           <a
             href="#contact"
-            className="btn-glow inline-flex items-center justify-center rounded-xl bg-foreground px-8 py-4 text-sm font-bold text-background transition-transform hover:scale-[1.02]"
+            className="inline-flex min-w-44 items-center justify-center rounded-xl border border-border bg-background/40 px-7 py-4 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan"
           >
-            مشاوره رایگان
+            درخواست دمو
           </a>
         </div>
       </div>
