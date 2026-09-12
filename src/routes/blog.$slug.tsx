@@ -219,7 +219,7 @@ function ArticlePage() {
     publisher: {
       "@type": "Organization",
       name: "nexation",
-      logo: { "@type": "ImageObject", url: "https://nexation.ir/favicon.png" },
+      logo: { "@type": "ImageObject", url: "https://nexation.ir/nexation-favicon.png" },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
     keywords: seo?.keywords.join(", "),

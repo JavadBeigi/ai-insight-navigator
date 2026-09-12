@@ -17,7 +17,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "nexation",
   url: "https://nexation.ir/",
-  logo: "https://nexation.ir/favicon.png",
+  logo: "https://nexation.ir/nexation-favicon.png",
   description:
     "پلتفرم هوش مصنوعی و هوش تجاری سازمانی برای کشف داده، ساخت ایجنت‌های هوشمند و گزارش‌سازی خودکار.",
 };
@@ -90,7 +90,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      {
+        rel: "icon",
+        href: "/nexation-favicon.png",
+        type: "image/png",
+        sizes: "128x128",
+      },
+      { rel: "shortcut icon", href: "/nexation-favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/nexation-favicon.png", sizes: "128x128" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
