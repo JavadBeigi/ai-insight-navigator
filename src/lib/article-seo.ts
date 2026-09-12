@@ -12,6 +12,35 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "shadow-ai-governance-enterprise": {
+    metaTitle: "Shadow AI در سازمان؛ راهنمای کشف و حاکمیت | nexation",
+    metaDescription:
+      "Shadow AI چیست و چگونه ابزارها و ایجنت‌های پنهان را مدیریت کنیم؟ راهنمای عملی موجودی AI، طبقه‌بندی ریسک، سیاست و برنامه 30 روزه.",
+    image: "https://nexation.ir/blog/shadow-ai-governance-enterprise.png",
+    imageAlt: "تیم امنیت و فناوری سازمان در حال کشف و مدیریت ابزارهای هوش مصنوعی پنهان",
+    author: "تیم nexation",
+    readingTime: "15 دقیقه مطالعه",
+    keywords: ["Shadow AI در سازمان", "هوش مصنوعی پنهان", "حاکمیت هوش مصنوعی", "نشت داده AI", "موجودی سامانه‌های AI"],
+    sources: [
+      { name: "NIST — AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
+      { name: "NIST AIRC — AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { name: "NIST — Generative AI Profile", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" },
+      { name: "Microsoft — Shadow AI in Microsoft 365 admin center", url: "https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-shadow-ai?view=o365-worldwide" },
+      { name: "Microsoft — Prevent data leak to shadow AI", url: "https://learn.microsoft.com/en-us/purview/deploymentmodels/depmod-data-leak-shadow-ai-intro" },
+    ],
+    relatedLinks: [
+      { title: "هویت ایجنت و معماری Zero Trust", href: "/blog/zero-trust-ai-agent-identity" },
+      { title: "ارزیابی ایجنت و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
+      { title: "امنیت ایجنت در برابر Prompt Injection", href: "/blog/ai-agent-prompt-injection-security" },
+      { title: "سنجش بلوغ هوش مصنوعی سازمان", href: "/ai-maturity-assessment" },
+    ],
+    faqs: [
+      { question: "Shadow AI چیست؟", answer: "هر ابزار، مدل، API یا ایجنت هوش مصنوعی که خارج از دید، مالکیت یا کنترل رسمی سازمان استفاده شود، Shadow AI محسوب می‌شود." },
+      { question: "آیا باید همه ابزارهای Shadow AI را مسدود کرد؟", answer: "خیر. استفاده‌ها باید بر اساس حساسیت داده، دامنه دسترسی و پیامد طبقه‌بندی شوند و برای نیازهای معتبر، جایگزین امن و قابل استفاده فراهم شود." },
+      { question: "اولین اقدام برای کنترل Shadow AI چیست؟", answer: "ساخت موجودی بدون سرزنش از ابزارها، کاربران، داده‌ها، اتصال‌ها و مالکان، سپس اولویت‌بندی موارد پرریسک است." },
+      { question: "تفاوت Shadow AI و Shadow IT چیست؟", answer: "Shadow AI زیرمجموعه‌ای پیچیده‌تر از Shadow IT است؛ زیرا علاوه بر نرم‌افزار و داده، رفتار احتمالی مدل و اختیار اقدام ایجنت نیز باید مدیریت شود." },
+    ],
+  },
   "ai-agent-memory-governance": {
     metaTitle: "حافظه ایجنت هوش مصنوعی؛ امنیت و حریم خصوصی | nexation",
     metaDescription:
