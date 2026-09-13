@@ -10,10 +10,10 @@ import type { Database } from "@/lib/database.types";
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 
 function renderInlineLinks(text: string) {
-  const parts = text.split(/(\[[^\]]+\]\(\/blog\/[a-z0-9-]+\)|\*\*[^*]+\*\*|`[^`]+`)/g);
+  const parts = text.split(/(\[[^\]]+\]\(\/(?:blog\/[a-z0-9-]+|ai-maturity-assessment)\)|\*\*[^*]+\*\*|`[^`]+`)/g);
 
   return parts.map((part, index) => {
-    const match = part.match(/^\[([^\]]+)\]\((\/blog\/[a-z0-9-]+)\)$/);
+    const match = part.match(/^\[([^\]]+)\]\((\/(?:blog\/[a-z0-9-]+|ai-maturity-assessment))\)$/);
     if (match) {
       return (
         <Link key={`${match[2]}-${index}`} to={match[2]} className="font-bold text-cyan underline-offset-4 hover:underline">
