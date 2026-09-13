@@ -659,6 +659,7 @@ function Footer() {
             <nav className="mt-5 flex flex-col gap-4 text-sm text-muted-foreground" aria-label="دسترسی سریع">
               <a href="#steps" className="transition-colors hover:text-cyan">مسیر همکاری</a>
               <a href="/blog" className="transition-colors hover:text-cyan">بلاگ</a>
+              <a href="/blog/shadow-ai-governance-enterprise" className="transition-colors hover:text-cyan">راهنمای مدیریت Shadow AI</a>
               <a href="#contact" className="transition-colors hover:text-cyan">تماس با ما</a>
             </nav>
           </div>

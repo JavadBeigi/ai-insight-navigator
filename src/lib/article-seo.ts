@@ -58,6 +58,7 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
       { name: "NIST — Generative AI Profile", url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" },
     ],
     relatedLinks: [
+      { title: "Shadow AI در سازمان؛ کشف ابزارهای پنهان و حاکمیت", href: "/blog/shadow-ai-governance-enterprise" },
       { title: "هویت ایجنت و معماری Zero Trust", href: "/blog/zero-trust-ai-agent-identity" },
       { title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی", href: "/blog/ai-agent-prompt-injection-security" },
       { title: "MCP چیست؟ اتصال ایجنت به ابزارهای سازمانی", href: "/blog/model-context-protocol-mcp-enterprise-guide" },
@@ -109,6 +110,10 @@ export const articleSeoBySlug: Record<string, ArticleSeo> = {
       },
     ],
     relatedLinks: [
+      {
+        title: "Shadow AI در سازمان؛ کشف ابزارهای پنهان و حاکمیت",
+        href: "/blog/shadow-ai-governance-enterprise",
+      },
       {
         title: "Prompt Injection چیست؟ امنیت ایجنت هوش مصنوعی",
         href: "/blog/ai-agent-prompt-injection-security",
