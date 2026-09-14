@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://nexation.ir/blog</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -57,6 +57,12 @@
   <url>
     <loc>https://nexation.ir/blog/ai-agent-memory-governance</loc>
     <lastmod>2026-09-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nexation.ir/blog/human-in-the-loop-ai-agent-approvals</loc>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
