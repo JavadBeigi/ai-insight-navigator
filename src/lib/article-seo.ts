@@ -12,6 +12,72 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "human-in-the-loop-ai-agent-approvals": {
+    metaTitle: "تأیید انسانی ایجنت هوش مصنوعی؛ راهنمای HITL | nexation",
+    metaDescription:
+      "تأیید انسانی ایجنت‌ها را کجا و چگونه اجرا کنیم؟ راهنمای مرز اختیار، صف تأیید، اعتبارسنجی دوباره، توقف امن و KPIهای HITL سازمانی.",
+    image: "https://nexation.ir/blog/human-in-the-loop-ai-agent-approvals.png",
+    imageAlt: "دست انسان در حال بررسی کنترل تأیید و توقف یک گردش‌کار خودکار در اتاق عملیات",
+    author: "تیم nexation",
+    readingTime: "۱۷ دقیقه مطالعه",
+    keywords: [
+      "تأیید انسانی ایجنت هوش مصنوعی",
+      "Human-in-the-loop",
+      "HITL ایجنت سازمانی",
+      "مرز اختیار ایجنت",
+      "تأیید اقدام ایجنت",
+    ],
+    sources: [
+      {
+        name: "NIST — AI RMF Core، Govern 3.2",
+        url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/",
+      },
+      {
+        name: "OpenAI Agents SDK — Human-in-the-loop",
+        url: "https://openai.github.io/openai-agents-python/human_in_the_loop/",
+      },
+      {
+        name: "OpenAI Agents SDK — Guardrails",
+        url: "https://openai.github.io/openai-agents-python/guardrails/",
+      },
+      {
+        name: "Microsoft Agent Framework — Human-in-the-loop workflows",
+        url: "https://learn.microsoft.com/en-us/agent-framework/workflows/human-in-the-loop",
+      },
+      {
+        name: "Anthropic — Trustworthy agents in practice",
+        url: "https://www.anthropic.com/research/trustworthy-agents",
+      },
+    ],
+    relatedLinks: [
+      { title: "هویت ایجنت و معماری Zero Trust", href: "/blog/zero-trust-ai-agent-identity" },
+      { title: "ارزیابی ایجنت و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
+      { title: "امنیت ایجنت در برابر Prompt Injection", href: "/blog/ai-agent-prompt-injection-security" },
+      { title: "سنجش بلوغ AI سازمان", href: "/ai-maturity-assessment" },
+    ],
+    faqs: [
+      {
+        question: "تأیید انسانی ایجنت هوش مصنوعی در کدام نقطه لازم است؟",
+        answer:
+          "برای اقدام‌های حساس، تأیید باید در لایه اجرای ابزار و پیش از ایجاد اثر واقعی انجام شود؛ نه فقط به‌صورت دستور داخل Prompt.",
+      },
+      {
+        question: "آیا همه اقدام‌های ایجنت باید تأیید شوند؟",
+        answer:
+          "خیر. سازمان باید اقدام‌ها را بر اساس داده، دامنه دسترسی، پیامد و برگشت‌پذیری به مجاز خودکار، نیازمند تأیید و ممنوع تقسیم کند.",
+      },
+      {
+        question: "اگر اطلاعات پس از تأیید تغییر کند چه باید کرد؟",
+        answer:
+          "پیش از اجرا، پارامترها و وضعیت دوباره اعتبارسنجی شوند؛ اگر تغییر معنادار رخ داده، تأیید قبلی باطل و درخواست تازه صادر شود.",
+      },
+      {
+        question: "در صورت پاسخ ندادن تأییدکننده چه می‌شود؟",
+        answer:
+          "اقدام حساس نباید خودکار اجرا شود؛ درخواست باید منقضی و در صورت نیاز به مسئول پشتیبان ارجاع شود.",
+      },
+    ],
+  },
   "shadow-ai-governance-enterprise": {
     metaTitle: "Shadow AI در سازمان؛ راهنمای کشف و حاکمیت | nexation",
     metaDescription:
