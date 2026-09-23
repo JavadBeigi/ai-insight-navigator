@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AiMaturityAssessmentRouteImport } from './routes/ai-maturity-assessment'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -18,6 +19,11 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -43,6 +49,7 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/ai-maturity-assessment': typeof AiMaturityAssessmentRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/ai-maturity-assessment': typeof AiMaturityAssessmentRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRoute
   '/ai-maturity-assessment': typeof AiMaturityAssessmentRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -66,12 +75,24 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/admin' | '/ai-maturity-assessment' | '/blog/$slug' | '/blog/'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/ai-maturity-assessment'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/ai-maturity-assessment' | '/blog/$slug' | '/blog'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/ai-maturity-assessment'
+    | '/blog/$slug'
+    | '/blog'
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/admin'
     | '/ai-maturity-assessment'
     | '/blog/$slug'
@@ -80,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRoute
   AiMaturityAssessmentRoute: typeof AiMaturityAssessmentRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -93,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -128,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AdminRoute: AdminRoute,
   AiMaturityAssessmentRoute: AiMaturityAssessmentRoute,
   BlogSlugRoute: BlogSlugRoute,

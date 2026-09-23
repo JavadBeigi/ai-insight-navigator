@@ -3,12 +3,13 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { supabase } from "@/lib/supabase";
 import { ADMIN_EMAIL, formatDate } from "@/lib/site";
 import type { Database } from "@/lib/database.types";
+import { AboutEditor } from "@/components/about-editor";
 
 type DemoRequest = Database["public"]["Tables"]["demo_requests"]["Row"];
 type Article = Database["public"]["Tables"]["articles"]["Row"];
 type BlogComment = Database["public"]["Tables"]["blog_comments"]["Row"];
 type MaturityAssessment = Database["public"]["Tables"]["ai_maturity_assessments"]["Row"];
-type Tab = "requests" | "assessments" | "articles" | "comments";
+type Tab = "requests" | "assessments" | "articles" | "comments" | "about";
 
 const emptyArticle = {
   id: null as number | null,
@@ -246,7 +247,8 @@ function AdminPage() {
         </div>
       </header>
       <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => setTab("about")} className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "about" ? "bg-primary" : "bg-card text-muted-foreground"}`}>درباره ما</button>
           <button
             onClick={() => setTab("requests")}
             className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "requests" ? "bg-primary" : "bg-card text-muted-foreground"}`}
@@ -285,7 +287,8 @@ function AdminPage() {
           </div>
         )}
 
-        {tab === "requests" ? (
+        <div hidden={tab !== "about"}>{authorized && <AboutEditor />}</div>
+        {tab === "about" ? null : tab === "requests" ? (
           <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card">
             <div className="border-b border-border px-6 py-5">
               <h1 className="text-xl font-black">درخواست‌های دمو</h1>
