@@ -1,4 +1,8 @@
 const articleCovers: Record<string, { src: string; alt: string }> = {
+  "human-in-the-loop-ai-agent-approvals": {
+    src: "/blog/human-in-the-loop-ai-agent-approvals.png",
+    alt: "دست انسان در حال بررسی کنترل تأیید و توقف یک گردش‌کار خودکار در اتاق عملیات",
+  },
   "shadow-ai-governance-enterprise": {
     src: "/blog/shadow-ai-governance-enterprise.png",
     alt: "تیم امنیت و فناوری سازمان در حال کشف و مدیریت ابزارهای هوش مصنوعی پنهان",
