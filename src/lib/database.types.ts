@@ -1,6 +1,12 @@
 export type Database = {
   public: {
     Tables: {
+      site_pages: {
+        Row: { slug: string; content: import("./about").AboutContent; updated_at: string };
+        Insert: { slug: string; content: import("./about").AboutContent; updated_at?: string };
+        Update: { content?: import("./about").AboutContent; updated_at?: string };
+        Relationships: [];
+      };
       admin_users: {
         Row: { user_id: string; created_at: string };
         Insert: { user_id: string; created_at?: string };
