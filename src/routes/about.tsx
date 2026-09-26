@@ -39,6 +39,7 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   const content = Route.useLoaderData();
   const icons = [Compass, Workflow, TrendingUp];
+  const visibleConsultants = content.consultants.filter((consultant) => consultant.visible);
   return (
     <main dir="rtl" className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <script
@@ -143,20 +144,19 @@ function AboutPage() {
           })}
         </div>
       </section>
-      <section className="border-y border-border bg-card/35">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <p className="text-sm font-bold text-cyan">تجربه در کنار شما برای تحول</p>
-          <h2 className="mt-4 text-3xl font-black md:text-4xl">
-            مشاورانی که مسیر تحول را همراهی می‌کنند
-          </h2>
-          <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
-            تیم مشاوران Nexation، تجربهٔ استراتژی، فناوری و تحول سازمانی را کنار هم می‌آورد تا هوش
-            مصنوعی از یک ایده به نتیجه‌ای قابل‌اندازه‌گیری تبدیل شود.
-          </p>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {content.consultants
-              .filter((consultant) => consultant.visible)
-              .map((consultant, index) => (
+      {visibleConsultants.length > 0 ? (
+        <section className="border-y border-border bg-card/35">
+          <div className="mx-auto max-w-7xl px-6 py-20">
+            <p className="text-sm font-bold text-cyan">تجربه در کنار شما برای تحول</p>
+            <h2 className="mt-4 text-3xl font-black md:text-4xl">
+              مشاورانی که مسیر تحول را همراهی می‌کنند
+            </h2>
+            <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
+              تیم مشاوران Nexation، تجربهٔ استراتژی، فناوری و تحول سازمانی را کنار هم می‌آورد تا هوش
+              مصنوعی از یک ایده به نتیجه‌ای قابل‌اندازه‌گیری تبدیل شود.
+            </p>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+              {visibleConsultants.map((consultant, index) => (
                 <article
                   key={`${consultant.name}-${index}`}
                   className="group overflow-hidden rounded-3xl border border-border bg-background"
@@ -212,9 +212,10 @@ function AboutPage() {
                   </div>
                 </article>
               ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="rounded-3xl border border-cyan/20 bg-gradient-to-bl from-primary/15 to-cyan/5 p-8 md:p-14">
           <p className="font-bold text-cyan">افق مشترک ما</p>
