@@ -15,7 +15,7 @@ export const emptyConsultant = {
   specialties: ["استراتژی هوش مصنوعی"],
   imageUrl: "",
   linkedinUrl: "",
-  visible: true,
+  visible: false,
 };
 
 export const defaultConsultants = Array.from({ length: 4 }, () => ({ ...emptyConsultant }));
