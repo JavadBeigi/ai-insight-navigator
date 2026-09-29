@@ -1,4 +1,9 @@
 const articleCovers: Record<string, { src: string; alt: string }> = {
+  "ai-agent-incident-response-kill-switch": {
+    src: "/blog/ai-agent-incident-response-kill-switch.png",
+    alt: "تیم عملیات امنیت سازمان در حال مهار حادثه ایجنت هوش مصنوعی با کلید توقف اضطراری",
+  },
+
   "rag-fine-tuning-ai-agent-decision-framework": {
     src: "/blog/rag-fine-tuning-ai-agent-decision-framework.png",
     alt: "تیم راهبرد و فناوری سازمان در حال مقایسه معماری RAG، Fine-tuning و AI Agent",
