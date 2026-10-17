@@ -353,7 +353,7 @@ function ArticlePage() {
           <div>
             <h2 className="text-xl font-black">این مقاله را برای بعد نگه دارید</h2>
             <p className="mt-2 max-w-lg text-sm leading-7 text-muted-foreground">
-              نسخه PDF با چیدمان A4، تصویر مقاله، منابع و لینک‌های قابل کلیک آماده می‌شود.
+              نسخه A4 مقاله را همراه با تصویر و منابع نگه دارید. پس از کلیک، در پنجره چاپ گزینه «ذخیره به‌صورت PDF» را انتخاب کنید.
             </p>
           </div>
           <ArticlePdfButton title={article.title} />
@@ -380,19 +380,31 @@ function ArticlePage() {
 
 
 function ArticlePdfButton({ title }: { title: string }) {
-  function openPdfDialog() {
+  const [preparing, setPreparing] = useState(false);
+
+  async function openPdfDialog() {
+    if (preparing) return;
+    setPreparing(true);
     const previousTitle = document.title;
-    document.title = `${title} - nexation`;
-    window.setTimeout(() => {
+    try {
+      await document.fonts.ready;
+      const images = document.querySelectorAll<HTMLImageElement>(".article-print-root img");
+      await Promise.all(Array.from(images, (image) => image.decode().catch(() => undefined)));
+      document.title = `${title} - nexation`;
       window.print();
+    } finally {
       document.title = previousTitle;
-    }, 80);
+      setPreparing(false);
+    }
   }
 
   return (
     <button
       type="button"
       onClick={openPdfDialog}
+      disabled={preparing}
+      aria-busy={preparing}
+      title="در پنجره چاپ، گزینه ذخیره به‌صورت PDF را انتخاب کنید"
       data-pdf-action
       className="group inline-flex items-center gap-3 rounded-2xl border border-cyan/30 bg-cyan/10 px-5 py-3 text-right font-bold text-cyan transition hover:-translate-y-0.5 hover:border-cyan/60 hover:bg-cyan/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan max-sm:w-full max-sm:justify-center"
       aria-label={`دانلود نسخه PDF مقاله ${title}`}
@@ -401,7 +413,7 @@ function ArticlePdfButton({ title }: { title: string }) {
         <Download className="size-5" aria-hidden="true" />
       </span>
       <span>
-        <span className="block text-sm">دانلود نسخه PDF</span>
+        <span className="block text-sm">{preparing ? "آماده‌سازی PDF…" : "دانلود نسخه PDF"}</span>
         <span className="mt-0.5 block text-xs font-medium text-muted-foreground">
           مناسب مطالعه، اشتراک‌گذاری و چاپ
         </span>
