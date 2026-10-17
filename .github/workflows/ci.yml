@@ -28,7 +28,12 @@ jobs:
           "$RUNNER_TEMP/nexation-pdf-qa/node_modules/.bin/playwright" install --with-deps chromium
           python -m pip install --target "$RUNNER_TEMP/nexation-pdf-render" pymupdf
       - name: Verify article PDF and responsive layout
+        env:
+          VITE_SUPABASE_URL: https://pdf-qa.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: pdf-layout-test-only
         run: |
+          bun run dev --host 127.0.0.1 --port 4173 > "$RUNNER_TEMP/nexation-pdf-dev.log" 2>&1 &
+          for attempt in $(seq 1 60); do curl -sf http://127.0.0.1:4173/blog && break || sleep 1; done
           mkdir -p "$RUNNER_TEMP/nexation-pdf-artifacts"
           node <<'NODE'
           const { chromium } = require(process.env.RUNNER_TEMP + '/nexation-pdf-qa/node_modules/playwright');
@@ -39,7 +44,11 @@ jobs:
             const page = await browser.newPage({viewport:{width:1440,height:1000}});
             const errors=[];
             page.on('pageerror', error => errors.push(error.message));
-            await page.goto('https://ai-insight-navigator-git-feature-article-pdf-download-jj1-835a.vercel.app/blog/ai-agent-prompt-injection-security', {waitUntil:'networkidle'});
+            const md=fs.readFileSync('content/articles/ai-agent-evaluation-enterprise-kpis.md','utf8');
+            const meta=(key)=>md.match(new RegExp('^'+key+': "([^"\\n]+)"','m'))?.[1] ?? key;
+            const fixture={id:'00000000-0000-4000-8000-000000000001',title:meta('title'),excerpt:meta('excerpt'),slug:meta('slug'),content:md.replace(/^---[\s\S]*?---\s*/,''),status:'published',published_at:'2026-08-31T09:30:00Z',updated_at:'2026-08-31T09:30:00Z'};
+            await page.route('https://pdf-qa.supabase.co/rest/v1/**',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(route.request().url().includes('/articles?')?fixture:[])}));
+            await page.goto('http://127.0.0.1:4173/blog/ai-agent-evaluation-enterprise-kpis', {waitUntil:'networkidle'});
             await page.locator('.article-print-root').waitFor();
             await page.evaluate(() => document.fonts.ready);
             await page.locator('article > img').evaluate(image => image.decode());
