@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { formatDate } from "@/lib/site";
@@ -268,7 +269,7 @@ function ArticlePage() {
           </Link>
         </div>
       </header>
-      <article className="mx-auto max-w-3xl px-6 py-20">
+            <article className="article-print-root mx-auto max-w-3xl px-6 py-20">
         <div className="flex flex-wrap items-center gap-3 text-sm text-cyan">
           <span>{seo?.author ?? "تیم nexation"}</span>
           <span aria-hidden="true">•</span>
@@ -287,6 +288,10 @@ function ArticlePage() {
         </h1>
         {article.excerpt && (
           <p className="mt-7 text-lg leading-8 text-muted-foreground">{article.excerpt}</p>
+                    )}
+<div className="mt-8" data-pdf-action>
+          <ArticlePdfButton title={article.title} />
+        </div>
         )}
         {(cover || seo?.image) && (
           <img
@@ -341,6 +346,18 @@ function ArticlePage() {
             </ul>
           </nav>
         ) : null}
+        <section
+          className="mt-14 flex flex-col gap-6 rounded-3xl border border-cyan/25 bg-gradient-to-br from-cyan/10 to-primary/5 p-7 sm:flex-row sm:items-center sm:justify-between"
+          data-pdf-action
+        >
+          <div>
+            <h2 className="text-xl font-black">این مقاله را برای بعد نگه دارید</h2>
+            <p className="mt-2 max-w-lg text-sm leading-7 text-muted-foreground">
+              نسخه PDF با چیدمان A4، تصویر مقاله، منابع و لینک‌های قابل کلیک آماده می‌شود.
+            </p>
+          </div>
+          <ArticlePdfButton title={article.title} />
+        </section>
 
         <aside className="mt-14 rounded-3xl border border-cyan/30 bg-cyan/5 p-8">
           <h2 className="text-2xl font-black">ایجنت مناسب سازمان شما از کجا شروع می‌شود؟</h2>
@@ -357,5 +374,38 @@ function ArticlePage() {
         <BlogComments articleId={article.id} />
       </article>
     </main>
+  );
+}
+
+
+
+function ArticlePdfButton({ title }: { title: string }) {
+  function openPdfDialog() {
+    const previousTitle = document.title;
+    document.title = `${title} - nexation`;
+    window.setTimeout(() => {
+      window.print();
+      document.title = previousTitle;
+    }, 80);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={openPdfDialog}
+      data-pdf-action
+      className="group inline-flex items-center gap-3 rounded-2xl border border-cyan/30 bg-cyan/10 px-5 py-3 text-right font-bold text-cyan transition hover:-translate-y-0.5 hover:border-cyan/60 hover:bg-cyan/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan max-sm:w-full max-sm:justify-center"
+      aria-label={`دانلود نسخه PDF مقاله ${title}`}
+    >
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-cyan/15 transition group-hover:bg-cyan/25">
+        <Download className="size-5" aria-hidden="true" />
+      </span>
+      <span>
+        <span className="block text-sm">دانلود نسخه PDF</span>
+        <span className="mt-0.5 block text-xs font-medium text-muted-foreground">
+          مناسب مطالعه، اشتراک‌گذاری و چاپ
+        </span>
+      </span>
+    </button>
   );
 }
