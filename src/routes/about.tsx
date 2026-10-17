@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Compass, Workflow, TrendingUp, ArrowUpLeft, Linkedin, UserRound } from "lucide-react";
-import { aboutSchema, defaultAbout } from "@/lib/about";
+import { aboutSchema, defaultAbout, type AboutContent } from "@/lib/about";
 import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/about")({
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
-  const content = Route.useLoaderData();
+    const content = Route.useLoaderData() as AboutContent;
   const icons = [Compass, Workflow, TrendingUp];
   const visibleConsultants = content.consultants.filter((consultant) => consultant.visible);
   return (
