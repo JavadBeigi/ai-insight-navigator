@@ -184,3 +184,143 @@
 .animate-stream { animation: stream-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-float { animation: float-slow 7s ease-in-out infinite; }
 .animate-cursor { animation: cursor-blink 1s steps(1) infinite; }
+
+
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm;
+  }
+
+  :root,
+  html,
+  body {
+    color-scheme: light !important;
+    background: #ffffff !important;
+  }
+
+  body,
+  main {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  body * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  main > header,
+  [data-pdf-action],
+  .article-print-root > aside,
+  .article-print-root > nav,
+  .article-print-root > section[aria-labelledby="comments-title"] {
+    display: none !important;
+  }
+
+  .article-print-root {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #0f172a !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .article-print-root::before {
+    content: "nexation  •  نسخه PDF مقاله";
+    display: block;
+    margin-bottom: 12mm;
+    padding-bottom: 5mm;
+    border-bottom: 1px solid #cbd5e1;
+    color: #0369a1;
+    font-size: 11pt;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .article-print-root::after {
+    content: "nexation.ir";
+    display: block;
+    margin-top: 12mm;
+    padding-top: 5mm;
+    border-top: 1px solid #cbd5e1;
+    color: #64748b;
+    font-size: 9pt;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .article-print-root h1 {
+    color: #0f172a !important;
+    font-size: 28pt !important;
+    line-height: 1.45 !important;
+  }
+
+  .article-print-root h2,
+  .article-print-root h3 {
+    color: #0f172a !important;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+
+  .article-print-root p,
+  .article-print-root li {
+    color: #1e293b !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .article-print-root .text-muted-foreground {
+    color: #475569 !important;
+  }
+
+  .article-print-root .text-cyan,
+  .article-print-root a {
+    color: #0369a1 !important;
+  }
+
+  .article-print-root img {
+    max-height: 145mm;
+    border-color: #cbd5e1 !important;
+    object-fit: cover;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .article-print-root table {
+    min-width: 0 !important;
+    width: 100% !important;
+    color: #0f172a !important;
+    font-size: 9pt !important;
+  }
+
+  .article-print-root thead {
+    background: #f1f5f9 !important;
+  }
+
+  .article-print-root th,
+  .article-print-root td {
+    border-color: #cbd5e1 !important;
+  }
+
+  .article-print-root tr,
+  .article-print-root img,
+  .article-print-root section[aria-labelledby="sources-title"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .article-print-root div[class*="overflow-x-auto"] {
+    overflow: visible !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  .article-print-root a {
+    text-decoration: none !important;
+  }
+
+  .article-print-root section[aria-labelledby="sources-title"] {
+    border-color: #cbd5e1 !important;
+  }
+}
