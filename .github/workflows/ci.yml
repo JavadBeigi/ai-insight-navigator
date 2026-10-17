@@ -22,3 +22,58 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run check
       - run: bun run build
+      - name: Install isolated PDF QA tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/nexation-pdf-qa" playwright
+          "$RUNNER_TEMP/nexation-pdf-qa/node_modules/.bin/playwright" install --with-deps chromium
+          python -m pip install --target "$RUNNER_TEMP/nexation-pdf-render" pymupdf
+      - name: Verify article PDF and responsive layout
+        run: |
+          mkdir -p "$RUNNER_TEMP/nexation-pdf-artifacts"
+          node <<'NODE'
+          const { chromium } = require(process.env.RUNNER_TEMP + '/nexation-pdf-qa/node_modules/playwright');
+          const fs = require('node:fs');
+          const path = process.env.RUNNER_TEMP + '/nexation-pdf-artifacts';
+          (async () => {
+            const browser = await chromium.launch({headless: true});
+            const page = await browser.newPage({viewport:{width:1440,height:1000}});
+            const errors=[];
+            page.on('pageerror', error => errors.push(error.message));
+            await page.goto('https://ai-insight-navigator-git-feature-article-pdf-download-jj1-835a.vercel.app/blog/ai-agent-prompt-injection-security', {waitUntil:'networkidle'});
+            await page.locator('.article-print-root').waitFor();
+            await page.evaluate(() => document.fonts.ready);
+            await page.locator('article > img').evaluate(image => image.decode());
+            if(await page.locator('button[data-pdf-action]').count() !== 2) throw new Error('Expected PDF buttons at top and bottom');
+            await page.screenshot({path:path+'/desktop.png',fullPage:true});
+            await page.locator('button[data-pdf-action]').first().click();
+            await page.emulateMedia({media:'print'});
+            if(await page.locator('button[data-pdf-action]').first().isVisible()) throw new Error('PDF actions leaked into print');
+            await page.pdf({path:path+'/nexation-article.pdf',format:'A4',preferCSSPageSize:true,printBackground:true,displayHeaderFooter:false});
+            await page.emulateMedia({media:'screen'});
+            await page.setViewportSize({width:390,height:844});
+            await page.evaluate(()=>window.scrollTo(0,0));
+            await page.screenshot({path:path+'/mobile-top.png'});
+            const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
+            if(overflow) throw new Error('Mobile horizontal overflow');
+            await page.locator('button[data-pdf-action]').last().scrollIntoViewIfNeeded();
+            await page.screenshot({path:path+'/mobile-bottom.png'});
+            fs.writeFileSync(path+'/result.json',JSON.stringify({buttons:2,mobileOverflow:overflow,runtimeErrors:errors},null,2));
+            if(errors.length) throw new Error(errors.join('; '));
+            await browser.close();
+          })().catch(error=>{console.error(error);process.exit(1)});
+          NODE
+          PYTHONPATH="$RUNNER_TEMP/nexation-pdf-render" python <<'PY'
+          import os, fitz
+          folder = os.environ['RUNNER_TEMP'] + '/nexation-pdf-artifacts'
+          doc = fitz.open(folder + '/nexation-article.pdf')
+          print('PDF pages:',len(doc))
+          assert len(doc) > 0
+          for i,page in enumerate(doc):
+              page.get_pixmap(matrix=fitz.Matrix(1.2,1.2)).save(folder + '/pdf-page-' + str(i+1) + '.png')
+          PY
+      - name: Upload PDF QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: article-pdf-visual-qa
+          path: ${{ runner.temp }}/nexation-pdf-artifacts
