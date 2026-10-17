@@ -292,7 +292,7 @@ function ArticlePage() {
 <div className="mt-8" data-pdf-action>
           <ArticlePdfButton title={article.title} />
         </div>
-        )}
+        
         {(cover || seo?.image) && (
           <img
             src={cover?.src ?? seo?.image}
