@@ -12,6 +12,84 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "ai-agent-incident-response-kill-switch": {
+    metaTitle: "واکنش به حادثه ایجنت AI؛ Kill Switch و Runbook | nexation",
+    metaDescription:
+      "برای خطا یا سوءرفتار AI Agent چه کنیم؟ طرح واکنش به حادثه، Kill Switch، شواهد لازم، سطح‌بندی شدت، Runbook یک‌ساعته و بازیابی امن را ببینید.",
+    image: "https://nexation.ir/blog/ai-agent-incident-response-kill-switch.png",
+    imageAlt: "تیم عملیات امنیت سازمان در حال مهار حادثه ایجنت هوش مصنوعی با کلید توقف اضطراری",
+    author: "تیم nexation",
+    readingTime: "۱۵ دقیقه مطالعه",
+    keywords: [
+      "واکنش به حادثه ایجنت هوش مصنوعی",
+      "AI Agent Incident Response",
+      "Kill Switch ایجنت",
+      "Runbook ایجنت هوش مصنوعی",
+      "Observability ایجنت",
+      "بازیابی ایجنت سازمانی",
+    ],
+    sources: [
+      {
+        name: "NIST — Cybersecurity Framework 2.0",
+        url: "https://www.nist.gov/cyberframework",
+      },
+      {
+        name: "NIST — SP 800-61 Rev. 3 Incident Response",
+        url: "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+      },
+      {
+        name: "NIST — Generative AI Profile",
+        url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      },
+      {
+        name: "OpenAI Agents SDK — Tracing",
+        url: "https://openai.github.io/openai-agents-python/tracing/",
+      },
+      {
+        name: "OpenAI Agents SDK — Guardrails",
+        url: "https://openai.github.io/openai-agents-python/guardrails/",
+      },
+      {
+        name: "Microsoft Foundry — Trace an agent",
+        url: "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-agent-setup",
+      },
+      {
+        name: "Microsoft Foundry — Trace data and privacy",
+        url: "https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-data",
+      },
+    ],
+    relatedLinks: [
+      { title: "تأیید انسانی ایجنت هوش مصنوعی", href: "/blog/human-in-the-loop-ai-agent-approvals" },
+      { title: "هویت ایجنت و معماری Zero Trust", href: "/blog/zero-trust-ai-agent-identity" },
+      { title: "امنیت ایجنت در برابر Prompt Injection", href: "/blog/ai-agent-prompt-injection-security" },
+      { title: "ارزیابی ایجنت و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
+      { title: "حافظه ایجنت و چرخه عمر داده", href: "/blog/ai-agent-memory-governance" },
+      { title: "سنجش بلوغ هوش مصنوعی سازمان", href: "/ai-maturity-assessment" },
+    ],
+    faqs: [
+      {
+        question: "Kill Switch ایجنت هوش مصنوعی چیست؟",
+        answer:
+          "یک کنترل چندلایه برای توقف اجرای جاری، لغو عملیات در صف، ابطال توکن‌ها، قرنطینه حافظه یا داده مشکوک و انتقال ایجنت به حالت Read-only یا نظارت انسانی است.",
+      },
+      {
+        question: "چه داده‌هایی برای تحلیل حادثه AI Agent لازم است؟",
+        answer:
+          "شناسه trace، نسخه مدل و Prompt، فراخوانی ابزار و پارامترها، منابع بازیابی‌شده، تصمیم‌های Guardrail و تأیید انسانی، هویت و مجوز مؤثر و نتیجه واقعی سامانه مقصد لازم‌اند؛ رازها باید از لاگ حذف شوند.",
+      },
+      {
+        question: "تفاوت Eval و Incident Response چیست؟",
+        answer:
+          "Eval احتمال شکست را پیش از انتشار و حین پایش کاهش می‌دهد؛ Incident Response برای محدودکردن اثر، حفظ شواهد و بازیابی ایمن پس از رخداد واقعی طراحی می‌شود.",
+      },
+      {
+        question: "آیا خاموش‌کردن رابط چت برای مهار حادثه کافی است؟",
+        answer:
+          "خیر. کارهای در صف، توکن‌های معتبر، فراخوانی‌های در حال اجرا و حافظه آلوده ممکن است فعال بمانند. مهار باید اجرای ایجنت، ابزار، هویت و داده را هم پوشش دهد.",
+      },
+    ],
+  },
+
   "rag-fine-tuning-ai-agent-decision-framework": {
     metaTitle: "RAG یا Fine-tuning یا AI Agent؟ راهنمای انتخاب | nexation",
     metaDescription:
