@@ -622,7 +622,7 @@ function Footer() {
       <div className="pointer-events-none absolute -left-32 top-0 size-72 rounded-full bg-cyan/5 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-6 pb-8 pt-16 md:pt-20">
-        <div className="grid gap-12 border-b border-white/10 pb-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.25fr]">
+        <div className="grid gap-12 border-b border-white/10 pb-14 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div>
             <a href="#" className="inline-flex items-center gap-3" aria-label="صفحه اصلی nexation">
               <img src="/favicon.png" alt="" aria-hidden="true" className="size-12 object-contain" />
@@ -666,19 +666,7 @@ function Footer() {
             </nav>
           </div>
 
-          <div className="rounded-3xl border border-cyan/15 bg-white/[0.035] p-6">
-            <p className="text-xs font-bold text-cyan">شروع یک همکاری هوشمند</p>
-            <h2 className="mt-3 text-xl font-black leading-8">برای تحول AI سازمانتان آماده‌اید؟</h2>
-            <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              نیاز سازمانتان را بررسی می‌کنیم و مسیر اجرایی مناسب را با هم می‌سازیم.
-            </p>
-            <a
-              href="#contact"
-              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.02]"
-            >
-              درخواست مشاوره رایگان
-            </a>
-          </div>
+
         </div>
 
         <div className="flex flex-col gap-3 pt-7 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
