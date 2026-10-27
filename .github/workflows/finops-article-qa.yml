@@ -22,16 +22,19 @@ jobs:
     env:
       VITE_SUPABASE_URL: http://127.0.0.1:54321
       VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_local_content_test
-      PLAYWRIGHT_PACKAGE: ${{ runner.temp }}/article-qa/node_modules/playwright
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.4
       - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run build
       - run: npm install --prefix "$RUNNER_TEMP/article-qa" --no-save --ignore-scripts playwright@1.62.1
-      - run: node "$PLAYWRIGHT_PACKAGE/cli.js" install --with-deps chromium
+      - run: node "$RUNNER_TEMP/article-qa/node_modules/playwright/cli.js" install --with-deps chromium
       - name: Run isolated article fixture checks
+        env:
+          PLAYWRIGHT_PACKAGE: ${{ runner.temp }}/article-qa/node_modules/playwright
         run: |
           bun run dev -- --host 127.0.0.1 --port 4173 > "$RUNNER_TEMP/finops-dev.log" 2>&1 &
           for attempt in {1..60}; do
