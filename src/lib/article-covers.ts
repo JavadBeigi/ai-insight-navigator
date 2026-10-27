@@ -1,4 +1,8 @@
 const articleCovers: Record<string, { src: string; alt: string }> = {
+  "ai-agent-finops-cost-per-outcome": {
+    src: "/blog/ai-agent-finops-cost-per-outcome.webp",
+    alt: "ماشین‌حساب، دفتر هزینه و مهره‌های شیشه‌ای روی کارت‌های مراحل کار برای نمایش هزینه هر نتیجه موفق",
+  },
   "rag-fine-tuning-ai-agent-decision-framework": {
     src: "/blog/rag-fine-tuning-ai-agent-decision-framework.png",
     alt: "تیم راهبرد و فناوری سازمان در حال مقایسه معماری RAG، Fine-tuning و AI Agent",

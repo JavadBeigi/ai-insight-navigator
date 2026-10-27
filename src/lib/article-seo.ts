@@ -12,6 +12,33 @@ export type ArticleSeo = {
 };
 
 export const articleSeoBySlug: Record<string, ArticleSeo> = {
+  "ai-agent-finops-cost-per-outcome": {
+    metaTitle: "کنترل هزینه ایجنت هوش مصنوعی و FinOps | nexation",
+    metaDescription: "هزینه AI Agent را با معیار هزینه هر کار موفق مدیریت کنید؛ مثال عددی، بودجه چندلایه، کنترل حلقه‌ها و برنامه اجرایی ۳۰روزه برای سازمان‌ها.",
+    image: "https://nexation.ir/blog/ai-agent-finops-cost-per-outcome.webp",
+    imageAlt: "ماشین‌حساب، دفتر هزینه و مهره‌های شیشه‌ای روی کارت‌های مراحل کار برای نمایش هزینه هر نتیجه موفق",
+    author: "تیم nexation",
+    readingTime: "۱۲ دقیقه مطالعه",
+    keywords: ["کنترل هزینه ایجنت هوش مصنوعی", "FinOps هوش مصنوعی", "هزینه AI Agent", "هزینه هر کار موفق", "بودجه هوش مصنوعی سازمانی"],
+    sources: [
+      { name: "[۱] FinOps Foundation — Unit Economics", url: "https://www.finops.org/framework/capabilities/unit-economics/" },
+      { name: "[۲] Microsoft — Create and manage budgets", url: "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets" },
+      { name: "[۳] Microsoft — Limit LLM API token usage", url: "https://learn.microsoft.com/en-us/azure/api-management/llm-token-limit-policy" },
+      { name: "[۴] Anthropic — Cost Optimization on the Claude API", url: "https://platform.claude.com/cookbook/cost-optimization-cost-optimization" },
+      { name: "[۵] Anthropic — Effective context engineering for AI agents", url: "https://www.anthropic.com/research/effective-context-engineering-for-ai-agents" },
+    ],
+    relatedLinks: [
+      { title: "ارزیابی ایجنت و KPIهای سازمانی", href: "/blog/ai-agent-evaluation-enterprise-kpis" },
+      { title: "انتخاب معماری RAG، Workflow یا AI Agent", href: "/blog/rag-fine-tuning-ai-agent-decision-framework" },
+      { title: "طراحی تأیید انسانی برای ایجنت", href: "/blog/human-in-the-loop-ai-agent-approvals" },
+      { title: "سنجش بلوغ هوش مصنوعی سازمان", href: "/ai-maturity-assessment" },
+    ],
+    faqs: [
+      { question: "آیا انتخاب مدل ارزان‌تر همیشه هزینه ایجنت را کم می‌کند؟", answer: "خیر. اگر تلاش مجدد، شکست یا اصلاح انسانی بیشتر شود، هزینه هر نتیجه پذیرفته‌شده می‌تواند افزایش یابد. تصمیم را با ورودی و معیار پذیرش یکسان آزمایش کنید." },
+      { question: "آیا هشدار بودجه مصرف را متوقف می‌کند؟", answer: "به‌خودی‌خود نه. برای نمونه، بودجه Azure Cost Management ابزار هشدار و پاسخ‌گویی مالی است. توقف مصرف به محدودیت اجرایی یا گردش‌کار کنترلی جدا نیاز دارد." },
+      { question: "از کدام کاربرد شروع کنیم؟", answer: "از یک فرایند محدود با مالک مشخص، ورودی قابل‌شمارش و نتیجه قابل‌پذیرش شروع کنید. بدون این سه شرط، عدد هزینه هر کار ممکن است دقیق به نظر برسد اما برای تصمیم‌گیری مفید نباشد." },
+    ],
+  },
   "rag-fine-tuning-ai-agent-decision-framework": {
     metaTitle: "RAG یا Fine-tuning یا AI Agent؟ راهنمای انتخاب | nexation",
     metaDescription:
