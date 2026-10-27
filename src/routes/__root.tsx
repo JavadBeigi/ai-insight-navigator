@@ -15,11 +15,13 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://nexation.ir/#organization",
+  sameAs: ["https://www.linkedin.com/company/nexationai/"],
   name: "nexation",
   url: "https://nexation.ir/",
   logo: "https://nexation.ir/nexation-favicon.png",
   description:
-    "پلتفرم هوش مصنوعی و هوش تجاری سازمانی برای کشف داده، ساخت ایجنت‌های هوشمند و گزارش‌سازی خودکار.",
+    "مشاوره و اجرای تحول هوش مصنوعی سازمانی؛ سنجش بلوغ، تدوین استراتژی و طراحی چت‌بات و ایجنت اختصاصی.",
 };
 
 function NotFoundComponent() {

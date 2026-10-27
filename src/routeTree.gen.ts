@@ -9,21 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AiMaturityAssessmentRouteImport } from './routes/ai-maturity-assessment'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as ServicesEnterpriseChatbotRouteImport } from './routes/services.enterprise-chatbot'
+import { Route as ServicesAiConsultingRouteImport } from './routes/services.ai-consulting'
+import { Route as ServicesAiAgentDevelopmentRouteImport } from './routes/services.ai-agent-development'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const AiMaturityAssessmentRoute = AiMaturityAssessmentRouteImport.update({
+  id: '/ai-maturity-assessment',
+  path: '/ai-maturity-assessment',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -31,9 +29,14 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AiMaturityAssessmentRoute = AiMaturityAssessmentRouteImport.update({
-  id: '/ai-maturity-assessment',
-  path: '/ai-maturity-assessment',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -41,6 +44,23 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesEnterpriseChatbotRoute =
+  ServicesEnterpriseChatbotRouteImport.update({
+    id: '/services/enterprise-chatbot',
+    path: '/services/enterprise-chatbot',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesAiConsultingRoute = ServicesAiConsultingRouteImport.update({
+  id: '/services/ai-consulting',
+  path: '/services/ai-consulting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesAiAgentDevelopmentRoute =
+  ServicesAiAgentDevelopmentRouteImport.update({
+    id: '/services/ai-agent-development',
+    path: '/services/ai-agent-development',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
@@ -53,6 +73,9 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/ai-maturity-assessment': typeof AiMaturityAssessmentRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/services/ai-agent-development': typeof ServicesAiAgentDevelopmentRoute
+  '/services/ai-consulting': typeof ServicesAiConsultingRoute
+  '/services/enterprise-chatbot': typeof ServicesEnterpriseChatbotRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +84,9 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/ai-maturity-assessment': typeof AiMaturityAssessmentRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/services/ai-agent-development': typeof ServicesAiAgentDevelopmentRoute
+  '/services/ai-consulting': typeof ServicesAiConsultingRoute
+  '/services/enterprise-chatbot': typeof ServicesEnterpriseChatbotRoute
   '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
@@ -70,6 +96,9 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/ai-maturity-assessment': typeof AiMaturityAssessmentRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/services/ai-agent-development': typeof ServicesAiAgentDevelopmentRoute
+  '/services/ai-consulting': typeof ServicesAiConsultingRoute
+  '/services/enterprise-chatbot': typeof ServicesEnterpriseChatbotRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +109,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-maturity-assessment'
     | '/blog/$slug'
+    | '/services/ai-agent-development'
+    | '/services/ai-consulting'
+    | '/services/enterprise-chatbot'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +120,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-maturity-assessment'
     | '/blog/$slug'
+    | '/services/ai-agent-development'
+    | '/services/ai-consulting'
+    | '/services/enterprise-chatbot'
     | '/blog'
   id:
     | '__root__'
@@ -96,6 +131,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ai-maturity-assessment'
     | '/blog/$slug'
+    | '/services/ai-agent-development'
+    | '/services/ai-consulting'
+    | '/services/enterprise-chatbot'
     | '/blog/'
   fileRoutesById: FileRoutesById
 }
@@ -105,23 +143,19 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AiMaturityAssessmentRoute: typeof AiMaturityAssessmentRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  ServicesAiAgentDevelopmentRoute: typeof ServicesAiAgentDevelopmentRoute
+  ServicesAiConsultingRoute: typeof ServicesAiConsultingRoute
+  ServicesEnterpriseChatbotRoute: typeof ServicesEnterpriseChatbotRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/ai-maturity-assessment': {
+      id: '/ai-maturity-assessment'
+      path: '/ai-maturity-assessment'
+      fullPath: '/ai-maturity-assessment'
+      preLoaderRoute: typeof AiMaturityAssessmentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -131,11 +165,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/ai-maturity-assessment': {
-      id: '/ai-maturity-assessment'
-      path: '/ai-maturity-assessment'
-      fullPath: '/ai-maturity-assessment'
-      preLoaderRoute: typeof AiMaturityAssessmentRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -143,6 +184,27 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog/'
       preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/enterprise-chatbot': {
+      id: '/services/enterprise-chatbot'
+      path: '/services/enterprise-chatbot'
+      fullPath: '/services/enterprise-chatbot'
+      preLoaderRoute: typeof ServicesEnterpriseChatbotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/ai-consulting': {
+      id: '/services/ai-consulting'
+      path: '/services/ai-consulting'
+      fullPath: '/services/ai-consulting'
+      preLoaderRoute: typeof ServicesAiConsultingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/ai-agent-development': {
+      id: '/services/ai-agent-development'
+      path: '/services/ai-agent-development'
+      fullPath: '/services/ai-agent-development'
+      preLoaderRoute: typeof ServicesAiAgentDevelopmentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
@@ -161,18 +223,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AiMaturityAssessmentRoute: AiMaturityAssessmentRoute,
   BlogSlugRoute: BlogSlugRoute,
+  ServicesAiAgentDevelopmentRoute: ServicesAiAgentDevelopmentRoute,
+  ServicesAiConsultingRoute: ServicesAiConsultingRoute,
+  ServicesEnterpriseChatbotRoute: ServicesEnterpriseChatbotRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -3,21 +3,22 @@ import { useEffect, useState, type FormEvent } from "react";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { supabase } from "@/lib/supabase";
 import { normalizeIranianPhone } from "@/lib/site";
+import { servicePages, servicePath } from "@/lib/services";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "nexation | پلتفرم هوش مصنوعی و BI سازمانی" },
+      { title: "Nexation | مشاوره هوش مصنوعی، طراحی ایجنت و چت‌بات سازمانی" },
       {
         name: "description",
         content:
-          "nexation به سازمان‌ها کمک می‌کند AI-Native شوند: کشف داده، ایجنت‌های هوشمند، چت‌بات دیتا و گزارش‌سازی خودکار در یک پلتفرم.",
+          "Nexation همراه تحول هوش مصنوعی سازمان شما؛ سنجش بلوغ، تدوین استراتژی، مشاوره و طراحی و اجرای چت‌بات و ایجنت اختصاصی.",
       },
-      { property: "og:title", content: "nexation | پلتفرم هوش مصنوعی و BI سازمانی" },
+      { property: "og:title", content: "Nexation | مشاوره هوش مصنوعی، طراحی ایجنت و چت‌بات سازمانی" },
       {
         property: "og:description",
         content:
-          "با داده‌های سازمانتان چت کنید، ایجنت بسازید و در لحظه گزارش بگیرید. nexation، لبه‌ی هوش مصنوعی سازمانی.",
+          "از سنجش بلوغ و استراتژی AI تا طراحی چت‌بات و ایجنت اختصاصی؛ Nexation در مسیر تحول هوش مصنوعی کنار سازمان شماست.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://nexation.ir/" },
@@ -30,44 +31,18 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const services = [
-  {
-    n: "01",
-    title: "کشف و یکپارچه‌سازی دیتا",
-    desc: "شناسایی داده‌های پراکنده در سازمان و اتصال به SQL، NoSQL، فایل‌ها و APIهای ابری در یک لایه معنایی.",
-  },
-  {
-    n: "02",
-    title: "ایجنت‌های هوشمند سازمانی",
-    desc: "طراحی ایجنت‌های خودکار برای پایش فرآیندها، اجرای وظایف چندمرحله‌ای و تصمیم‌گیری داده‌محور.",
-  },
-  {
-    n: "03",
-    title: "چت‌بات با دیتای شما",
-    desc: "پرسش به زبان طبیعی از دیتابیس و مستندات؛ پاسخ همراه با نمودار، جدول و منابع قابل استناد.",
-  },
-  {
-    n: "04",
-    title: "گزارش‌سازی خودکار",
-    desc: "داشبوردهای زنده و گزارش‌های تحلیلی BI که در لحظه به‌روزرسانی می‌شوند و به تصمیم می‌رسانند.",
-  },
-  {
-    n: "05",
-    title: "استقرار امن و اختصاصی",
-    desc: "پیاده‌سازی روی زیرساخت داخلی سازمان با کنترل کامل بر مدل، داده و دسترسی‌ها.",
-  },
-  {
-    n: "06",
-    title: "تبدیل به سازمان AI-Native",
-    desc: "بازطراحی فرآیندها، آموزش تیم‌ها و ساخت نقشه راه برای ادغام هوش مصنوعی در عمق سازمان.",
-  },
-];
+const services = servicePages.map((service, index) => ({
+  n: String(index + 1).padStart(2, "0"),
+  title: service.label,
+  desc: service.description,
+  href: servicePath(service),
+}));
 
 const steps = [
-  { n: "01", t: "اتصال", d: "منابع داده را در چند دقیقه به پلتفرم متصل می‌کنیم." },
-  { n: "02", t: "یادگیری", d: "لایه معنایی، ساختار داده و اصطلاحات سازمان شما را می‌فهمد." },
-  { n: "03", t: "گفتگو", d: "تیم شما با دیتا چت می‌کند و در لحظه پاسخ می‌گیرد." },
-  { n: "04", t: "خودکارسازی", d: "ایجنت‌ها گزارش‌ها و اقدامات تکراری را برعهده می‌گیرند." },
+  { n: "01", t: "شناخت و ارزیابی", d: "مسئله، وضعیت داده، بلوغ و محدودیت‌های سازمان را بررسی می‌کنیم." },
+  { n: "02", t: "اولویت‌بندی", d: "کاربرد مناسب و معیار موفقیت را با تیم شما مشخص می‌کنیم." },
+  { n: "03", t: "پایلوت و ارزیابی", d: "راهکار را در دامنه محدود می‌سازیم و با داده و سناریوی واقعی می‌سنجیم." },
+  { n: "04", t: "استقرار و بهبود", d: "بر اساس نتیجه ارزیابی، اجرای عملیاتی، آموزش و مسیر توسعه را پیش می‌بریم." },
 ];
 
 const metrics = [
@@ -121,8 +96,8 @@ function Nav() {
             <a href="#services" className="transition-colors hover:text-foreground">
               سرویس‌ها
             </a>
-            <a href="#platform" className="transition-colors hover:text-foreground">
-              پلتفرم
+            <a href="/services/enterprise-chatbot" className="transition-colors hover:text-foreground">
+              چت‌بات سازمانی
             </a>
             <a href="#steps" className="transition-colors hover:text-foreground">
               مسیر همکاری
@@ -173,14 +148,14 @@ function Hero() {
         </div>
 
         <h1 className="animate-stream mx-auto mb-8 max-w-4xl text-balance text-5xl font-black leading-[1.1] tracking-tight md:text-7xl [animation-delay:100ms]">
-          دیتای سازمان شما،
+          هوش مصنوعی برای سازمان شما،
           <br />
-          <span className="text-gradient">هوشمندتر از همیشه</span>
+          <span className="text-gradient">از استراتژی تا اجرا</span>
         </h1>
 
         <p className="animate-stream mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg [animation-delay:200ms]">
-          nexation به سازمان‌ها کمک می‌کند از لایه‌های پنهان دیتای خود تصمیم‌های استراتژیک بسازند —
-          با ایجنت‌های اختصاصی، چت‌بات‌های داده‌محور و گزارش‌سازی خودکار.
+          Nexation به سازمان‌ها کمک می‌کند AI-Native شوند؛ با سنجش بلوغ، مشاوره و تدوین استراتژی،
+          و طراحی و اجرای چت‌بات و ایجنت متناسب با نیاز واقعی سازمان.
         </p>
 
         <div className="animate-stream mx-auto flex w-full max-w-64 flex-col items-center justify-center gap-3 sm:max-w-none sm:flex-row [animation-delay:300ms]">
@@ -262,13 +237,14 @@ function Services() {
             هر آن‌چه یک سازمان AI-Native نیاز دارد
           </h2>
           <p className="mt-4 text-muted-foreground">
-            از کشف داده تا استقرار ایجنت — یک تیم، یک پلتفرم، یک زبان مشترک با دیتای شما.
+            از شناخت مسئله و تدوین نقشه راه تا ساخت و استقرار راهکار؛ خدمات را متناسب با آمادگی و نیاز سازمان انتخاب کنید.
           </p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <div
+            <a
+              href={s.href}
               key={s.n}
               className="group relative overflow-hidden rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/40 hover:-translate-y-1"
             >
@@ -278,13 +254,13 @@ function Services() {
               </div>
               <h3 className="mb-3 text-xl font-bold">{s.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-              <div className="mt-6 flex items-center gap-1 text-xs font-bold text-cyan opacity-0 transition-opacity group-hover:opacity-100">
-                بیشتر بدانید <span aria-hidden>←</span>
+              <div className="mt-6 flex items-center gap-1 text-xs font-bold text-cyan">
+                جزئیات {s.title} <span aria-hidden>←</span>
               </div>
               {i === 0 && (
                 <div className="pointer-events-none absolute -bottom-20 -left-20 size-40 rounded-full bg-primary/20 blur-3xl" />
               )}
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -369,9 +345,9 @@ function ChatDemo() {
                   <span className="size-2.5 rounded-full bg-mint/50" />
                 </div>
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  neuros://console
+                  nexation / demo
                 </span>
-                <span className="text-[10px] font-bold text-cyan">● زنده</span>
+                <span className="text-[10px] font-bold text-cyan">نمونه نمایشی</span>
               </div>
 
               <div className="space-y-5 p-6">
@@ -648,9 +624,9 @@ function Footer() {
           <div>
             <h2 className="text-sm font-black text-foreground">راهکارها</h2>
             <nav className="mt-5 flex flex-col gap-4 text-sm text-muted-foreground" aria-label="راهکارهای nexation">
-              <a href="#services" className="transition-colors hover:text-cyan">ایجنت‌های هوشمند</a>
-              <a href="#platform" className="transition-colors hover:text-cyan">چت‌بات سازمانی</a>
-              <a href="#services" className="transition-colors hover:text-cyan">گزارش‌سازی خودکار</a>
+              <a href="/services/ai-agent-development" className="transition-colors hover:text-cyan">طراحی ایجنت هوش مصنوعی</a>
+              <a href="/services/enterprise-chatbot" className="transition-colors hover:text-cyan">ساخت چت‌بات سازمانی</a>
+              <a href="/services/ai-consulting" className="transition-colors hover:text-cyan">مشاوره و استراتژی AI</a>
               <a href="/ai-maturity-assessment" className="transition-colors hover:text-cyan">سنجش بلوغ AI</a>
             </nav>
           </div>

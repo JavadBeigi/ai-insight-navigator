@@ -1,0 +1,51 @@
+name: Service pages QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/components/service-page.tsx'
+      - 'src/lib/services.ts'
+      - 'src/routes/services.*.tsx'
+      - 'src/routes/index.tsx'
+      - 'scripts/qa-service-pages.mjs'
+      - '.github/workflows/service-pages-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  service-pages-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_local_content_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run build
+      - run: npm install --prefix "$RUNNER_TEMP/service-qa" --no-save --ignore-scripts playwright@1.62.1
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: chromium-playwright-1.62.1-linux
+      - run: node "$RUNNER_TEMP/service-qa/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Verify navigation, SSR, SEO and responsive layout
+        env:
+          PLAYWRIGHT_PACKAGE: ${{ runner.temp }}/service-qa/node_modules/playwright
+        run: |
+          bun run dev -- --host 127.0.0.1 --port 4173 > "$RUNNER_TEMP/service-dev.log" 2>&1 &
+          for attempt in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:4173/services/enterprise-chatbot > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/qa-service-pages.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: service-pages-qa
+          path: service-qa-output
+          if-no-files-found: warn
