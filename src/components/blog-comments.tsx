@@ -82,7 +82,7 @@ export function BlogComments({ articleId }: { articleId: number }) {
             تجربه یا سؤال خود را درباره این مقاله با ما در میان بگذارید.
           </p>
         </div>
-        <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-muted-foreground">
+        <span className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
           {comments.length.toLocaleString("fa-IR")} دیدگاه
         </span>
       </div>
@@ -157,7 +157,7 @@ export function BlogComments({ articleId }: { articleId: number }) {
           </p>
           <button
             disabled={submitting}
-            className="rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground disabled:opacity-50"
+            className="rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-bold disabled:opacity-50"
           >
             {submitting ? "در حال ارسال..." : "ارسال دیدگاه"}
           </button>
@@ -167,8 +167,8 @@ export function BlogComments({ articleId }: { articleId: number }) {
             role="status"
             className={`mt-4 rounded-xl border p-3 text-sm ${
               messageType === "success"
-                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                : "border-red-500/30 bg-red-500/10 text-red-300"
+                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700"
+                : "border-red-500/30 bg-red-500/10 text-red-700"
             }`}
           >
             {message}

@@ -187,31 +187,33 @@ function AdminPage() {
 
   if (checking)
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background text-muted-foreground">
+      <main className="admin-page flex min-h-screen items-center justify-center bg-background text-muted-foreground">
         در حال بررسی دسترسی...
       </main>
     );
 
   if (!authorized) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background px-6 text-foreground">
+      <main className="admin-page flex min-h-screen items-center justify-center bg-background px-6 text-foreground">
         <form
           onSubmit={login}
-          className="w-full max-w-sm rounded-3xl border border-border bg-card p-8 shadow-2xl"
+          className="surface-card w-full max-w-sm rounded-3xl border border-border bg-card p-8"
         >
           <Link to="/" className="text-xl font-black">
             nexation<span className="text-cyan">.</span>
           </Link>
           <h1 className="mt-8 text-2xl font-black">ورود مدیر</h1>
-          <label className="mt-6 block text-sm text-muted-foreground">نام کاربری</label>
+          <label htmlFor="admin-username" className="mt-6 block text-sm text-muted-foreground">نام کاربری</label>
           <input
+            id="admin-username"
             value="admin"
             disabled
             dir="ltr"
             className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-left text-sm opacity-70"
           />
-          <label className="mt-4 block text-sm text-muted-foreground">رمز عبور</label>
+          <label htmlFor="admin-password" className="mt-4 block text-sm text-muted-foreground">رمز عبور</label>
           <input
+            id="admin-password"
             type="password"
             required
             value={password}
@@ -219,10 +221,10 @@ function AdminPage() {
             dir="ltr"
             className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-left text-sm outline-none focus:border-cyan"
           />
-          {loginError && <p className="mt-3 text-sm text-red-400">{loginError}</p>}
+          {loginError && <p className="mt-3 text-sm text-red-700">{loginError}</p>}
           <button
             disabled={saving}
-            className="mt-6 w-full rounded-xl bg-primary px-5 py-3 font-bold disabled:opacity-50"
+            className="mt-6 w-full rounded-xl bg-primary text-primary-foreground px-5 py-3 font-bold disabled:opacity-50"
           >
             {saving ? "در حال ورود..." : "ورود"}
           </button>
@@ -232,7 +234,7 @@ function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="admin-page min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-background/90">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-5">
@@ -248,33 +250,33 @@ function AdminPage() {
       </header>
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex flex-wrap gap-2">
-          <button onClick={() => setTab("about")} className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "about" ? "bg-primary" : "bg-card text-muted-foreground"}`}>درباره ما</button>
+          <button onClick={() => setTab("about")} className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "about" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}>درباره ما</button>
           <button
             onClick={() => setTab("requests")}
-            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "requests" ? "bg-primary" : "bg-card text-muted-foreground"}`}
+            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "requests" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}
           >
             درخواست‌های دمو
           </button>
           <button
             onClick={() => setTab("assessments")}
-            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "assessments" ? "bg-primary" : "bg-card text-muted-foreground"}`}
+            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "assessments" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}
           >
             ارزیابی‌های بلوغ
-            {assessments.filter((item) => item.status === "payment_requested").length > 0 && <span className="mr-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-300">{assessments.filter((item) => item.status === "payment_requested").length}</span>}
+            {assessments.filter((item) => item.status === "payment_requested").length > 0 && <span className="mr-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-700">{assessments.filter((item) => item.status === "payment_requested").length}</span>}
           </button>
           <button
             onClick={() => setTab("articles")}
-            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "articles" ? "bg-primary" : "bg-card text-muted-foreground"}`}
+            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "articles" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}
           >
             مقالات
           </button>
           <button
             onClick={() => setTab("comments")}
-            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "comments" ? "bg-primary" : "bg-card text-muted-foreground"}`}
+            className={`rounded-xl px-5 py-3 text-sm font-bold ${tab === "comments" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}
           >
             دیدگاه‌ها
             {pendingCommentsCount > 0 && (
-              <span className="mr-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-300">
+              <span className="mr-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-700">
                 {pendingCommentsCount.toLocaleString("fa-IR")}
               </span>
             )}
@@ -317,7 +319,7 @@ function AdminPage() {
                     </p>
                   </div>
                   <span
-                    className={`w-fit rounded-full px-3 py-1 text-xs ${request.status === "contacted" ? "bg-emerald-500/15 text-emerald-300" : "bg-amber-500/15 text-amber-300"}`}
+                    className={`w-fit rounded-full px-3 py-1 text-xs ${request.status === "contacted" ? "bg-emerald-500/15 text-emerald-700" : "bg-amber-500/15 text-amber-700"}`}
                   >
                     {request.status === "contacted" ? "تماس گرفته شد" : "جدید"}
                   </span>
@@ -328,7 +330,7 @@ function AdminPage() {
                         request.status === "contacted" ? "new" : "contacted",
                       )
                     }
-                    className="rounded-lg border border-border px-4 py-2 text-sm hover:bg-white/5"
+                    className="rounded-lg border border-border px-4 py-2 text-sm hover:bg-secondary"
                   >
                     {request.status === "contacted" ? "بازگرداندن به جدید" : "ثبت تماس"}
                   </button>
@@ -343,9 +345,9 @@ function AdminPage() {
               <article key={assessment.id} className="border-b border-border p-6 last:border-0">
                 <div className="grid gap-5 md:grid-cols-[1.4fr_1fr_auto] md:items-center">
                   <div><h2 className="font-black">{assessment.organization}</h2><p className="mt-1 text-sm text-muted-foreground">{assessment.industry} · {assessment.respondent_role}</p><a href={`tel:${assessment.phone}`} dir="ltr" className="mt-2 block font-mono text-cyan">{assessment.phone}</a></div>
-                  <div><p className="font-mono text-2xl font-black text-cyan" dir="ltr">{assessment.overall_score}/100</p><span className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${assessment.status === "paid" ? "bg-emerald-500/15 text-emerald-300" : assessment.status === "payment_requested" ? "bg-amber-500/15 text-amber-300" : "bg-white/5 text-muted-foreground"}`}>{assessment.status === "paid" ? "پرداخت تأیید شده" : assessment.status === "payment_requested" ? "در انتظار پرداخت" : "فقط نتیجه اولیه"}</span></div>
+                  <div><p className="font-mono text-2xl font-black text-cyan" dir="ltr">{assessment.overall_score}/100</p><span className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${assessment.status === "paid" ? "bg-emerald-500/15 text-emerald-700" : assessment.status === "payment_requested" ? "bg-amber-500/15 text-amber-700" : "bg-secondary text-muted-foreground"}`}>{assessment.status === "paid" ? "پرداخت تأیید شده" : assessment.status === "payment_requested" ? "در انتظار پرداخت" : "فقط نتیجه اولیه"}</span></div>
                   <div className="flex flex-col gap-2">
-                    {assessment.status === "payment_requested" ? <button onClick={() => confirmAssessmentPayment(assessment.id)} className="rounded-xl bg-primary px-5 py-3 text-sm font-black">تأیید پرداخت و فعال‌سازی</button> : null}
+                    {assessment.status === "payment_requested" ? <button onClick={() => confirmAssessmentPayment(assessment.id)} className="rounded-xl bg-primary text-primary-foreground px-5 py-3 text-sm font-black">تأیید پرداخت و فعال‌سازی</button> : null}
                     <a href={`/ai-maturity-assessment#admin=${assessment.id}`} target="_blank" rel="noreferrer" className="rounded-xl border border-cyan/30 px-5 py-3 text-center text-sm font-bold text-cyan">مشاهده گزارش کامل مدیریتی</a>
                     <button type="button" onClick={() => void navigator.clipboard.writeText(`https://nexation.ir/ai-maturity-assessment#token=${assessment.access_token}`).then(() => setMessage("لینک اختصاصی گزارش کپی شد."))} className="rounded-xl border border-border px-5 py-3 text-sm font-bold text-cyan">کپی لینک گزارش</button>
                   </div>
@@ -415,7 +417,7 @@ function AdminPage() {
               </select>
               <button
                 disabled={saving}
-                className="mt-6 w-full rounded-xl bg-primary px-5 py-3 font-bold disabled:opacity-50"
+                className="mt-6 w-full rounded-xl bg-primary text-primary-foreground px-5 py-3 font-bold disabled:opacity-50"
               >
                 {saving ? "در حال ذخیره..." : "ذخیره مقاله"}
               </button>
@@ -431,7 +433,7 @@ function AdminPage() {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs ${article.status === "published" ? "bg-emerald-500/15 text-emerald-300" : "bg-white/5 text-muted-foreground"}`}
+                          className={`rounded-full px-2.5 py-1 text-xs ${article.status === "published" ? "bg-emerald-500/15 text-emerald-700" : "bg-secondary text-muted-foreground"}`}
                         >
                           {article.status === "published" ? "منتشرشده" : "پیش‌نویس"}
                         </span>
@@ -462,7 +464,7 @@ function AdminPage() {
                       </button>
                       <button
                         onClick={() => deleteArticle(article.id)}
-                        className="rounded-lg border border-red-500/20 px-4 py-2 text-sm text-red-300"
+                        className="rounded-lg border border-red-500/20 px-4 py-2 text-sm text-red-700"
                       >
                         حذف
                       </button>
@@ -479,7 +481,7 @@ function AdminPage() {
                           href={`/blog/${article.slug}?preview=1`}
                           target="_blank"
                           rel="noreferrer"
-                          className="rounded-lg border border-amber-400/30 px-4 py-2 text-sm text-amber-300"
+                          className="rounded-lg border border-amber-400/30 px-4 py-2 text-sm text-amber-700"
                         >
                           پیش‌نمایش امن
                         </a>
@@ -512,10 +514,10 @@ function AdminPage() {
                           <span
                             className={`rounded-full px-2.5 py-1 text-xs ${
                               comment.status === "approved"
-                                ? "bg-emerald-500/15 text-emerald-300"
+                                ? "bg-emerald-500/15 text-emerald-700"
                                 : comment.status === "rejected"
-                                  ? "bg-red-500/15 text-red-300"
-                                  : "bg-amber-500/15 text-amber-300"
+                                  ? "bg-red-500/15 text-red-700"
+                                  : "bg-amber-500/15 text-amber-700"
                             }`}
                           >
                             {comment.status === "approved"
@@ -549,7 +551,7 @@ function AdminPage() {
                       {comment.status !== "approved" && (
                         <button
                           onClick={() => updateCommentStatus(comment.id, "approved")}
-                          className="rounded-lg border border-emerald-500/30 px-4 py-2 text-sm text-emerald-300"
+                          className="rounded-lg border border-emerald-500/30 px-4 py-2 text-sm text-emerald-700"
                         >
                           تأیید و انتشار
                         </button>
@@ -557,7 +559,7 @@ function AdminPage() {
                       {comment.status !== "rejected" && (
                         <button
                           onClick={() => updateCommentStatus(comment.id, "rejected")}
-                          className="rounded-lg border border-amber-500/30 px-4 py-2 text-sm text-amber-300"
+                          className="rounded-lg border border-amber-500/30 px-4 py-2 text-sm text-amber-700"
                         >
                           رد کردن
                         </button>
@@ -573,7 +575,7 @@ function AdminPage() {
                       )}
                       <button
                         onClick={() => deleteComment(comment.id)}
-                        className="rounded-lg border border-red-500/20 px-4 py-2 text-sm text-red-300"
+                        className="rounded-lg border border-red-500/20 px-4 py-2 text-sm text-red-700"
                       >
                         حذف
                       </button>

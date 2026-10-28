@@ -1,7 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { AlertTriangle, ArrowLeft, CalendarRange, CheckCircle2, Download, Flame, Lightbulb, ShieldCheck, Target } from "lucide-react";
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import {
   calculateMaturity,
   maturityDimensions,
@@ -134,14 +136,9 @@ function AiMaturityAssessment() {
   }
 
   return (
-    <main className="min-h-screen bg-background text-foreground" dir="rtl">
+    <main className="page-shell assessment-page min-h-screen bg-background text-foreground" dir="rtl">
       <style>{`@media print { @page { size: A4; margin: 12mm; } body { background: #fff !important; } .report-shell { color: #0f172a !important; background: #fff !important; } .report-shell * { print-color-adjust: exact; -webkit-print-color-adjust: exact; } .report-card { break-inside: avoid; border-color: #cbd5e1 !important; background: #fff !important; } .report-muted { color: #475569 !important; } .no-print, .full-report-content { display: none !important; } }`}</style>
-      <header className="no-print border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <Link to="/" className="text-xl font-black">nexation<span className="text-cyan">.</span></Link>
-          <span className="text-xs text-muted-foreground">AI Maturity Index</span>
-        </div>
-      </header>
+      <SiteHeader />
 
       {stage === "intro" && (
         <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
@@ -159,7 +156,7 @@ function AiMaturityAssessment() {
                 <span className="rounded-full border border-border px-4 py-2">امتیاز از ۱۰۰</span>
                 <span className="rounded-full border border-border px-4 py-2">نتیجه اولیه رایگان</span>
               </div>
-              <button onClick={() => setStage("profile")} className="btn-glow mt-10 inline-flex items-center gap-3 rounded-xl bg-primary px-7 py-4 font-bold">
+              <button onClick={() => setStage("profile")} className="btn-glow mt-10 inline-flex items-center gap-3 rounded-xl bg-primary text-primary-foreground px-7 py-4 font-bold">
                 شروع ارزیابی <ArrowLeft className="size-5" />
               </button>
             </div>
@@ -195,7 +192,7 @@ function AiMaturityAssessment() {
                 <input required value={profile[key as keyof typeof profile]} onChange={(event) => setProfile((current) => ({ ...current, [key]: event.target.value }))} placeholder={placeholder} dir={key === "phone" ? "ltr" : "rtl"} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 font-normal outline-none focus:border-cyan" />
               </label>
             ))}
-            <button className="w-full rounded-xl bg-primary px-6 py-4 font-black">ورود به پرسشنامه</button>
+            <button className="w-full rounded-xl bg-primary text-primary-foreground px-6 py-4 font-black">ورود به پرسشنامه</button>
           </form>
         </section>
       )}
@@ -205,7 +202,7 @@ function AiMaturityAssessment() {
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span>{dimension?.label}</span><span dir="ltr">{questionIndex + 1} / {maturityQuestions.length}</span>
           </div>
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-cyan transition-all" style={{ width: `${((questionIndex + 1) / maturityQuestions.length) * 100}%` }} /></div>
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-cyan transition-all" style={{ width: `${((questionIndex + 1) / maturityQuestions.length) * 100}%` }} /></div>
           <article className="mt-8 rounded-3xl border border-border bg-card p-6 md:p-10">
             <h1 className="text-xl font-black leading-9 md:text-2xl">{question.prompt}</h1>
             <p className="mt-3 text-xs text-muted-foreground">وضعیت واقعی سازمان را انتخاب کنید، نه وضعیت مطلوب آینده.</p>
@@ -240,29 +237,29 @@ function AiMaturityAssessment() {
             <p className="mt-4 text-sm font-bold text-cyan">نتیجه اولیه {profile.organization}</p>
             <h1 className="mt-3 text-4xl font-black">سطح {result.level}: {result.levelName}</h1>
             <div className="mt-5 text-7xl font-black text-gradient" dir="ltr">{result.score}<span className="text-2xl">/100</span></div>
-            {result.governanceCapApplied && <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-amber-300">به‌دلیل پایین‌بودن آمادگی حاکمیت و امنیت، سقف امتیاز کل اعمال شده است.</p>}
+            {result.governanceCapApplied && <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-amber-700">به‌دلیل پایین‌بودن آمادگی حاکمیت و امنیت، سقف امتیاز کل اعمال شده است.</p>}
           </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            <div className="rounded-3xl border border-border bg-card p-5 md:p-8">
+          <div className="report-overview mt-12 grid gap-6 lg:grid-cols-2">
+            <div className="report-summary-card rounded-3xl border border-border bg-card p-5 md:p-8">
               <h2 className="text-xl font-black">نمای کلی هفت محور</h2>
-              <div className="mt-4 h-[360px]" dir="ltr">
+              <div className="report-radar mt-4 h-[280px] sm:h-[360px]" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={result.dimensionScores} outerRadius="72%"><PolarGrid stroke="rgba(148,163,184,.25)" /><PolarAngleAxis dataKey="shortLabel" tick={{ fill: "#cbd5e1", fontSize: 12 }} /><Radar dataKey="score" stroke="#22d3ee" fill="#22d3ee" fillOpacity={0.28} /></RadarChart>
+                  <RadarChart data={result.dimensionScores} outerRadius="60%"><PolarGrid stroke="#c8d7e5" /><PolarAngleAxis dataKey="shortLabel" tick={{ fill: "#52657b", fontSize: 12 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar isAnimationActive={false} dataKey="score" stroke="#087f95" fill="#087f95" fillOpacity={0.18} /></RadarChart>
                 </ResponsiveContainer>
               </div>
             </div>
             <div className="space-y-5">
-              <div className="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-300">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
-              <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-300">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
+              <div className="report-summary-card rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-700">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
+              <div className="report-summary-card rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-700">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
               <div className="no-print rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
                 <p className="text-sm font-bold text-cyan">گزارش کامل و نقشه راه اختصاصی</p>
-                {reportUnlocked ? <>{adminPreview ? <><h3 className="mt-2 text-xl font-black text-cyan">نمایش مدیریتی گزارش کامل</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">این نسخه فقط برای ادمین واردشده نمایش داده می‌شود و برای آماده‌سازی جلسه مشاوره است.</p></> : <><h3 className="mt-2 text-xl font-black text-emerald-300">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></>}</> : <>
+                {reportUnlocked ? <>{adminPreview ? <><h3 className="mt-2 text-xl font-black text-cyan">نمایش مدیریتی گزارش کامل</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">این نسخه فقط برای ادمین واردشده نمایش داده می‌شود و برای آماده‌سازی جلسه مشاوره است.</p></> : <><h3 className="mt-2 text-xl font-black text-emerald-700">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></>}</> : <>
                   <h3 className="mt-2 text-xl font-black">برای مشاهده گزارش کامل، درخواست پرداخت ثبت کنید</h3>
                   <p className="mt-3 text-sm leading-7 text-muted-foreground">درگاه آنلاین فعال نیست؛ تیم nexation برای هماهنگی مبلغ و پرداخت با شماره ثبت‌شده تماس می‌گیرد.</p>
-                  {purchaseStatus === "idle" || purchaseStatus === "error" ? <button type="button" disabled={!assessmentSaved} onClick={requestFullReport} className="mt-5 rounded-xl bg-primary px-6 py-3 text-sm font-black disabled:opacity-50">{assessmentSaved ? "درخواست گزارش کامل" : "در حال ثبت نتیجه..."}</button> : null}
+                  {purchaseStatus === "idle" || purchaseStatus === "error" ? <button type="button" disabled={!assessmentSaved} onClick={requestFullReport} className="mt-5 rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-black disabled:opacity-50">{assessmentSaved ? "درخواست گزارش کامل" : "در حال ثبت نتیجه..."}</button> : null}
                   {purchaseStatus === "requesting" ? <p className="mt-4 text-sm text-cyan">در حال ثبت درخواست...</p> : null}
-                  {purchaseStatus === "requested" || purchaseStatus === "checking" ? <div className="mt-5"><p className="text-sm font-bold text-emerald-300">درخواست شما ثبت شد؛ پس از هماهنگی و تأیید پرداخت، گزارش باز می‌شود.</p><button type="button" onClick={checkPaymentStatus} disabled={purchaseStatus === "checking"} className="mt-4 rounded-xl border border-cyan/30 px-5 py-2.5 text-sm font-bold text-cyan">{purchaseStatus === "checking" ? "در حال بررسی..." : "بررسی وضعیت پرداخت"}</button></div> : null}
-                  {purchaseStatus === "error" ? <p className="mt-3 text-sm text-red-300">ثبت درخواست انجام نشد؛ لطفاً دوباره تلاش کنید.</p> : null}
+                  {purchaseStatus === "requested" || purchaseStatus === "checking" ? <div className="mt-5"><p className="text-sm font-bold text-emerald-700">درخواست شما ثبت شد؛ پس از هماهنگی و تأیید پرداخت، گزارش باز می‌شود.</p><button type="button" onClick={checkPaymentStatus} disabled={purchaseStatus === "checking"} className="mt-4 rounded-xl border border-cyan/30 px-5 py-2.5 text-sm font-bold text-cyan">{purchaseStatus === "checking" ? "در حال بررسی..." : "بررسی وضعیت پرداخت"}</button></div> : null}
+                  {purchaseStatus === "error" ? <p className="mt-3 text-sm text-red-700">ثبت درخواست انجام نشد؛ لطفاً دوباره تلاش کنید.</p> : null}
                 </>}
               </div>
             </div>
@@ -272,11 +269,12 @@ function AiMaturityAssessment() {
           <section className="no-print mt-10 rounded-3xl border border-cyan/25 bg-gradient-to-l from-cyan/10 to-primary/10 p-7 text-center md:p-10">
             <h3 className="text-2xl font-black">گام بعدی را با nexation طراحی کنید</h3>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">در یک جلسه مشاوره، نتایج خوداظهاری را اعتبارسنجی می‌کنیم و Use Caseها، ریسک‌ها و نقشه راه اجرایی سازمان شما را دقیق‌تر می‌سازیم.</p>
-            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> ذخیره خلاصه گزارش PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row"><button type="button" onClick={() => window.print()} className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan/30 bg-background px-6 py-3 font-black"><Download className="size-5" /> ذخیره خلاصه گزارش PDF</button><a href="https://nexation.ir/#contact" className="rounded-xl bg-primary text-primary-foreground px-6 py-3 font-black">درخواست جلسه مشاوره</a></div>
           </section>
           {!adminPreview ? <div className="no-print mt-10 text-center"><button onClick={() => { window.history.replaceState(null, "", window.location.pathname); setAssessmentToken(""); setAssessmentSaved(false); setReportUnlocked(false); setPurchaseStatus("idle"); setAnswers({}); setQuestionIndex(0); setStage("intro"); }} className="text-sm text-cyan">شروع ارزیابی جدید</button></div> : null}
         </section>
       )}
+      <SiteFooter />
     </main>
   );
 }
@@ -331,12 +329,12 @@ function FullReport({ result, answers, industry, organization }: { result: Retur
       </div>
 
       <section className="report-card rounded-3xl border border-border bg-card p-6 md:p-8">
-        <div className="flex items-center gap-3"><Flame className="size-6 text-orange-300" /><h3 className="text-xl font-black">Heatmap زیرشاخص‌ها</h3></div>
+        <div className="flex items-center gap-3"><Flame className="size-6 text-orange-700" /><h3 className="text-xl font-black">Heatmap زیرشاخص‌ها</h3></div>
         <p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">هر خانه نماینده یکی از ۳۵ سؤال است؛ قرمز یعنی شکاف جدی و سبز یعنی قابلیت تثبیت‌شده.</p>
         <div className="mt-6 space-y-5">
           {maturityDimensions.map((dimension) => {
             const questions = maturityQuestions.filter((item) => item.dimension === dimension.id);
-            return <div key={dimension.id}><div className="mb-2 flex items-center justify-between text-xs"><span className="font-bold">{dimension.label}</span><span className="report-muted text-muted-foreground">۵ زیرشاخص</span></div><div className="grid grid-cols-5 gap-2" dir="ltr">{questions.map((item, index) => { const value = answers[item.id] ?? 1; const hue = ((value - 1) / 4) * 120; return <div key={item.id} title={item.prompt} className="flex h-12 items-center justify-center rounded-lg border border-white/10 font-mono text-xs font-black text-white" style={{ backgroundColor: `hsl(${hue} 68% 38%)` }}>{index + 1}</div>; })}</div></div>;
+            return <div key={dimension.id}><div className="mb-2 flex items-center justify-between text-xs"><span className="font-bold">{dimension.label}</span><span className="report-muted text-muted-foreground">۵ زیرشاخص</span></div><div className="grid grid-cols-5 gap-2" dir="ltr">{questions.map((item, index) => { const value = answers[item.id] ?? 1; const hue = ((value - 1) / 4) * 120; return <div key={item.id} title={item.prompt} className="flex h-12 items-center justify-center rounded-lg border border-border font-mono text-xs font-black text-white" style={{ backgroundColor: `hsl(${hue} 68% 25%)` }}>{index + 1}</div>; })}</div></div>;
           })}
         </div>
         <div className="report-muted mt-5 flex justify-between text-xs text-muted-foreground"><span>شکاف بحرانی</span><span>قابلیت مقیاس‌یافته</span></div>
@@ -346,7 +344,7 @@ function FullReport({ result, answers, industry, organization }: { result: Retur
         {result.dimensionScores.map((item) => (
           <article key={item.id} className="report-card rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between gap-4"><h3 className="font-black">{item.label}</h3><span className="font-mono text-lg font-black text-cyan" dir="ltr">{item.score}/100</span></div>
-            <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-cyan" style={{ width: `${item.score}%` }} /></div>
+            <div className="mt-4 h-2 overflow-hidden rounded-full bg-secondary"><div className="h-full rounded-full bg-cyan" style={{ width: `${item.score}%` }} /></div>
             <p className="report-muted mt-4 text-sm leading-7 text-muted-foreground">{dimensionGuidance[item.id].diagnosis}</p>
           </article>
         ))}
@@ -355,27 +353,27 @@ function FullReport({ result, answers, industry, organization }: { result: Retur
       <section className="report-card rounded-3xl border border-border bg-card p-6 md:p-8">
         <h3 className="text-xl font-black">شکاف وضع موجود تا هدف پیشنهادی</h3>
         <p className="report-muted mt-2 text-sm text-muted-foreground">هدف عملیاتی اولیه برای {organization}: امتیاز ۸۰ از ۱۰۰ در هر محور.</p>
-        <div className="mt-6 space-y-5">{result.dimensionScores.map((item) => { const gap = Math.max(0, targetScore - item.score); return <div key={item.id}><div className="mb-2 flex items-center justify-between gap-4 text-sm"><span className="font-bold">{item.label}</span><span className="font-mono" dir="ltr">{item.score} → {targetScore} <b className="text-amber-300">(+{gap})</b></span></div><div className="relative h-3 overflow-hidden rounded-full bg-white/10"><div className="absolute inset-y-0 left-0 rounded-full bg-cyan" style={{ width: `${item.score}%` }} /><div className="absolute inset-y-0 border-l-2 border-dashed border-white" style={{ left: `${targetScore}%` }} /></div></div>; })}</div>
+        <div className="mt-6 space-y-5">{result.dimensionScores.map((item) => { const gap = Math.max(0, targetScore - item.score); return <div key={item.id}><div className="mb-2 flex items-center justify-between gap-4 text-sm"><span className="font-bold">{item.label}</span><span className="font-mono" dir="ltr">{item.score} → {targetScore} <b className="text-amber-700">(+{gap})</b></span></div><div className="relative h-3 overflow-hidden rounded-full bg-secondary"><div className="absolute inset-y-0 left-0 rounded-full bg-cyan" style={{ width: `${item.score}%` }} /><div className="absolute inset-y-0 border-l-2 border-dashed border-foreground" style={{ left: `${targetScore}%` }} /></div></div>; })}</div>
       </section>
 
       <section className="report-card rounded-3xl border border-red-400/20 bg-card p-6 md:p-8">
-        <div className="flex items-center gap-3"><AlertTriangle className="size-6 text-red-300" /><h3 className="text-xl font-black">ریسک‌های بحرانی</h3></div>
-        {criticalRisks.length > 0 ? <div className="mt-6 grid gap-3 md:grid-cols-2">{criticalRisks.map((risk) => { const dimension = maturityDimensions.find((item) => item.id === risk.dimension); return <article key={risk.id} className="rounded-2xl border border-red-400/15 bg-red-400/5 p-4"><p className="text-xs font-bold text-red-300">{dimension?.label} · امتیاز پاسخ {answers[risk.id] ?? 1} از ۵</p><p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">{risk.prompt}</p></article>; })}</div> : <p className="report-muted mt-4 text-sm leading-7 text-muted-foreground">براساس پاسخ‌ها، زیرشاخصی با امتیاز بحرانی ۱ یا ۲ ثبت نشده است؛ پایش مستمر همچنان ضروری است.</p>}
+        <div className="flex items-center gap-3"><AlertTriangle className="size-6 text-red-700" /><h3 className="text-xl font-black">ریسک‌های بحرانی</h3></div>
+        {criticalRisks.length > 0 ? <div className="mt-6 grid gap-3 md:grid-cols-2">{criticalRisks.map((risk) => { const dimension = maturityDimensions.find((item) => item.id === risk.dimension); return <article key={risk.id} className="rounded-2xl border border-red-400/15 bg-red-400/5 p-4"><p className="text-xs font-bold text-red-700">{dimension?.label} · امتیاز پاسخ {answers[risk.id] ?? 1} از ۵</p><p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">{risk.prompt}</p></article>; })}</div> : <p className="report-muted mt-4 text-sm leading-7 text-muted-foreground">براساس پاسخ‌ها، زیرشاخصی با امتیاز بحرانی ۱ یا ۲ ثبت نشده است؛ پایش مستمر همچنان ضروری است.</p>}
       </section>
 
       <section className="report-card rounded-3xl border border-violet-400/20 bg-card p-6 md:p-8">
-        <div className="flex items-center gap-3"><Lightbulb className="size-6 text-violet-300" /><h3 className="text-xl font-black">Use Caseهای پیشنهادی</h3></div>
+        <div className="flex items-center gap-3"><Lightbulb className="size-6 text-violet-700" /><h3 className="text-xl font-black">Use Caseهای پیشنهادی</h3></div>
         <p className="report-muted mt-2 text-sm leading-7 text-muted-foreground">پیشنهاد اولیه با توجه به صنعت «{industry}» و سه محور دارای بیشترین شکاف؛ انتخاب نهایی نیازمند بررسی داده، ارزش و ریسک است.</p>
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{suggestedUseCases.map((useCase, index) => <article key={useCase} className="rounded-2xl border border-border bg-background/40 p-5"><span className="text-xs font-black text-violet-300">USE CASE {index + 1}</span><h4 className="mt-2 font-black leading-7">{useCase}</h4></article>)}</div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{suggestedUseCases.map((useCase, index) => <article key={useCase} className="rounded-2xl border border-border bg-background/40 p-5"><span className="text-xs font-black text-violet-700">USE CASE {index + 1}</span><h4 className="mt-2 font-black leading-7">{useCase}</h4></article>)}</div>
       </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="report-card rounded-3xl border border-amber-400/20 bg-card p-6 md:p-8">
-          <div className="flex items-center gap-3"><Target className="size-6 text-amber-300" /><h3 className="text-xl font-black">سه اولویت پیشنهادی</h3></div>
+          <div className="flex items-center gap-3"><Target className="size-6 text-amber-700" /><h3 className="text-xl font-black">سه اولویت پیشنهادی</h3></div>
           <div className="mt-6 space-y-5">
             {priorities.map((priority, index) => (
               <div key={priority.id} className="rounded-2xl border border-border bg-background/50 p-5">
-                <p className="text-xs font-bold text-amber-300">اولویت {index + 1} · امتیاز {priority.score}</p>
+                <p className="text-xs font-bold text-amber-700">اولویت {index + 1} · امتیاز {priority.score}</p>
                 <h4 className="mt-2 font-black">{priority.label}</h4>
                 <ul className="mt-3 space-y-2 text-sm leading-7 text-muted-foreground">{dimensionGuidance[priority.id].actions.map((action) => <li key={action}>• {action}</li>)}</ul>
               </div>
@@ -389,7 +387,7 @@ function FullReport({ result, answers, industry, organization }: { result: Retur
         </section>
       </div>
 
-      {result.governanceCapApplied ? <div className="flex gap-4 rounded-2xl border border-amber-400/30 bg-amber-400/5 p-5"><AlertTriangle className="mt-1 size-5 shrink-0 text-amber-300" /><div><h3 className="font-black">هشدار حاکمیتی</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">پیش از گسترش کاربردهای پراثر، موجودی AI، ارزیابی ریسک، نظارت انسانی و برنامه پاسخ به رخداد را تکمیل کنید.</p></div></div> : null}
+      {result.governanceCapApplied ? <div className="flex gap-4 rounded-2xl border border-amber-400/30 bg-amber-400/5 p-5"><AlertTriangle className="mt-1 size-5 shrink-0 text-amber-700" /><div><h3 className="font-black">هشدار حاکمیتی</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">پیش از گسترش کاربردهای پراثر، موجودی AI، ارزیابی ریسک، نظارت انسانی و برنامه پاسخ به رخداد را تکمیل کنید.</p></div></div> : null}
 
       <p className="report-muted text-xs leading-6 text-muted-foreground">این گزارش یک غربالگری مدیریتی مبتنی بر پاسخ‌های خوداظهاری است و جایگزین ارزیابی میدانی، ممیزی یا مشاوره تخصصی نیست.</p>
     </section>

@@ -46,7 +46,7 @@ function ServicesMenu() {
         خدمات
         <ChevronDown aria-hidden="true" className="size-4 transition-transform group-open:rotate-180" />
       </summary>
-      <div className="absolute right-0 top-full z-[60] w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-cyan/20 bg-[#091322] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+      <div className="absolute right-0 top-full z-[60] w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-cyan/20 bg-popover p-2 shadow-[0_18px_55px_rgba(22,48,80,0.14)]">
         <ul aria-label="خدمات Nexation" className="space-y-1">
           {items.map((item) => (
             <li key={item.href}>
@@ -68,7 +68,7 @@ function ServicesMenu() {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-xl">
+    <header className="site-header no-print sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-xl">
       <nav aria-label="ناوبری اصلی" className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-4 px-4 py-2 sm:px-6 lg:flex-nowrap lg:gap-x-6">
         <a href="/" aria-label="Nexation — صفحه اصلی" className="flex shrink-0 items-center gap-2">
           <img src="/nexation-favicon.png" alt="" width="36" height="36" className="size-9 object-contain" />
