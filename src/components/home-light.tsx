@@ -16,7 +16,7 @@ export function LightHero() {
           <p className="mt-6 max-w-xl text-base leading-9 text-muted-foreground">
             Nexation به سازمان‌ها کمک می‌کند AI-Native شوند؛ از سنجش بلوغ و تدوین استراتژی تا طراحی و اجرای چت‌بات و ایجنت متناسب با نیاز واقعی کسب‌وکار.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
             <a href="/ai-maturity-assessment" className="btn-glow inline-flex min-h-14 flex-1 items-center justify-center gap-3 rounded-2xl bg-primary px-4 py-3 text-sm font-black text-white transition-transform hover:-translate-y-0.5">
               سنجش بلوغ AI <ArrowLeft aria-hidden className="size-4" />
             </a>
