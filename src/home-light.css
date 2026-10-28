@@ -1,0 +1,128 @@
+/* Homepage-only concept: other routes retain the existing dark theme. */
+.nexation-light {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #12243c;
+  --card: #ffffff;
+  --card-foreground: #12243c;
+  --popover: #ffffff;
+  --popover-foreground: #12243c;
+  --primary: #1664df;
+  --primary-foreground: #ffffff;
+  --secondary: #eef5ff;
+  --secondary-foreground: #173b69;
+  --muted: #f0f5fa;
+  --muted-foreground: #52657b;
+  --accent: #e9f4fc;
+  --accent-foreground: #163b66;
+  --border: #dce6f0;
+  --input: #c8d7e5;
+  --ring: #1664df;
+  --cyan: #087f95;
+  --mint: #138468;
+  --shadow-glow: 0 8px 24px -8px rgb(22 100 223 / 35%);
+  --gradient-glow: radial-gradient(60% 60% at 50% 40%, rgb(14 165 233 / 12%), transparent 70%);
+  color: var(--foreground);
+}
+
+.nexation-light :focus-visible { outline-offset: 4px; }
+.nexation-light section[id] { scroll-margin-top: 10rem; }
+.nexation-light > header { background: rgb(255 255 255 / 96%); }
+.nexation-light > header details > div {
+  background: #fff;
+  border-color: #dce6f0;
+  box-shadow: 0 18px 55px rgb(22 48 80 / 14%);
+}
+.nexation-light .text-gradient {
+  background: linear-gradient(110deg, #165bd5 10%, #078397 90%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: none;
+}
+.light-hero {
+  background:
+    radial-gradient(ellipse at 8% 25%, #dff6fa 0, transparent 50%),
+    radial-gradient(ellipse at 90% 10%, #edf3ff 0, transparent 55%),
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+}
+.light-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .18;
+  background-image: radial-gradient(#73a3c9 .8px, transparent .8px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to left, transparent 40%, black);
+  pointer-events: none;
+}
+.journey-board {
+  box-shadow: 0 24px 75px -28px rgb(42 100 151 / 28%), inset 0 0 0 1px rgb(255 255 255 / 80%);
+  transform: rotate(-2deg);
+  transition: transform .4s ease;
+}
+.ai-journey:hover .journey-board { transform: rotate(0); }
+.journey-connector { background: linear-gradient(#2563eb, #14b8a6, #8b5cf6); }
+.nexation-light #services { padding-block: 5rem; }
+.nexation-light #services > div > div:first-child { margin-bottom: 2.5rem; }
+.nexation-light #services h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.6; }
+.home-service-card { box-shadow: 0 10px 35px -20px rgb(33 72 115 / 25%); }
+.home-service-card:hover { box-shadow: 0 18px 45px -22px rgb(22 100 223 / 30%); }
+.home-service-card > .absolute { display: none; }
+.home-service-card p { line-height: 2; }
+.nexation-light #platform {
+  background: #f1f7fc;
+  border-block: 1px solid #e0eaf3;
+  padding-block: 5rem;
+}
+.nexation-light #platform .glow-orb { display: none; }
+.nexation-light #platform .shadow-2xl { box-shadow: 0 20px 60px -30px rgb(21 75 117 / 30%); }
+.nexation-light #platform h2,
+.nexation-light #steps h2,
+.nexation-light .home-dashboard h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.6; }
+.nexation-light #steps { background: white; border: 0; padding-block: 5rem; }
+.nexation-light #steps > div > div:first-child { margin-bottom: 2.5rem; }
+.nexation-light #steps .bg-card { background: #f6f9fd; border-color: transparent; }
+.nexation-light #steps p { line-height: 2; }
+.nexation-light .home-dashboard { background: #f7faff; padding-block: 5rem; }
+.nexation-light .home-metrics { background: #edf5ff; border-color: #e2edfc; }
+.nexation-light .home-metrics .text-gradient { font-size: clamp(2.2rem, 4vw, 3rem); }
+.nexation-light #contact {
+  margin: 4rem auto;
+  width: calc(100% - 3rem);
+  max-width: 1232px;
+  border: 1px solid #d6e6f7;
+  border-radius: 2rem;
+  padding-block: 4rem;
+  background: linear-gradient(120deg, #e8f7fa, #edf4ff 60%, #f7faff);
+}
+.nexation-light #contact h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.6; }
+.nexation-light #contact > .glow-orb { display: none; }
+.nexation-light #contact form { box-shadow: 0 12px 35px -24px rgb(26 69 108 / 45%); }
+.nexation-light #contact .text-emerald-300 { color: #047857; }
+.nexation-light #contact .text-red-300 { color: #b91c1c; }
+.nexation-light .home-footer {
+  --foreground: #f3f7ff;
+  --muted-foreground: #aebed2;
+  --cyan: #6ee7f2;
+  --border: rgb(255 255 255 / 12%);
+  color: var(--foreground);
+  background: #0b203c;
+}
+.nexation-light .home-footer > .absolute { display: none; }
+.nexation-light .home-footer .text-foreground { color: #f3f7ff; }
+.nexation-light .home-footer .text-muted-foreground { color: #aebed2; }
+@media (max-width: 639px) {
+  .journey-board { transform: none; }
+  .nexation-light #services, .nexation-light #platform,
+  .nexation-light #steps, .nexation-light .home-dashboard { padding-block: 3.5rem; }
+  .nexation-light #contact { width: calc(100% - 2rem); margin-block: 3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nexation-light *, .nexation-light *::before, .nexation-light *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

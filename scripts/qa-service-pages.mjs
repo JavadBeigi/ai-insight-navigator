@@ -51,6 +51,18 @@ try {
     for(const path of paths) assert.equal(await page.locator('#services a[href="'+path+'"]').count(),1);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
     await page.screenshot({path:output+"/homepage-"+name+".png",fullPage:true});
+    // The light concept is scoped to the homepage; service routes stay dark.
+    if (await page.locator(".nexation-light").count()) {
+      assert.equal(await page.locator("main").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(255, 255, 255)");
+      await page.screenshot({path:output+"/light-hero-"+name+".png"});
+      await page.locator("#contact").scrollIntoViewIfNeeded();
+      await page.screenshot({path:output+"/light-contact-"+name+".png"});
+      const heroButtons = page.locator(".light-hero a");
+      const first = await heroButtons.nth(0).boundingBox();
+      const second = await heroButtons.nth(1).boundingBox();
+      assert.ok(Math.abs(first.width-second.width)<2,"equal hero CTA widths");
+      await page.evaluate(()=>window.scrollTo(0,0));
+    }
     const menu = page.locator("header details");
     const trigger = page.locator("header summary");
     await trigger.focus();

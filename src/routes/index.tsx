@@ -5,6 +5,9 @@ import { supabase } from "@/lib/supabase";
 import { normalizeIranianPhone } from "@/lib/site";
 import { servicePages, servicePath } from "@/lib/services";
 import { SiteHeader } from "@/components/site-header";
+import { LightHero, AssessmentCallout } from "@/components/home-light";
+import { MessagesSquare, Workflow, Compass } from "lucide-react";
+import "@/home-light.css";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,7 +35,9 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
+const serviceIcons = [MessagesSquare, Workflow, Compass];
 const services = servicePages.map((service, index) => ({
+  Icon: serviceIcons[index],
   n: String(index + 1).padStart(2, "0"),
   title: service.label,
   desc: service.description,
@@ -55,11 +60,12 @@ const metrics = [
 
 function Landing() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-background pb-16 text-foreground md:pb-0">
+    <main className="nexation-light relative min-h-screen overflow-x-hidden bg-background pb-16 text-foreground md:pb-0">
       <SiteHeader />
-      <Hero />
+      <LightHero />
       <LogosStrip />
       <Services />
+      <AssessmentCallout />
       <ChatDemo />
       <Steps />
       <DashboardShowcase />
@@ -77,54 +83,6 @@ function Landing() {
 }
 
 
-function Hero() {
-  return (
-    <section className="relative overflow-hidden pt-24 pb-24">
-      <div className="mesh-bg absolute inset-0 opacity-40" aria-hidden />
-      <div
-        className="glow-orb absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full"
-        aria-hidden
-      />
-
-      <div className="relative mx-auto max-w-7xl px-6 text-center">
-        <div className="animate-stream mb-8 inline-flex items-center gap-2 rounded-full border border-cyan/25 bg-cyan/10 px-3 py-1 text-xs font-bold text-cyan">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-70" />
-            <span className="relative inline-flex size-2 rounded-full bg-cyan" />
-          </span>
-          نسل جدید هوش سازمانی — AI Native
-        </div>
-
-        <h1 className="animate-stream mx-auto mb-8 max-w-4xl text-balance text-5xl font-black leading-[1.1] tracking-tight md:text-7xl [animation-delay:100ms]">
-          هوش مصنوعی برای سازمان شما،
-          <br />
-          <span className="text-gradient">از استراتژی تا اجرا</span>
-        </h1>
-
-        <p className="animate-stream mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg [animation-delay:200ms]">
-          Nexation به سازمان‌ها کمک می‌کند AI-Native شوند؛ با سنجش بلوغ، مشاوره و تدوین استراتژی،
-          و طراحی و اجرای چت‌بات و ایجنت متناسب با نیاز واقعی سازمان.
-        </p>
-
-        <div className="animate-stream mx-auto flex w-full max-w-64 flex-col items-center justify-center gap-3 sm:max-w-none sm:flex-row [animation-delay:300ms]">
-          <a
-            href="/ai-maturity-assessment"
-            className="btn-glow inline-flex h-14 w-full items-center justify-center gap-3 rounded-xl bg-primary px-6 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.02] sm:w-64"
-          >
-            سنجش بلوغ AI
-            <span className="rounded-full bg-white/15 px-2 py-1 text-[10px]">نتیجه اولیه فوری</span>
-          </a>
-          <a
-            href="#contact"
-            className="inline-flex h-14 w-full items-center justify-center rounded-xl border border-border bg-background/40 px-6 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan sm:w-64"
-          >
-            درخواست دمو
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function LogosStrip() {
   const clients = [
@@ -194,11 +152,12 @@ function Services() {
             <a
               href={s.href}
               key={s.n}
-              className="group relative overflow-hidden rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/40 hover:-translate-y-1"
+className="home-service-card group relative overflow-hidden rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/40 hover:-translate-y-1"
             >
               <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/0 via-primary/0 to-cyan/0 opacity-0 transition-opacity group-hover:opacity-100 group-hover:from-primary/10 group-hover:to-cyan/10" />
-              <div className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-white/5 font-mono text-sm font-bold text-cyan transition-colors group-hover:bg-cyan group-hover:text-background">
-                {s.n}
+              <div className="mb-6 flex items-center justify-between">
+                <span className="grid size-14 place-items-center rounded-2xl bg-blue-50 text-primary"><s.Icon aria-hidden className="size-7" strokeWidth={1.6} /></span>
+                <span className="font-mono text-xs text-muted-foreground">{s.n}</span>
               </div>
               <h3 className="mb-3 text-xl font-bold">{s.title}</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
@@ -223,6 +182,10 @@ function ChatDemo() {
   const [typed, setTyped] = useState("");
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTyped(streamText);
+      return;
+    }
     let i = 0;
     let raf: number | undefined;
     const tick = () => {
@@ -230,12 +193,6 @@ function ChatDemo() {
       setTyped(streamText.slice(0, i));
       if (i < streamText.length) {
         raf = window.setTimeout(tick, 28) as unknown as number;
-      } else {
-        raf = window.setTimeout(() => {
-          i = 0;
-          setTyped("");
-          tick();
-        }, 4000) as unknown as number;
       }
     };
     const start = window.setTimeout(tick, 500);
@@ -389,7 +346,7 @@ function Steps() {
 
 function DashboardShowcase() {
   return (
-    <section className="py-28">
+    <section className="home-dashboard py-28">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid items-center gap-16 lg:grid-cols-5">
           <div className="lg:col-span-2">
@@ -442,7 +399,7 @@ function DashboardShowcase() {
 
 function Metrics() {
   return (
-    <section className="border-y border-border bg-white/[0.02] py-16">
+    <section className="home-metrics border-y border-border bg-white/[0.02] py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 md:grid-cols-4">
         {metrics.map((m) => (
           <div key={m.l} className="text-center">
@@ -505,6 +462,7 @@ function CTA() {
         >
           <input
             type="tel"
+            aria-label="شماره موبایل برای هماهنگی مشاوره"
             required
             inputMode="numeric"
             autoComplete="tel"
@@ -541,7 +499,7 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-border bg-[#020b1a]">
+    <footer className="home-footer relative overflow-hidden border-t border-border bg-[#020b1a]">
       <div className="pointer-events-none absolute -bottom-48 -right-32 size-96 rounded-full bg-primary/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-32 top-0 size-72 rounded-full bg-cyan/5 blur-3xl" />
 
