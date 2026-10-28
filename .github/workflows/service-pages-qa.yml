@@ -3,6 +3,17 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'src/styles.css'
+      - 'src/site-theme.css'
+      - 'src/components/site-footer.tsx'
+      - 'src/components/about-editor.tsx'
+      - 'src/components/blog-comments.tsx'
+      - 'src/routes/__root.tsx'
+      - 'src/routes/about.tsx'
+      - 'src/routes/blog.*.tsx'
+      - 'src/routes/admin.tsx'
+      - 'src/routes/ai-maturity-assessment.tsx'
+      - 'scripts/qa-site-theme.mjs'
       - 'src/components/service-page.tsx'
       - 'src/components/site-header.tsx'
       - 'src/components/home-light.tsx'
@@ -46,6 +57,7 @@ jobs:
             sleep 1
           done
           node scripts/qa-service-pages.mjs
+          node scripts/qa-site-theme.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

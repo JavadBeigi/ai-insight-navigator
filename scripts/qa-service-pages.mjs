@@ -51,7 +51,7 @@ try {
     for(const path of paths) assert.equal(await page.locator('#services a[href="'+path+'"]').count(),1);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
     await page.screenshot({path:output+"/homepage-"+name+".png",fullPage:true});
-    // The light concept is scoped to the homepage; service routes stay dark.
+    // The shared light palette must remain consistent after navigating home.
     if (await page.locator(".nexation-light").count()) {
       assert.equal(await page.locator("main").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(255, 255, 255)");
       await page.screenshot({path:output+"/light-hero-"+name+".png"});

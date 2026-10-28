@@ -1,3 +1,5 @@
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -46,17 +48,8 @@ function BlogPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-background/90">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Link to="/" className="text-lg font-black">
-            nexation<span className="text-cyan">.</span>
-          </Link>
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-            بازگشت به سایت
-          </Link>
-        </div>
-      </header>
+    <main className="page-shell blog-page min-h-screen bg-background text-foreground">
+      <SiteHeader />
       <section className="mx-auto max-w-6xl px-6 py-20">
         <p className="text-sm font-bold text-cyan">دانش و تجربه</p>
         <h1 className="mt-3 text-4xl font-black md:text-6xl">بلاگ nexation</h1>
@@ -111,6 +104,7 @@ function BlogPage() {
           </div>
         )}
       </section>
+      <SiteFooter />
     </main>
   );
 }

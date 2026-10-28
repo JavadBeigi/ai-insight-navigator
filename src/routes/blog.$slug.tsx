@@ -1,3 +1,5 @@
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Download } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,7 +28,7 @@ function renderInlineLinks(text: string) {
       return <strong key={index} className="font-black text-foreground">{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith("`") && part.endsWith("`")) {
-      return <code key={index} className="rounded bg-white/10 px-1.5 py-0.5 text-sm text-cyan">{part.slice(1, -1)}</code>;
+      return <code key={index} className="rounded bg-secondary px-1.5 py-0.5 text-sm text-cyan">{part.slice(1, -1)}</code>;
     }
 
     return part;
@@ -90,7 +92,7 @@ function ArticleBody({ content }: { content: string }) {
           return (
             <div key={index} className="my-8 overflow-x-auto rounded-2xl border border-border">
               <table className="w-full min-w-[640px] border-collapse text-right text-sm">
-                <thead className="bg-white/5 text-foreground">
+                <thead className="bg-secondary text-foreground">
                   <tr>
                     {rows[0].map((cell) => (
                       <th key={cell} className="border-b border-border px-4 py-3 font-black">{renderInlineLinks(cell)}</th>
@@ -239,7 +241,7 @@ function ArticlePage() {
     : null;
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="page-shell article-page min-h-screen bg-background text-foreground">
       {isPreview && article.status !== "published" && (
         <div className="bg-amber-400 px-4 py-3 text-center text-sm font-bold text-slate-950">
           پیش‌نمایش امن مقاله — این نسخه هنوز برای بازدیدکنندگان منتشر نشده است.
@@ -259,16 +261,7 @@ function ArticlePage() {
           }}
         />
       )}
-      <header className="border-b border-border">
-        <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
-          <Link to="/" className="text-lg font-black">
-            nexation<span className="text-cyan">.</span>
-          </Link>
-          <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground">
-            همه مقاله‌ها
-          </Link>
-        </div>
-      </header>
+      <SiteHeader />
             <article className="article-print-root mx-auto max-w-3xl px-6 py-20">
         <div className="flex flex-wrap items-center gap-3 text-sm text-cyan">
           <span>{seo?.author ?? "تیم nexation"}</span>
@@ -292,7 +285,7 @@ function ArticlePage() {
 <div className="mt-8" data-pdf-action>
           <ArticlePdfButton title={article.title} />
         </div>
-        
+
         {(cover || seo?.image) && (
           <img
             src={cover?.src ?? seo?.image}
@@ -373,6 +366,7 @@ function ArticlePage() {
         </aside>
         <BlogComments articleId={article.id} />
       </article>
+      <SiteFooter />
     </main>
   );
 }

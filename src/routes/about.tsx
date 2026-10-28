@@ -1,3 +1,5 @@
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { createFileRoute } from "@tanstack/react-router";
 import { Compass, Workflow, TrendingUp, ArrowUpLeft, Linkedin, UserRound } from "lucide-react";
 import { aboutSchema, defaultAbout, type AboutContent } from "@/lib/about";
@@ -41,7 +43,7 @@ function AboutPage() {
   const icons = [Compass, Workflow, TrendingUp];
   const visibleConsultants = content.consultants.filter((consultant) => consultant.visible);
   return (
-    <main dir="rtl" className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main dir="rtl" className="page-shell about-page min-h-screen overflow-x-hidden bg-background text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -63,29 +65,8 @@ function AboutPage() {
           }).replace(/</g, "\\u003c"),
         }}
       />
-      <header className="border-b border-border">
-        <nav
-          aria-label="ناوبری درباره ما"
-          className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5"
-        >
-          <a
-            href="/"
-            className="flex items-center gap-2 text-xl font-black"
-            aria-label="صفحه اصلی Nexation"
-          >
-            <img src="/favicon.png" alt="" className="size-10 object-contain" />
-            nexation<span className="text-cyan">.</span>
-          </a>
-          <div className="flex flex-wrap gap-5 text-sm">
-            <a href="/blog">بلاگ</a>
-            <a href="/ai-maturity-assessment" className="text-cyan">
-              سنجش بلوغ AI
-            </a>
-            <a href="/#contact">گفت‌وگو با ما</a>
-          </div>
-        </nav>
-      </header>
-      <section className="relative mx-auto max-w-7xl px-6 pb-20 pt-16 md:pt-28">
+      <SiteHeader />
+      <section className="relative mx-auto max-w-7xl px-6 py-20 pt-16 md:pt-28">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute right-0 top-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl"
@@ -110,7 +91,7 @@ function AboutPage() {
           </a>
         </div>
       </section>
-      <section id="mission" className="scroll-mt-8 border-y border-border bg-card/50">
+      <section id="mission" className="scroll-mt-8 border-y border-border bg-secondary/50">
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 md:grid-cols-[1fr_2fr] md:py-20">
           <div>
             <p className="text-sm text-cyan">چرایی کار ما</p>
@@ -145,7 +126,7 @@ function AboutPage() {
         </div>
       </section>
       {visibleConsultants.length > 0 ? (
-        <section className="border-y border-border bg-card/35">
+        <section className="border-y border-border bg-secondary/50">
           <div className="mx-auto max-w-7xl px-6 py-20">
             <p className="text-sm font-bold text-cyan">تجربه در کنار شما برای تحول</p>
             <h2 className="mt-4 text-3xl font-black md:text-4xl">
@@ -246,19 +227,7 @@ function AboutPage() {
           </a>
         </div>
       </section>
-      <footer className="border-t border-border bg-card px-6 py-8">
-        <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-5 text-sm text-muted-foreground">
-          <span>nexation — از استراتژی تا تحول در عمل</span>
-          <a
-            href="https://www.linkedin.com/company/nexationai/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nexation در لینکدین ↗
-          </a>
-          <a href="/">بازگشت به صفحه اصلی</a>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

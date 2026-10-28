@@ -212,7 +212,7 @@ export function AboutEditor() {
       {message && (
         <p
           role={failed ? "alert" : "status"}
-          className={`mt-5 rounded-xl border p-4 text-sm ${failed ? "border-red-400/30 text-red-300" : "border-emerald-400/30 text-emerald-300"}`}
+          className={`mt-5 rounded-xl border p-4 text-sm ${failed ? "border-red-400/30 text-red-700" : "border-emerald-400/30 text-emerald-700"}`}
         >
           {message}
         </p>
@@ -282,7 +282,7 @@ export function AboutEditor() {
                   type="button"
                   onClick={addConsultant}
                   disabled={form.consultants.length >= 12}
-                  className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-xl bg-primary text-primary-foreground px-5 py-3 text-sm font-bold disabled:opacity-50"
                 >
                   <Plus size={18} /> افزودن مشاور
                 </button>
@@ -346,7 +346,7 @@ export function AboutEditor() {
                           type="button"
                           aria-label="حذف مشاور"
                           onClick={() => removeConsultant(index)}
-                          className="rounded-lg border border-red-400/30 p-2 text-red-300"
+                          className="rounded-lg border border-red-400/30 p-2 text-red-700"
                         >
                           <Trash2 size={17} />
                         </button>
@@ -453,11 +453,11 @@ export function AboutEditor() {
               <button
                 type="submit"
                 disabled={uploading !== null}
-                className="rounded-xl bg-primary px-7 py-3 font-bold disabled:opacity-50"
+                className="rounded-xl bg-primary text-primary-foreground px-7 py-3 font-bold disabled:opacity-50"
               >
                 {saving ? "در حال ذخیره…" : "ذخیره و انتشار تغییرات"}
               </button>
-              {dirty && <span className="text-sm text-amber-300">تغییرات ذخیره‌نشده دارید</span>}
+              {dirty && <span className="text-sm text-amber-700">تغییرات ذخیره‌نشده دارید</span>}
             </div>
           </fieldset>
         </form>

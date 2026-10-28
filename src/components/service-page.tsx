@@ -1,9 +1,10 @@
+import { SiteFooter } from "@/components/site-footer";
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/site-header";
-import { servicePages, servicePath, type ServiceContent } from "@/lib/services";
+import { servicePath, type ServiceContent } from "@/lib/services";
 
 const button = "inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan";
-const card = "rounded-3xl border border-border bg-card p-6 sm:p-8";
+const card = "surface-card rounded-3xl border border-border bg-card p-6 sm:p-8";
 
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return <section id={id} aria-labelledby={id + "-title"} className="scroll-mt-24 border-t border-border py-14 sm:py-20">
@@ -25,7 +26,7 @@ export function ServicePage({ service }: { service: ServiceContent }) {
       ] },
     ],
   };
-  return <div className="min-h-screen bg-background text-foreground">
+  return <div className="page-shell service-page min-h-screen bg-background text-foreground">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />
     <SiteHeader />
     <main id="main-content" className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -79,12 +80,6 @@ export function ServicePage({ service }: { service: ServiceContent }) {
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row"><a href="/#contact" className={button + " bg-primary text-primary-foreground"}>درخواست جلسه مشاوره</a><a href="/ai-maturity-assessment" className={button + " border border-border"}>شروع سنجش بلوغ AI</a></div>
       </section>
     </main>
-    <footer className="border-t border-border bg-card/40 px-5 py-12 sm:px-8">
-      <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2">
-        <div><a href="/" className="text-2xl font-black">nexation<span className="text-cyan">.</span></a><p className="mt-4 max-w-xl text-sm leading-8 text-muted-foreground">همراه سازمان‌ها در استراتژی و تحول هوش مصنوعی؛ از سنجش بلوغ و مشاوره تا طراحی و اجرای چت‌بات و ایجنت.</p><a className="mt-4 inline-block text-sm text-cyan" href="https://www.linkedin.com/company/nexationai/">Nexation در لینکدین</a></div>
-        <nav aria-label="خدمات مرتبط" className="flex flex-col items-start gap-4 text-sm"><h2 className="font-bold">خدمات Nexation</h2>{servicePages.map(item => <a key={item.slug} href={servicePath(item)} aria-current={item.slug === service.slug ? "page" : undefined} className="text-muted-foreground hover:text-cyan">{item.label}</a>)}<a href="/ai-maturity-assessment" className="text-muted-foreground hover:text-cyan">سنجش بلوغ هوش مصنوعی</a></nav>
-      </div>
-    </footer>
+    <SiteFooter />
   </div>;
 }
-
