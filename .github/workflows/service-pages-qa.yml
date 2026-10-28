@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'src/components/service-page.tsx'
+      - 'src/components/site-header.tsx'
       - 'src/lib/services.ts'
       - 'src/routes/services.*.tsx'
       - 'src/routes/index.tsx'

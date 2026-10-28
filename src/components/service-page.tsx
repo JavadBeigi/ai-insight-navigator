@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SiteHeader } from "@/components/site-header";
 import { servicePages, servicePath, type ServiceContent } from "@/lib/services";
 
 const button = "inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan";
@@ -26,12 +27,7 @@ export function ServicePage({ service }: { service: ServiceContent }) {
   };
   return <div className="min-h-screen bg-background text-foreground">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />
-    <header className="border-b border-border bg-background">
-      <nav aria-label="ناوبری اصلی" className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8">
-        <a href="/" aria-label="Nexation — صفحه اصلی" className="flex items-center gap-2 text-xl font-black"><img src="/nexation-favicon.png" alt="" width="36" height="36" />nexation<span className="text-cyan">.</span></a>
-        <div className="flex items-center gap-5 text-sm"><a href="/about" className="hover:text-cyan">درباره ما</a><a href="/blog" className="hover:text-cyan">مقالات</a><a href="/#contact" className="font-bold text-cyan">گفتگو درباره پروژه</a></div>
-      </nav>
-    </header>
+    <SiteHeader />
     <main id="main-content" className="mx-auto max-w-7xl px-5 sm:px-8">
       <nav aria-label="مسیر صفحه" className="flex flex-wrap gap-2 pt-7 text-xs text-muted-foreground"><a href="/" className="hover:text-cyan">خانه</a><span aria-hidden> / </span><span aria-current="page">{service.label}</span></nav>
       <section className="grid items-center gap-10 py-14 lg:grid-cols-[1.4fr_1fr] lg:py-20">
