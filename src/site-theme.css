@@ -54,4 +54,10 @@
 @media print {
   .site-header, .site-footer { display: none !important; }
   .article-print-root { border: 0; border-radius: 0; box-shadow: none; }
+  .assessment-page { background: #ffffff !important; }
+  .report-shell { padding: 0 !important; }
+  .report-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; align-items: start; }
+  .report-radar { height: 260px !important; }
+  .report-summary-card { break-inside: avoid; box-shadow: none !important; padding: 1rem; }
+  .report-shell .text-gradient { background: none !important; color: #1664df !important; -webkit-text-fill-color: #1664df; }
 }

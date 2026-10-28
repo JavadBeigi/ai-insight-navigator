@@ -239,18 +239,18 @@ function AiMaturityAssessment() {
             <div className="mt-5 text-7xl font-black text-gradient" dir="ltr">{result.score}<span className="text-2xl">/100</span></div>
             {result.governanceCapApplied && <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-amber-700">به‌دلیل پایین‌بودن آمادگی حاکمیت و امنیت، سقف امتیاز کل اعمال شده است.</p>}
           </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            <div className="rounded-3xl border border-border bg-card p-5 md:p-8">
+          <div className="report-overview mt-12 grid gap-6 lg:grid-cols-2">
+            <div className="report-summary-card rounded-3xl border border-border bg-card p-5 md:p-8">
               <h2 className="text-xl font-black">نمای کلی هفت محور</h2>
-              <div className="mt-4 h-[280px] sm:h-[360px]" dir="ltr">
+              <div className="report-radar mt-4 h-[280px] sm:h-[360px]" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={result.dimensionScores} outerRadius="60%"><PolarGrid stroke="#c8d7e5" /><PolarAngleAxis dataKey="shortLabel" tick={{ fill: "#52657b", fontSize: 12 }} /><Radar dataKey="score" stroke="#087f95" fill="#087f95" fillOpacity={0.18} /></RadarChart>
                 </ResponsiveContainer>
               </div>
             </div>
             <div className="space-y-5">
-              <div className="rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-700">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
-              <div className="rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-700">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
+              <div className="report-summary-card rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-7"><p className="text-sm text-emerald-700">نقطه قوت اصلی</p><h2 className="mt-2 text-2xl font-black">{result.strongest.label}</h2></div>
+              <div className="report-summary-card rounded-3xl border border-amber-400/20 bg-amber-400/5 p-7"><p className="text-sm text-amber-700">مهم‌ترین شکاف</p><h2 className="mt-2 text-2xl font-black">{result.weakest.label}</h2></div>
               <div className="no-print rounded-3xl border border-cyan/20 bg-cyan/5 p-7">
                 <p className="text-sm font-bold text-cyan">گزارش کامل و نقشه راه اختصاصی</p>
                 {reportUnlocked ? <>{adminPreview ? <><h3 className="mt-2 text-xl font-black text-cyan">نمایش مدیریتی گزارش کامل</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">این نسخه فقط برای ادمین واردشده نمایش داده می‌شود و برای آماده‌سازی جلسه مشاوره است.</p></> : <><h3 className="mt-2 text-xl font-black text-emerald-700">پرداخت تأیید شد؛ گزارش کامل فعال است</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">نسخه کامل گزارش در ادامه همین صفحه در دسترس است و می‌توانید آن را به‌صورت PDF ذخیره کنید.</p></>}</> : <>
