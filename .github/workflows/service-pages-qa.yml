@@ -5,6 +5,8 @@ on:
     paths:
       - 'src/components/service-page.tsx'
       - 'src/components/site-header.tsx'
+      - 'src/components/home-light.tsx'
+      - 'src/home-light.css'
       - 'src/lib/services.ts'
       - 'src/routes/services.*.tsx'
       - 'src/routes/index.tsx'
