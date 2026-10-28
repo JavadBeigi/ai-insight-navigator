@@ -77,6 +77,7 @@ try {
   await page.getByRole('button',{name:'ورود به پرسشنامه'}).click();
   await check('assessment-question');
   await page.goto(origin+'/ai-maturity-assessment#token=fixture-only',{waitUntil:'networkidle'});
+  await page.reload({waitUntil:'networkidle'});
   await page.locator('.report-shell').waitFor();
   assert.equal(await page.locator('.full-report-content').count(),0,'paid content stays locked');
   await check('assessment-summary');
