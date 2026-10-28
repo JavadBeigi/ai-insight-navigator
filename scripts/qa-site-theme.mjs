@@ -87,7 +87,7 @@ try {
   fullReport=true;
   await page.reload({waitUntil:'networkidle'});
   await page.locator('.full-report-content').waitFor();
-  await page.locator('.full-report-content').scrollIntoViewIfNeeded();
+  await page.getByRole('heading',{name:'Heatmap زیرشاخص‌ها',exact:true}).scrollIntoViewIfNeeded();
   await check('assessment-full-report');
   await page.emulateMedia({media:'print'});
   assert.equal(await page.locator('.full-report-content').isVisible(),false,'summary PDF excludes paid details');

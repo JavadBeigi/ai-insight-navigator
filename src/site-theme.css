@@ -5,7 +5,7 @@
 .site-header { background: rgb(255 255 255 / 96%); }
 .page-shell { background: linear-gradient(155deg, #f0f8ff 0, #f5fbfc 18rem, #ffffff 42rem); }
 .page-shell section[id] { scroll-margin-top: 11rem; }
-.surface-card, .about-page article, .blog-page .group, .assessment-page .bg-card {
+.surface-card, .about-page article, .blog-page section .group, .assessment-page .bg-card {
   box-shadow: var(--shadow-card);
 }
 .page-shell h1 { line-height: 1.5; }
@@ -29,7 +29,9 @@
 .assessment-page > section { min-height: 55vh; }
 .assessment-page .report-shell > .text-center h1 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
 .admin-page { background: #f3f7fc; }
-.admin-page :is(input, textarea, select) { color-scheme: light; }
+.admin-page :is(input, textarea, select) { color-scheme: light; min-width: 0; }
+.admin-page fieldset { min-inline-size: 0; }
+.admin-page button.bg-primary > span { background: #fff4cf; color: #854d0e; }
 .site-footer {
   --foreground: #f3f7ff;
   --muted-foreground: #aebed2;

@@ -242,7 +242,7 @@ function AiMaturityAssessment() {
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             <div className="rounded-3xl border border-border bg-card p-5 md:p-8">
               <h2 className="text-xl font-black">نمای کلی هفت محور</h2>
-              <div className="mt-4 h-[360px]" dir="ltr">
+              <div className="mt-4 h-[280px] sm:h-[360px]" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={result.dimensionScores} outerRadius="60%"><PolarGrid stroke="#c8d7e5" /><PolarAngleAxis dataKey="shortLabel" tick={{ fill: "#52657b", fontSize: 12 }} /><Radar dataKey="score" stroke="#087f95" fill="#087f95" fillOpacity={0.18} /></RadarChart>
                 </ResponsiveContainer>
