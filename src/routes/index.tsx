@@ -4,6 +4,7 @@ import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { supabase } from "@/lib/supabase";
 import { normalizeIranianPhone } from "@/lib/site";
 import { servicePages, servicePath } from "@/lib/services";
+import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,7 +56,7 @@ const metrics = [
 function Landing() {
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background pb-16 text-foreground md:pb-0">
-      <Nav />
+      <SiteHeader />
       <Hero />
       <LogosStrip />
       <Services />
@@ -75,59 +76,6 @@ function Landing() {
   );
 }
 
-function Nav() {
-  return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <div className="flex items-center gap-10">
-          <a href="#" className="flex items-center gap-2">
-            <img
-              src="/favicon.png"
-              alt=""
-              aria-hidden="true"
-              className="size-9 shrink-0 object-contain"
-            />
-            <span className="text-lg font-black tracking-tight">
-              nexation<span className="text-cyan">.</span>
-            </span>
-          </a>
-          <div className="hidden gap-7 text-sm font-medium text-muted-foreground md:flex">
-            <a href="/about" className="transition-colors hover:text-foreground">درباره ما</a>
-            <a href="#services" className="transition-colors hover:text-foreground">
-              سرویس‌ها
-            </a>
-            <a href="/services/enterprise-chatbot" className="transition-colors hover:text-foreground">
-              چت‌بات سازمانی
-            </a>
-            <a href="#steps" className="transition-colors hover:text-foreground">
-              مسیر همکاری
-            </a>
-            <a href="#contact" className="transition-colors hover:text-foreground">
-              تماس
-            </a>
-            <a href="/blog" className="transition-colors hover:text-foreground">
-              بلاگ
-            </a>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <a
-            href="#contact"
-            className="hidden h-10 w-40 items-center justify-center rounded-full border border-border px-4 text-sm font-bold text-foreground transition-colors hover:border-cyan/40 hover:text-cyan sm:inline-flex"
-          >
-            درخواست دمو
-          </a>
-          <a
-            href="/ai-maturity-assessment"
-            className="btn-glow inline-flex h-10 w-36 items-center justify-center gap-2 rounded-full bg-primary px-4 text-sm font-black text-primary-foreground transition-transform hover:scale-[1.03] sm:w-40"
-          >
-            سنجش بلوغ AI
-          </a>
-        </div>
-      </div>
-    </nav>
-  );
-}
 
 function Hero() {
   return (
