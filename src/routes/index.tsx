@@ -6,7 +6,7 @@ import { normalizeIranianPhone } from "@/lib/site";
 import { servicePages, servicePath } from "@/lib/services";
 import { SiteHeader } from "@/components/site-header";
 import { LightHero, AssessmentCallout } from "@/components/home-light";
-import { MessagesSquare, Workflow, Compass } from "lucide-react";
+import { MessagesSquare, Workflow, Compass, Linkedin, Phone } from "lucide-react";
 import "@/home-light.css";
 
 export const Route = createFileRoute("/")({
@@ -456,6 +456,11 @@ function CTA() {
           شماره موبایل‌تان را وارد کنید تا برای هماهنگی یک جلسه‌ی مشاوره‌ی رایگان 30 دقیقه‌ای با شما
           تماس بگیریم.
         </p>
+        <a href="tel:+989918418624" className="mt-5 inline-flex min-h-11 items-center justify-center gap-3 rounded-lg px-3 text-sm font-bold text-cyan transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan">
+          <Phone aria-hidden="true" className="size-4" />
+          تماس با ما:
+          <span dir="ltr">09918418624</span>
+        </a>
         <form
           onSubmit={submitDemoRequest}
           className="mx-auto mt-10 flex max-w-lg flex-col gap-2 rounded-2xl border border-border bg-card p-2 sm:flex-row"
@@ -520,10 +525,11 @@ function Footer() {
               href="https://www.linkedin.com/company/nexationai/"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-cyan/25 bg-cyan/5 px-4 py-2 text-sm font-bold text-cyan transition-colors hover:bg-cyan/10"
+              aria-label="صفحه Nexation در لینکدین"
+              title="Nexation در لینکدین"
+              className="mt-6 inline-flex size-11 items-center justify-center rounded-xl border border-cyan/25 bg-cyan/5 text-cyan transition-colors hover:bg-cyan/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan"
             >
-              دنبال‌کردن در لینکدین
-              <span aria-hidden="true">↗</span>
+              <Linkedin aria-hidden="true" className="size-5" />
             </a>
           </div>
 
@@ -543,8 +549,11 @@ function Footer() {
               <a href="#steps" className="transition-colors hover:text-cyan">مسیر همکاری</a>
               <a href="/about" className="transition-colors hover:text-cyan">درباره ما</a>
               <a href="/blog" className="transition-colors hover:text-cyan">بلاگ</a>
-              <a href="/blog/shadow-ai-governance-enterprise" className="transition-colors hover:text-cyan">راهنمای مدیریت Shadow AI</a>
               <a href="#contact" className="transition-colors hover:text-cyan">تماس با ما</a>
+              <a href="tel:+989918418624" aria-label="تماس با Nexation: 09918418624" className="inline-flex min-h-11 w-fit items-center gap-2 rounded-lg text-cyan transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan">
+                <Phone aria-hidden="true" className="size-4" />
+                <span dir="ltr">09918418624</span>
+              </a>
             </nav>
           </div>
 
