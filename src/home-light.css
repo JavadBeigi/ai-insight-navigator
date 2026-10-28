@@ -86,8 +86,6 @@
 .nexation-light #steps .bg-card { background: #f6f9fd; border-color: transparent; }
 .nexation-light #steps p { line-height: 2; }
 .nexation-light .home-dashboard { background: #f7faff; padding-block: 5rem; }
-.nexation-light .home-metrics { background: #edf5ff; border-color: #e2edfc; }
-.nexation-light .home-metrics .text-gradient { font-size: clamp(2.2rem, 4vw, 3rem); }
 .nexation-light #contact {
   margin: 4rem auto;
   width: calc(100% - 3rem);
