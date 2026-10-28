@@ -51,12 +51,6 @@ const steps = [
   { n: "04", t: "استقرار و بهبود", d: "بر اساس نتیجه ارزیابی، اجرای عملیاتی، آموزش و مسیر توسعه را پیش می‌بریم." },
 ];
 
-const metrics = [
-  { v: "40%+", l: "بهبود بهره‌وری" },
-  { v: "12ms", l: "میانگین تاخیر پاسخ" },
-  { v: "10+", l: "پروژه موفق" },
-  { v: "3.5×", l: "بازگشت سرمایه" },
-];
 
 function Landing() {
   return (
@@ -69,7 +63,6 @@ function Landing() {
       <ChatDemo />
       <Steps />
       <DashboardShowcase />
-      <Metrics />
       <CTA />
       <Footer />
       <a
@@ -397,22 +390,6 @@ function DashboardShowcase() {
   );
 }
 
-function Metrics() {
-  return (
-    <section className="home-metrics border-y border-border bg-white/[0.02] py-16">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 md:grid-cols-4">
-        {metrics.map((m) => (
-          <div key={m.l} className="text-center">
-            <div className="text-4xl font-black text-gradient md:text-5xl">{m.v}</div>
-            <div className="mt-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              {m.l}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 function CTA() {
   const [phone, setPhone] = useState("");
