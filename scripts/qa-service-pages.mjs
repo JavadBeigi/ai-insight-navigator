@@ -68,7 +68,7 @@ try {
     assert.equal(await menu.getAttribute("open"),null);
     assert.equal(await trigger.evaluate(el=>el===document.activeElement),true);
     await trigger.click();
-    await page.locator("h1").click();
+    await page.locator("header").click({position:{x:4,y:4}});
     assert.equal(await menu.getAttribute("open"),null,"outside click dismisses");
     await trigger.click();
     await menu.getByRole("link",{name:/مشاوره و استراتژی هوش مصنوعی/}).click();
