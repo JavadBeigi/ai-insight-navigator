@@ -62,6 +62,7 @@ try {
     await page.locator('article table').first().scrollIntoViewIfNeeded();
     await check('article-table');
     await page.emulateMedia({media:'print'});
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
     assert.equal(await page.locator('.site-header').isVisible(),false);
     assert.equal(await page.locator('.site-footer').isVisible(),false);
     assert.equal(await page.locator('[data-pdf-action] button').first().isVisible(),false);

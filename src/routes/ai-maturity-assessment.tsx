@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { AlertTriangle, ArrowLeft, CalendarRange, CheckCircle2, Download, Flame, Lightbulb, ShieldCheck, Target } from "lucide-react";
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer } from "recharts";
 import {
   calculateMaturity,
   maturityDimensions,
@@ -244,7 +244,7 @@ function AiMaturityAssessment() {
               <h2 className="text-xl font-black">نمای کلی هفت محور</h2>
               <div className="report-radar mt-4 h-[280px] sm:h-[360px]" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={result.dimensionScores} outerRadius="60%"><PolarGrid stroke="#c8d7e5" /><PolarAngleAxis dataKey="shortLabel" tick={{ fill: "#52657b", fontSize: 12 }} /><Radar dataKey="score" stroke="#087f95" fill="#087f95" fillOpacity={0.18} /></RadarChart>
+                  <RadarChart data={result.dimensionScores} outerRadius="60%"><PolarGrid stroke="#c8d7e5" /><PolarAngleAxis dataKey="shortLabel" tick={{ fill: "#52657b", fontSize: 12 }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Radar isAnimationActive={false} dataKey="score" stroke="#087f95" fill="#087f95" fillOpacity={0.18} /></RadarChart>
                 </ResponsiveContainer>
               </div>
             </div>
